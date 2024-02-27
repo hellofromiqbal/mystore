@@ -5,7 +5,7 @@ const Card = ({ name, description, price, image_url }) => {
   return (
     <div className='flex flex-col w-[300px] shadow-md'>
       <div className='min-h-[300px] bg-black'>
-        <h1>Image</h1>
+        <img src={`http://localhost:3001/${image_url}`} alt={name} />
       </div>
       <div className='flex flex-col px-3 py-2'>
         <div className='flex flex-col'>
