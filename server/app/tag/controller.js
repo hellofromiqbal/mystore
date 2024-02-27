@@ -30,6 +30,22 @@ const index = async (req, res) => {
   };
 };
 
+const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body;
+    const updatedTag = await Tag.findByIdAndUpdate(id, payload, { new: true });
+    return res.status(200).json({
+      message: 'Tag updated!'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      data: updatedTag
+    });
+  };
+};
+
 const destroy = async (req, res) => {
   try {
     const { id } = req.params;
@@ -45,4 +61,4 @@ const destroy = async (req, res) => {
   };
 };
 
-module.exports = { store, index, destroy };
+module.exports = { store, index, update, destroy };
