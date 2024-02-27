@@ -18,15 +18,13 @@ const productSchema = new Schema({
     default: null
   },
   category: {
-    type: String,
-    enum: ['food', 'drink', 'snack'],
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'Category'
   },
   tags: {
-    type: String,
-    enum: ['signature', 'regular'],
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: 'Tag'
   }
-});
+}, { timestamps: true });
 
 module.exports = model('Product', productSchema);
