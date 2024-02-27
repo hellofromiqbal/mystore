@@ -45,6 +45,10 @@ const update = async (req, res) => {
     const imageFile = req.file;
     
     let payload = req.body;
+    if(payload.category) {
+      payload = { ...payload, category: payload.category };
+    };
+
     if(payload.tags && payload.tags.length > 0) {
       payload = { ...payload, tags: payload.tags.split(',') };
     };
