@@ -1,5 +1,7 @@
 const User = require('../user/model');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { secretKey } = require('../../config/config');
 
 const store = async (req, res) => {
   try {
@@ -28,9 +30,40 @@ const store = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: err.message
+      message: error.message
     });
   };
 };
 
-module.exports = { store };
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const isUserExist = await User.findOne({ email });
+    const isPasswordCorrect = await bcrypt.compare(password, isUserExist.password);
+    if(!isUserExist || isPasswordCorrect) {
+      return res.status(401).json({
+        message: 'Invalid email or password!'
+      });
+    };
+    
+    const tokenPayload = {
+      _id: isUserExist._id,
+      fullname: isUserExist.fullname,
+      email: isUserExist.email,
+      role: isUserExist.role
+    };
+
+    const userSignInToken = jwt.sign(tokenPayload, secretKey, { expiresIn: '7d' });
+    res.cookie('mystore', userSignInToken, { path: '/' });
+
+    return res.status(200).json({
+      message: 'Signed In!',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  };
+};
+
+module.exports = { store, login };
