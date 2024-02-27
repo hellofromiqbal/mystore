@@ -18,4 +18,18 @@ const store = async (req, res) => {
   };
 };
 
-module.exports = { store };
+const index = async (req, res) => {
+  try {
+    const products = await Product.find().populate('category');
+    return res.status(200).json({
+      message: 'Products fetched!',
+      data: products
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  };
+};
+
+module.exports = { store, index };
