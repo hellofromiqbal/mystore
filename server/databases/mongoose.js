@@ -8,7 +8,7 @@ const mongooseConnection = (app) => {
     .then(() => {
       console.log('Connected to MongoDb.');
       app.listen(PORT, () => {
-        console.log(`App is listening in port http://localhost:${dbPort}`);
+        console.log(`App is listening in port http://localhost:${PORT}`);
       });
     })
     .catch((err) => {
