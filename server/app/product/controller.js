@@ -4,8 +4,9 @@ const store = async (req, res) => {
   try {
     let { name, description, price, category, tags } = req.body;
     tags = tags.split(',');
+    const imageFile = req.file;
     const newProduct = await Product.create({
-      name, description, price, category, tags
+      name, description, price, category, tags, image_url: imageFile.path
     });
 
     return res.status(201).json({
