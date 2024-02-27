@@ -2,7 +2,7 @@ import React from 'react'
 
 const Card = () => {
   return (
-    <div className='flex flex-col w-[300px] border'>
+    <div className='flex flex-col w-[300px] shadow-md'>
       <div className='min-h-[300px] bg-black'>
         <h1>Image</h1>
       </div>
