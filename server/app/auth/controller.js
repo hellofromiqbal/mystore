@@ -40,20 +40,20 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const isUserExist = await User.findOne({ email });
     const isPasswordCorrect = await bcrypt.compare(password, isUserExist.password);
-    if(!isUserExist || isPasswordCorrect) {
+    if(!isUserExist || !isPasswordCorrect) {
       return res.status(401).json({
-        message: 'Invalid email or password!'
+        message: 'Invalid email or password.'
       });
     };
     
-    const tokenPayload = {
+    const loginTokenPayload = {
       _id: isUserExist._id,
       fullname: isUserExist.fullname,
       email: isUserExist.email,
       role: isUserExist.role
     };
 
-    const userSignInToken = jwt.sign(tokenPayload, secretKey, { expiresIn: '7d' });
+    const userSignInToken = jwt.sign(loginTokenPayload, secretKey, { expiresIn: '7d' });
     res.cookie('mystore', userSignInToken, { path: '/' });
 
     return res.status(200).json({
