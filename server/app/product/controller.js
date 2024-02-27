@@ -2,7 +2,8 @@ const Product = require('./model');
 
 const store = async (req, res) => {
   try {
-    const { name, description, price, category, tags } = req.body;
+    let { name, description, price, category, tags } = req.body;
+    tags = tags.split(',');
     const newProduct = await Product.create({
       name, description, price, category, tags
     });
@@ -20,7 +21,7 @@ const store = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const products = await Product.find().populate('category');
+    const products = await Product.find().populate('category').populate('tags');
     return res.status(200).json({
       message: 'Products fetched!',
       data: products
