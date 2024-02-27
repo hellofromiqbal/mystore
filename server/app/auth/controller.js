@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { secretKey } = require('../../config/config');
 
-const store = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { fullname, email, password, role } = req.body;
     
@@ -79,4 +79,4 @@ const logout = async (req, res) => {
   };
 };
 
-module.exports = { store, login, logout };
+module.exports = { register, login, logout };

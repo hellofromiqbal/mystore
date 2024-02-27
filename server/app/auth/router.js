@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authController = require('./controller');
 
-router.post('/register', authController.store);
+router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.get('/logout', authController.logout);
 
