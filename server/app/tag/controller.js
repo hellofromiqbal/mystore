@@ -1,4 +1,5 @@
 const Tag = require('./model');
+const Product = require('../product/model');
 
 const store = async (req, res) => {
   try {
@@ -29,4 +30,19 @@ const index = async (req, res) => {
   };
 };
 
-module.exports = { store, index };
+const destroy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Product.updateMany({ tags: { $in: [id] } }, { $pull: { tags: id } });
+    await Tag.findByIdAndDelete(id);
+    return res.status(200).json({
+      message: 'Tag deleted!'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  };
+};
+
+module.exports = { store, index, destroy };
