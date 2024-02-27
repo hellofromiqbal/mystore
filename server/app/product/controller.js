@@ -73,7 +73,6 @@ const update = async (req, res) => {
   }
 };
 
-
 const destroy = async (req, res) => {
   try {
     const { id } = req.params;
