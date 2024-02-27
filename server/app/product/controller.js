@@ -3,11 +3,14 @@ const Product = require('./model');
 
 const store = async (req, res) => {
   try {
-    let { name, description, price, category, tags } = req.body;
-    tags = tags.split(',');
+    let payload = req.body;
+    if(payload.tags && payload.tags.length > 0) {
+      payload = { ...payload, tags: payload.tags.split(',') };
+    };
     const imageFile = req.file;
     const newProduct = await Product.create({
-      name, description, price, category, tags, image_url: imageFile.path
+      ...payload,
+      image_url: imageFile.path
     });
 
     return res.status(201).json({
@@ -38,27 +41,26 @@ const index = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    let { name, description, price, category, tags } = req.body;
-    tags = tags.split(',');
-
     const product = await Product.findById(id);
     const imageFile = req.file;
-    if (imageFile) {
-      fs.unlinkSync(product.image_url);
-      product.image_url = imageFile.path;
+    
+    let payload = req.body;
+    if(payload.tags && payload.tags.length > 0) {
+      payload = { ...payload, tags: payload.tags.split(',') };
     };
 
-    product.name = name;
-    product.description = description;
-    product.price = price;
-    product.category = category;
-    product.tags = tags.length > 0 ? tags : [];
+    if (imageFile) {
+      fs.unlinkSync(product.image_url);
+      payload = { ...payload, image_url: imageFile.path };
+    } else {
+      payload = { ...payload, image_url: product.image_url };
+    };
 
-    await product.save();
+    const updatedProduct = await Product.findByIdAndUpdate(id, payload, { new:true });
 
     return res.status(200).json({
       message: 'Product updated!',
-      data: product
+      data: updatedProduct
     });
   } catch (error) {
     return res.status(500).json({
