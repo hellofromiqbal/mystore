@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Product = require('./model');
 
 const store = async (req, res) => {
@@ -34,4 +35,20 @@ const index = async (req, res) => {
   };
 };
 
-module.exports = { store, index };
+const destroy = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    fs.unlinkSync(product.image_url);
+    await Product.findByIdAndDelete(id);
+    return res.status(200).json({
+      message: 'Product deleted!',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  };
+};
+
+module.exports = { store, index, destroy };
