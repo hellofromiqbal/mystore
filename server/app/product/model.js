@@ -23,7 +23,7 @@ const productSchema = new Schema({
   }],
   image_url: {
     type: String,
-    default: null
+    required: true
   }
 }, { timestamps: true });
 
