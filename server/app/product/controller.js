@@ -35,6 +35,39 @@ const index = async (req, res) => {
   };
 };
 
+const update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let { name, description, price, category, tags } = req.body;
+    tags = tags.split(',');
+
+    const product = await Product.findById(id);
+    const imageFile = req.file;
+    if (imageFile) {
+      fs.unlinkSync(product.image_url);
+      product.image_url = imageFile.path;
+    };
+
+    product.name = name;
+    product.description = description;
+    product.price = price;
+    product.category = category;
+    product.tags = tags.length > 0 ? tags : [];
+
+    await product.save();
+
+    return res.status(200).json({
+      message: 'Product updated!',
+      data: product
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
+
 const destroy = async (req, res) => {
   try {
     const { id } = req.params;
@@ -51,4 +84,4 @@ const destroy = async (req, res) => {
   };
 };
 
-module.exports = { store, index, destroy };
+module.exports = { store, index, destroy, update };
