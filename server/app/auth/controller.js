@@ -66,4 +66,17 @@ const login = async (req, res) => {
   };
 };
 
-module.exports = { store, login };
+const logout = async (req, res) => {
+  try {
+    res.clearCookie('mystore');
+    return res.status(200).json({
+      message: 'Logged out!'
+    });
+  } catch (error) {
+    return res.json({
+      message: error.message
+    });
+  };
+};
+
+module.exports = { store, login, logout };
