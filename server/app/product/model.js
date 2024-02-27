@@ -13,10 +13,6 @@ const productSchema = new Schema({
     type: Number,
     default: 0
   },
-  image_url: {
-    type: String,
-    default: null
-  },
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Category'
@@ -24,7 +20,11 @@ const productSchema = new Schema({
   tags: [{
     type: Schema.Types.ObjectId,
     ref: 'Tag'
-  }]
+  }],
+  image_url: {
+    type: String,
+    default: null
+  }
 }, { timestamps: true });
 
 module.exports = model('Product', productSchema);
