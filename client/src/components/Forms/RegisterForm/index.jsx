@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '../../Button'
+import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5"
 
 const RegisterForm = () => {
   const handleSubmit = (e) => {
@@ -8,7 +9,10 @@ const RegisterForm = () => {
   };
   
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-2 relative'>
+      <button className='absolute -top-2 -right-2'>
+        <IoCloseCircleOutline size={25}/>
+      </button>
       <h2 className='text-2xl font-bold text-center'>Register</h2>
       <form
         className='flex flex-col gap-2'
