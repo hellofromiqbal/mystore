@@ -1,14 +1,19 @@
 import React from 'react'
 
 const Button = ({
+  padding = 'px-3 py-1',
+  fontSize = 'text-sm',
   textColor = 'text-white',
+  fontWeight = 'font-medium',
   bgColor = 'bg-green-600',
   borderColor = 'border-transparent',
-  text = 'Button'
+  text = 'Button',
+  clickEvent = () => console.log('Clicked!')
 }) => {
   return (
     <button
-      className={`px-3 py-1 text-sm ${textColor} font-medium ${bgColor} border ${borderColor} rounded-md`}
+      className={`${padding} ${fontSize} ${textColor} ${fontWeight} ${bgColor} border ${borderColor} rounded-md`}
+      onClick={clickEvent}
     >
       {text}
     </button>
