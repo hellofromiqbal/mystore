@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const config = require('./config/config');
 
 const mongooseConnection = require('./databases/mongoose');
 
@@ -13,7 +14,7 @@ const app = express();
 
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:5173'
+  origin: config.clientDomain
 }));
 app.use(express.json());
 app.use(cookieParser());
