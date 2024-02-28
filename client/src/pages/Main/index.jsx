@@ -1,9 +1,11 @@
 import React from 'react'
 import AllMenuSection from './AllMenuSection/AllMenuSection'
+import JumboSection from './JumboSection/JumboSection'
 
 const MainPage = () => {
   return (
-    <div className='py-4'>
+    <div>
+      <JumboSection/>
       <AllMenuSection/>
     </div>
   )
