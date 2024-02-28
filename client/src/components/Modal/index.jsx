@@ -1,5 +1,4 @@
 import React from 'react'
-import Button from '../Button'
 import RegisterForm from '../Forms/RegisterForm'
 
 const Modal = () => {
