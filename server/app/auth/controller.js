@@ -5,7 +5,7 @@ const { secretKey } = require('../../config/config');
 
 const register = async (req, res) => {
   try {
-    const { fullname, email, password, role } = req.body;
+    const { fullname, email, password } = req.body;
     
     const isEmailExist = await User.findOne({ email });
     if(isEmailExist) {
@@ -21,7 +21,6 @@ const register = async (req, res) => {
       fullname,
       email,
       password: hashedPassword,
-      role
     });
 
     return res.status(201).json({
