@@ -1,8 +1,11 @@
-import React from 'react'
-import Button from '../Button'
-import { BsBag } from "react-icons/bs"
+import React from 'react';
+import Button from '../Button';
+import { BsBag } from "react-icons/bs";
+import { useDispatch } from 'react-redux';
+import { toggleModal } from '../../redux/modalSlice';
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const handleLogout = () => {
     fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
       .then((res) => res.json())
@@ -24,6 +27,7 @@ const Navbar = () => {
           <li>
             <Button
               text='Register'
+              clickEvent={() => dispatch(toggleModal('register'))}
             />
           </li>
           <li>
@@ -32,12 +36,13 @@ const Navbar = () => {
               bgColor='bg-transparent'
               borderColor='border-green-600'
               text='Login'
+              clickEvent={() => dispatch(toggleModal('login'))}
             />
           </li>
         </ul>
       </div>
     </nav>
   )
-}
+};
 
-export default Navbar
+export default Navbar;

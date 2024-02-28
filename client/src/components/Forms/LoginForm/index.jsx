@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import Button from '../../Button'
-import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5"
+import Button from '../../Button';
+import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
+import { useDispatch } from 'react-redux';
+import { toggleModal } from '../../../redux/modalSlice';
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
   const submitForm = (data) => {
     console.log(data);
@@ -24,7 +27,10 @@ const LoginForm = () => {
   
   return (
     <div className='flex flex-col gap-2 relative'>
-      <button className='absolute -top-2 -right-2'>
+      <button
+        className='absolute -top-2 -right-2'
+        onClick={() => dispatch(toggleModal(''))}
+      >
         <IoCloseCircleOutline size={25}/>
       </button>
       <h2 className='text-2xl font-bold text-center'>Login</h2>
@@ -55,6 +61,6 @@ const LoginForm = () => {
       </form>
     </div>
   )
-}
+};
 
-export default LoginForm
+export default LoginForm;

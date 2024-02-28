@@ -3,17 +3,20 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Main from './pages/Main'
 import Modal from './components/Modal'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectModal } from './redux/modalSlice'
+
 
 const App = () => {
+  const modal = useSelector(selectModal)
+  
   return (
     <div className='relative'>
-      <BrowserRouter>
-        {/* <Modal/> */}
-        <Navbar />
-        <Routes>
-          <Route path="/" exact element={<Main />} />
-        </Routes>
-      </BrowserRouter>
+      {modal.showModal === true ? <Modal modalType={modal.modalType}/> : ''}
+      <Navbar />
+      <Routes>
+        <Route path="/" exact element={<Main />} />
+      </Routes>
     </div>
   )
 }
