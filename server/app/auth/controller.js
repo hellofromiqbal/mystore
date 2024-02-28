@@ -57,6 +57,7 @@ const login = async (req, res) => {
 
     return res.status(200).json({
       message: 'Signed In!',
+      data: isUserExist
     });
   } catch (error) {
     return res.status(500).json({

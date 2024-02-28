@@ -9,6 +9,7 @@ const LoginForm = () => {
     console.log(data);
     fetch('http://localhost:3001/auth/login', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({
         email: data.email,
