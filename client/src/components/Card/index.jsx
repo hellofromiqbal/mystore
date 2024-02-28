@@ -1,5 +1,6 @@
 import React from 'react'
 import { currencyFormatter } from '../../../helpers/currencyFormatter'
+import { BsBagPlus, BsBagPlusFill } from "react-icons/bs"
 
 const Card = ({ name, description, price, image_url }) => {
   return (
@@ -14,7 +15,7 @@ const Card = ({ name, description, price, image_url }) => {
           <p className='text-sm font-medium mt-2'>{currencyFormatter.format(price)}</p>
         </div>
         <div className='flex justify-end'>
-          <p className='text-sm'>Add to cart</p>
+          <BsBagPlus size={21}/>
         </div>
       </div>
     </div>
