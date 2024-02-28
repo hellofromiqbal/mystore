@@ -43,6 +43,7 @@ const RegisterForm = () => {
         <Button
           padding='px-0 py-1'
           fontSize='text-base'
+          borderRadius='rounded-full'
           text='Register'
         />
       </form>

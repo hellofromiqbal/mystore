@@ -7,12 +7,13 @@ const Button = ({
   fontWeight = 'font-medium',
   bgColor = 'bg-green-600',
   borderColor = 'border-transparent',
+  borderRadius = 'rounded-md',
   text = 'Button',
   clickEvent = () => console.log('Clicked!')
 }) => {
   return (
     <button
-      className={`${padding} ${fontSize} ${textColor} ${fontWeight} ${bgColor} border ${borderColor} rounded-md`}
+      className={`${padding} ${fontSize} ${textColor} ${fontWeight} ${bgColor} border ${borderColor} ${borderRadius}`}
       onClick={clickEvent}
     >
       {text}
