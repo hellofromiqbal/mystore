@@ -9,7 +9,7 @@ const Navbar = () => {
       .then((data) => console.log(data.message))
       .catch((error) => console.log(error.message));
   };
-  
+
   return (
     <nav className='flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
       <h1 className='text-2xl font-medium text-green-600'>MyStore</h1>
@@ -32,7 +32,6 @@ const Navbar = () => {
               bgColor='bg-transparent'
               borderColor='border-green-600'
               text='Login'
-              clickEvent={handleLogout}
             />
           </li>
         </ul>
