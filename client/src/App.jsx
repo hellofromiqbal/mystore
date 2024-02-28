@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div className='relative'>
       <BrowserRouter>
-        <Modal/>
+        {/* <Modal/> */}
         <Navbar />
         <Routes>
           <Route path="/" exact element={<Main />} />
