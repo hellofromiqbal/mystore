@@ -3,9 +3,9 @@ import { currencyFormatter } from '../../../helpers/currencyFormatter'
 
 const Card = ({ name, description, price, image_url }) => {
   return (
-    <div className='flex flex-col w-[300px] shadow-md'>
-      <div className='min-h-[300px] bg-black'>
-        <img src={`http://localhost:3001/${image_url}`} alt={name} />
+    <div className='flex flex-col w-[300px] shadow-md hover:shadow-xl transition-all duration-300'>
+      <div className='min-h-[300px] bg-slate-300'>
+        {/* <img src={`http://localhost:3001/${image_url}`} alt={name} /> */}
       </div>
       <div className='flex flex-col px-3 py-2'>
         <div className='flex flex-col'>
