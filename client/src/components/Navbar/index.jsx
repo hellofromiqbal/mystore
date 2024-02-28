@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
+    <nav className='fixed bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
       <h1 className='text-2xl font-medium text-green-600'>MyStore</h1>
       <div className='flex items-center gap-4'>
         <div className='flex relative'>

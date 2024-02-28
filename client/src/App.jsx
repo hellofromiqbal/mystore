@@ -14,9 +14,11 @@ const App = () => {
     <div className='relative'>
       {modal.showModal === true ? <Modal modalType={modal.modalType}/> : ''}
       <Navbar />
-      <Routes>
-        <Route path="/" exact element={<Main />} />
-      </Routes>
+      <div className='pt-14'>
+        <Routes>
+          <Route path="/" exact element={<Main />} />
+        </Routes>
+      </div>
     </div>
   )
 }
