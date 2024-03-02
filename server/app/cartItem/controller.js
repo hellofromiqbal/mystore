@@ -9,6 +9,10 @@ const store = async (req, res) => {
       product: productId,
     });
 
+    await User.findByIdAndUpdate(userId, {
+      $push: { cart: newCartItem._id }
+    });
+
     return res.status(201).json({
       message: 'Added to cart!',
       data: newCartItem

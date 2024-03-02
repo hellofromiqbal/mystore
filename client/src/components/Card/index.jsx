@@ -1,8 +1,32 @@
-import React from 'react'
-import { currencyFormatter } from '../../../helpers/currencyFormatter'
-import { BsBagPlus, BsBagPlusFill } from "react-icons/bs"
+import React from 'react';
+import { currencyFormatter } from '../../../helpers/currencyFormatter';
+import { BsBagPlus, BsBagPlusFill } from "react-icons/bs";
+import Button from '../Button';
+import { useSelector } from 'react-redux';
+import { selectCurrUser } from '../../redux/currUserSlice';
+import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 
-const Card = ({ name, description, price, image_url }) => {
+const Card = ({ productId, name, description, price, image_url }) => {
+  const currUser = useSelector(selectCurrUser);
+  const handleAddToCart = async () => {
+    try {
+      const res = await fetch(`http://localhost:3001/api/cart-items`, {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ userId: currUser._id, productId })
+      });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        const result = await res.json();
+        notifySuccess(result.message);
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
+  };
+
   return (
     <div className='flex flex-col w-[300px] shadow-md hover:shadow-xl transition-all duration-300'>
       <div className='min-h-[300px] bg-slate-300'>
@@ -15,7 +39,14 @@ const Card = ({ name, description, price, image_url }) => {
           <p className='text-sm font-medium mt-2'>{currencyFormatter.format(price)}</p>
         </div>
         <div className='flex justify-end'>
-          <BsBagPlus size={21}/>
+          <Button
+            padding=''
+            bgColor=''
+            textColor='text-black'
+            border=''
+            clickEvent={handleAddToCart}
+            text={<BsBagPlus size={21}/>}
+          />
         </div>
       </div>
     </div>

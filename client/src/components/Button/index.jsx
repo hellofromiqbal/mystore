@@ -6,6 +6,7 @@ const Button = ({
   textColor = 'text-white',
   fontWeight = 'font-medium',
   bgColor = 'bg-green-600',
+  border = 'border',
   borderColor = 'border-transparent',
   borderRadius = 'rounded-md',
   text = 'Button',
@@ -13,7 +14,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`${padding} ${fontSize} ${textColor} ${fontWeight} ${bgColor} border ${borderColor} ${borderRadius}`}
+      className={`${padding} ${fontSize} ${textColor} ${fontWeight} ${bgColor} ${border} ${borderColor} ${borderRadius}`}
       onClick={clickEvent}
     >
       {text}
