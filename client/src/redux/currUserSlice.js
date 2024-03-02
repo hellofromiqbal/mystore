@@ -13,10 +13,10 @@ const currUser = createSlice({
       state.info = undefined;
     },
     addCartItemToCurrUser: (state, action) => {
-      state.info.cart.push(action.payload);
+      state.info.cart = action.payload;
     },
     removeCartItemFromCurrUser: (state, action) => {
-      state.info.cart = state.info.cart.filter((item) => item.product !== action.payload)
+      state.info.cart = state.info.cart.filter((item) => item.product._id !== action.payload)
     }
   }
 })

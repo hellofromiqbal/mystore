@@ -10,11 +10,12 @@ import { toggleModal } from '../../redux/modalSlice';
 const Card = ({ productId, name, description, price, image_url }) => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
-  const alreadyInCart = currUser?.cart?.find((cartItem) => cartItem?.product === productId);
+  const alreadyInCart = currUser?.cart?.find((cartItem) => cartItem?.product?._id === productId);
   const handleAddToCart = async () => {
     try {
       const res = await fetch(`http://localhost:3001/api/cart-items`, {
         method: 'POST',
+        cache: 'no-store',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ userId: currUser._id, productId })
       });
@@ -23,7 +24,6 @@ const Card = ({ productId, name, description, price, image_url }) => {
         throw new Error(result.message);
       } else {
         const result = await res.json();
-        console.log(result.data);
         dispatch(addCartItemToCurrUser(result.data));
         notifySuccess(result.message);
       }
