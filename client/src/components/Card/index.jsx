@@ -5,6 +5,7 @@ import Button from '../Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { addCartItemToCurrUser, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
+import { toggleModal } from '../../redux/modalSlice';
 
 const Card = ({ productId, name, description, price, image_url }) => {
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const Card = ({ productId, name, description, price, image_url }) => {
             bgColor=''
             textColor='text-black'
             border=''
-            clickEvent={alreadyInCart ? handleDeleteFromCart : handleAddToCart}
+            clickEvent={!currUser ? () => dispatch(toggleModal('login')) : alreadyInCart ? handleDeleteFromCart : handleAddToCart}
             text={alreadyInCart ? <BsBagPlusFill size={21}/> : <BsBagPlus size={21}/>}
           />
         </div>
