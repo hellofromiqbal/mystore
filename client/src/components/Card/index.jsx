@@ -3,13 +3,13 @@ import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { BsBagPlus, BsBagPlusFill } from "react-icons/bs";
 import Button from '../Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { addCartItemToCurrUser, selectCurrUser } from '../../redux/currUserSlice';
+import { addCartItemToCurrUser, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 
 const Card = ({ productId, name, description, price, image_url }) => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
-  const alreadyInCart = currUser.cart.find((cartItem) => cartItem.product === productId);
+  const alreadyInCart = currUser?.cart?.find((cartItem) => cartItem?.product === productId);
   const handleAddToCart = async () => {
     try {
       const res = await fetch(`http://localhost:3001/api/cart-items`, {
@@ -23,6 +23,27 @@ const Card = ({ productId, name, description, price, image_url }) => {
       } else {
         const result = await res.json();
         dispatch(addCartItemToCurrUser(result.data));
+        notifySuccess(result.message);
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
+  };
+
+  const handleDeleteFromCart = async () => {
+    try {
+      console.log({ userId: currUser._id, productId });
+      const res = await fetch('http://localhost:3001/api/cart-items', {
+        method: 'DELETE',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ userId: currUser._id, productId })
+      });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        const result = await res.json();
+        dispatch(removeCartItemFromCurrUser(productId));
         notifySuccess(result.message);
       }
     } catch (error) {
@@ -47,7 +68,7 @@ const Card = ({ productId, name, description, price, image_url }) => {
             bgColor=''
             textColor='text-black'
             border=''
-            clickEvent={handleAddToCart}
+            clickEvent={alreadyInCart ? handleDeleteFromCart : handleAddToCart}
             text={alreadyInCart ? <BsBagPlusFill size={21}/> : <BsBagPlus size={21}/>}
           />
         </div>

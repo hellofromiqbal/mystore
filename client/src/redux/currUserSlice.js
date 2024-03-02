@@ -14,10 +14,13 @@ const currUser = createSlice({
     },
     addCartItemToCurrUser: (state, action) => {
       state.info.cart.push(action.payload);
+    },
+    removeCartItemFromCurrUser: (state, action) => {
+      state.info.cart = state.info.cart.filter((item) => item.product !== action.payload)
     }
   }
 })
 
-export const { addCurrUser, removeCurrUser, addCartItemToCurrUser } = currUser.actions;
+export const { addCurrUser, removeCurrUser, addCartItemToCurrUser, removeCartItemFromCurrUser } = currUser.actions;
 export const selectCurrUser = (state) => state.currUser.info;
 export default currUser.reducer;
