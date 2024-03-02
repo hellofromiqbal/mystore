@@ -4,6 +4,7 @@ import { BsBag } from "react-icons/bs";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUserSlice';
+import { notifySuccess } from '../../helpers/toaster';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const Navbar = () => {
     fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message);
+        notifySuccess(data.message);
         dispatch(removeCurrUser());
       })
       .catch((error) => console.log(error.message));
@@ -22,7 +23,6 @@ const Navbar = () => {
     fetch('http://localhost:3001/auth/me', { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message);
         dispatch(addCurrUser(data.data));
       })
       .catch((error) => console.log(error.message));

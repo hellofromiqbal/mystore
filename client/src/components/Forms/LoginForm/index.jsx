@@ -5,12 +5,12 @@ import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../../redux/modalSlice';
 import { addCurrUser } from '../../../redux/currUserSlice';
+import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
   const submitForm = (data) => {
-    console.log(data);
     fetch('http://localhost:3001/auth/login', {
       method: 'POST',
       credentials: 'include',
@@ -22,10 +22,12 @@ const LoginForm = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message);
         if(data.data) {
           dispatch(addCurrUser(data.data));
+          notifySuccess(data.message);
           dispatch(toggleModal(''));
+        } else {
+          notifyFailed(data.message);
         }
       })
       .catch((error) => console.log(error.message));
