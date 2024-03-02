@@ -4,7 +4,8 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     modalType: '',
-    showModal: false
+    showModal: false,
+    modalWidth: 'w-1/3'
   },
   reducers: {
     toggleModal: (state, action) => {
@@ -12,7 +13,8 @@ const modalSlice = createSlice({
       if(state.showModal === false) {
         state.modalType = ''
       } else {
-        state.modalType = action.payload
+        state.modalType = action.payload.modalType;
+        state.modalWidth = action.payload.modalWidth;
       }
     },
   }

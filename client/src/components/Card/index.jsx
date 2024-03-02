@@ -68,7 +68,7 @@ const Card = ({ productId, name, description, price, image_url }) => {
             bgColor=''
             textColor='text-black'
             border=''
-            clickEvent={!currUser ? () => dispatch(toggleModal('login')) : alreadyInCart ? handleDeleteFromCart : handleAddToCart}
+            clickEvent={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : alreadyInCart ? handleDeleteFromCart : handleAddToCart}
             text={alreadyInCart ? <BsBagPlusFill size={21}/> : <BsBagPlus size={21}/>}
           />
         </div>

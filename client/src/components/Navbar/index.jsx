@@ -46,7 +46,7 @@ const Navbar = () => {
               bgColor=''
               textColor='text-black'
               border=''
-              clickEvent={!currUser ? () => dispatch(toggleModal('login')) : () => dispatch(toggleModal('cart'))}
+              clickEvent={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
               text={<BsBag size={21}/>}
             />
         </div>
@@ -55,7 +55,7 @@ const Navbar = () => {
             <li>
               <Button
                 text='Register'
-                clickEvent={() => dispatch(toggleModal('register'))}
+                clickEvent={() => dispatch(toggleModal({ modalType: 'register', modalWidth: 'w-1/3' }))}
               />
             </li>
             : ''
@@ -66,7 +66,7 @@ const Navbar = () => {
               bgColor={currUser ? 'bg-red-500' : 'bg-transparent'}
               borderColor={currUser ? 'border-transparent' : 'border-green-600'}
               text={currUser ? 'Logout' : 'Login'}
-              clickEvent={currUser ? handleLogout : () => dispatch(toggleModal('login'))}
+              clickEvent={currUser ? handleLogout : () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' }))}
             />
           </li>
         </ul>
