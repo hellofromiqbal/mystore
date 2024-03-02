@@ -56,7 +56,7 @@ const login = async (req, res) => {
     res.cookie('mystore', userSignInToken, { path: '/' });
 
     return res.status(200).json({
-      message: 'Signed In!',
+      message: 'Logged in!',
       data: {
         ...loginTokenPayload
       }
