@@ -1,10 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
 import modalReducer from './modalSlice';
+import currUserReducer from './currUserSlice';
+
 
 const store = configureStore({
   reducer: {
-    modal: modalReducer
+    modal: modalReducer,
+    currUser: currUserReducer
   }
-})
+});
 
-export default store
+export default store;

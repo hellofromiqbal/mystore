@@ -79,4 +79,33 @@ const logout = async (req, res) => {
   };
 };
 
-module.exports = { register, login, logout };
+const currUserInfo = async (req, res) => {
+  try {
+    const { mystore } = req.cookies;
+    if(!mystore) {
+      return res.status(401).json({
+        message: 'Unauthorized.'
+      });
+    };
+
+    const decodedToken = await jwt.verify(mystore, secretKey);
+
+    const currUser = await User.findById(decodedToken._id).select('-password -createdAt -updatedAt -__v');
+    if(!currUser) {
+      return res.status(404).json({
+        message: 'User not found.',
+      });
+    };
+
+    return res.status(200).json({
+      message: 'Current User info fetched.',
+      data: currUser
+    })
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  };
+};
+
+module.exports = { register, login, logout, currUserInfo };

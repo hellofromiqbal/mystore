@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const currUserSlice = createSlice({
+const currUser = createSlice({
   name: 'currUser',
   initialState: {
-    _id: '',
-    fullname: '',
-    email: '',
-    role: ''
+    info: undefined
   },
   reducers: {
     addCurrUser: (state, action) => {
-      state = action.payload;
+      state.info = action.payload;
     },
+    removeCurrUser: (state, action) => {
+      state.info = undefined;
+    }
   }
 })
 
-export const { toggleModal } = currUserSlice.actions;
+export const { addCurrUser, removeCurrUser } = currUser.actions;
 export const selectCurrUser = (state) => state.currUser;
-export default currUserSlice.reducer;
+export default currUser.reducer;
