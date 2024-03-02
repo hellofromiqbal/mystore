@@ -23,7 +23,6 @@ const Navbar = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.message);
-        console.log(data.data);
         dispatch(addCurrUser(data.data));
       })
       .catch((error) => console.log(error.message));
@@ -52,9 +51,9 @@ const Navbar = () => {
           }
           <li>
             <Button
-              textColor='text-green-600'
-              bgColor='bg-transparent'
-              borderColor='border-green-600'
+              textColor={currUser ? 'text-white' : 'text-green-600'}
+              bgColor={currUser ? 'bg-red-500' : 'bg-transparent'}
+              borderColor={currUser ? 'border-transparent' : 'border-green-600'}
               text={currUser ? 'Logout' : 'Login'}
               clickEvent={currUser ? handleLogout : () => dispatch(toggleModal('login'))}
             />

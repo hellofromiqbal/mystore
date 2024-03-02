@@ -85,9 +85,7 @@ const currUserInfo = async (req, res) => {
   try {
     const { mystore } = req.cookies;
     if(!mystore) {
-      return res.json({
-        message: 'Unauthorized.'
-      });
+      return;
     };
 
     const decodedToken = await jwt.verify(mystore, secretKey);

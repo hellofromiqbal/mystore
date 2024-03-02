@@ -23,7 +23,10 @@ const LoginForm = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.message);
-        dispatch(addCurrUser(data.data));
+        if(data.data) {
+          dispatch(addCurrUser(data.data));
+          dispatch(toggleModal(''));
+        }
       })
       .catch((error) => console.log(error.message));
     reset();
