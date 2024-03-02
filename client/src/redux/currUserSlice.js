@@ -16,5 +16,5 @@ const currUser = createSlice({
 })
 
 export const { addCurrUser, removeCurrUser } = currUser.actions;
-export const selectCurrUser = (state) => state.currUser;
+export const selectCurrUser = (state) => state.currUser.info;
 export default currUser.reducer;

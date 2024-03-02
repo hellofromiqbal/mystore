@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '../Button';
 import { BsBag } from "react-icons/bs";
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
+import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const currUser = useSelector(selectCurrUser);
   const handleLogout = () => {
     fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
       .then((res) => res.json())
-      .then((data) => console.log(data.message))
+      .then((data) => {
+        console.log(data.message);
+        dispatch(removeCurrUser());
+      })
       .catch((error) => console.log(error.message));
   };
+
+  useEffect(() => {
+    fetch('http://localhost:3001/auth/me', { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.message);
+        console.log(data.data);
+        dispatch(addCurrUser(data.data));
+      })
+      .catch((error) => console.log(error.message));
+  }, []);
 
   return (
     <nav className='fixed bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
       <h1 className='text-2xl font-medium text-green-600'>MyStore</h1>
+      {currUser && <p>Logged in.</p>}
       <div className='flex items-center gap-4'>
         <div className='flex relative'>
           <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
@@ -24,19 +41,22 @@ const Navbar = () => {
           <BsBag size={21}/>
         </div>
         <ul className='flex gap-3 ps-4 border-s'>
-          <li>
-            <Button
-              text='Register'
-              clickEvent={() => dispatch(toggleModal('register'))}
-            />
-          </li>
+          {!currUser ?
+            <li>
+              <Button
+                text='Register'
+                clickEvent={() => dispatch(toggleModal('register'))}
+              />
+            </li>
+            : ''
+          }
           <li>
             <Button
               textColor='text-green-600'
               bgColor='bg-transparent'
               borderColor='border-green-600'
-              text='Login'
-              clickEvent={() => dispatch(toggleModal('login'))}
+              text={currUser ? 'Logout' : 'Login'}
+              clickEvent={currUser ? handleLogout : () => dispatch(toggleModal('login'))}
             />
           </li>
         </ul>

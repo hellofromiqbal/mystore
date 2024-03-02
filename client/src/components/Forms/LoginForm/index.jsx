@@ -4,6 +4,7 @@ import Button from '../../Button';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../../redux/modalSlice';
+import { addCurrUser } from '../../../redux/currUserSlice';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,10 @@ const LoginForm = () => {
       })
     })
       .then((res) => res.json())
-      .then((data) => console.log(data.message))
+      .then((data) => {
+        console.log(data.message);
+        dispatch(addCurrUser(data.data));
+      })
       .catch((error) => console.log(error.message));
     reset();
   };

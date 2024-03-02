@@ -57,7 +57,9 @@ const login = async (req, res) => {
 
     return res.status(200).json({
       message: 'Signed In!',
-      data: isUserExist
+      data: {
+        ...loginTokenPayload
+      }
     });
   } catch (error) {
     return res.status(500).json({
@@ -83,7 +85,7 @@ const currUserInfo = async (req, res) => {
   try {
     const { mystore } = req.cookies;
     if(!mystore) {
-      return res.status(401).json({
+      return res.json({
         message: 'Unauthorized.'
       });
     };
