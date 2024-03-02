@@ -8,6 +8,7 @@ import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 
 const Card = ({ productId, name, description, price, image_url }) => {
   const currUser = useSelector(selectCurrUser);
+  const alreadyInCart = currUser.cart.find((cartItem) => cartItem.product === productId);
   const handleAddToCart = async () => {
     try {
       const res = await fetch(`http://localhost:3001/api/cart-items`, {
@@ -45,7 +46,7 @@ const Card = ({ productId, name, description, price, image_url }) => {
             textColor='text-black'
             border=''
             clickEvent={handleAddToCart}
-            text={<BsBagPlus size={21}/>}
+            text={alreadyInCart ? <BsBagPlusFill size={21}/> : <BsBagPlus size={21}/>}
           />
         </div>
       </div>

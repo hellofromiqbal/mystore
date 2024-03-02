@@ -34,9 +34,13 @@ const Navbar = () => {
       {currUser && <p>Logged in.</p>}
       <div className='flex items-center gap-4'>
         <div className='flex relative'>
-          <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
-            <small className='text-white text-xs'>1</small>
-          </div>
+          {currUser && currUser.cart.length > 0 ?
+            <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
+              <small className='text-white text-xs'>{currUser.cart.length}</small>
+            </div>
+            :
+            ''
+          }
           <BsBag size={21}/>
         </div>
         <ul className='flex gap-3 ps-4 border-s'>
