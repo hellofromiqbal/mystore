@@ -2,11 +2,12 @@ import React from 'react';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { BsBagPlus, BsBagPlusFill } from "react-icons/bs";
 import Button from '../Button';
-import { useSelector } from 'react-redux';
-import { selectCurrUser } from '../../redux/currUserSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { addCartItemToCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 
 const Card = ({ productId, name, description, price, image_url }) => {
+  const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   const alreadyInCart = currUser.cart.find((cartItem) => cartItem.product === productId);
   const handleAddToCart = async () => {
@@ -21,6 +22,7 @@ const Card = ({ productId, name, description, price, image_url }) => {
         throw new Error(result.message);
       } else {
         const result = await res.json();
+        dispatch(addCartItemToCurrUser(result.data));
         notifySuccess(result.message);
       }
     } catch (error) {
