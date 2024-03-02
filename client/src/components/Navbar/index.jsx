@@ -41,7 +41,14 @@ const Navbar = () => {
             :
             ''
           }
-          <BsBag size={21}/>
+            <Button
+              padding=''
+              bgColor=''
+              textColor='text-black'
+              border=''
+              clickEvent={!currUser ? () => dispatch(toggleModal('login')) : () => dispatch(toggleModal('cart'))}
+              text={<BsBag size={21}/>}
+            />
         </div>
         <ul className='flex gap-3 ps-4 border-s'>
           {!currUser ?
