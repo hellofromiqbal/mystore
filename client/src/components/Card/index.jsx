@@ -32,7 +32,6 @@ const Card = ({ productId, name, description, price, image_url }) => {
 
   const handleDeleteFromCart = async () => {
     try {
-      console.log({ userId: currUser._id, productId });
       const res = await fetch('http://localhost:3001/api/cart-items', {
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
