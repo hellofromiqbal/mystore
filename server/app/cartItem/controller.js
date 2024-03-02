@@ -9,13 +9,18 @@ const store = async (req, res) => {
       product: productId,
     });
 
-    await User.findByIdAndUpdate(userId, {
-      $push: { cart: newCartItem._id }
-    });
+    const user = await User.findByIdAndUpdate(userId, { $push: { cart: newCartItem._id } }, { new: true })
+      .populate({
+        path: 'cart',
+        populate: {
+          path: 'product',
+          select: '-__v -createdAt -updatedAt'
+        }
+      });
 
     return res.status(201).json({
       message: 'Added to Cart.',
-      data: newCartItem
+      data: user.cart
     });
   } catch (error) {
     return res.status(500).json({

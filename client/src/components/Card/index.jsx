@@ -23,6 +23,7 @@ const Card = ({ productId, name, description, price, image_url }) => {
         throw new Error(result.message);
       } else {
         const result = await res.json();
+        console.log(result.data);
         dispatch(addCartItemToCurrUser(result.data));
         notifySuccess(result.message);
       }
