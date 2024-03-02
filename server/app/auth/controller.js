@@ -37,7 +37,15 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const isUserExist = await User.findOne({ email }).populate('cart');
+    const isUserExist = await User.findOne({ email })
+      .populate({
+        path: 'cart',
+        populate: {
+          path: 'product',
+          select: '-__v -createdAt -updatedAt'
+        }
+      });
+    
     const isPasswordCorrect = await bcrypt.compare(password, isUserExist.password);
     if(!isUserExist || !isPasswordCorrect) {
       return res.status(401).json({
@@ -91,7 +99,16 @@ const currUserInfo = async (req, res) => {
 
     const decodedToken = await jwt.verify(mystore, secretKey);
 
-    const currUser = await User.findById(decodedToken._id).populate('cart').select('-password -createdAt -updatedAt -__v');
+    const currUser = await User.findById(decodedToken._id)
+      .populate({
+        path: 'cart',
+        populate: {
+          path: 'product',
+          select: '-__v -createdAt -updatedAt'
+        }
+      })
+      .select('-password -createdAt -updatedAt -__v');
+    
     if(!currUser) {
       return res.status(404).json({
         message: 'User not found.',

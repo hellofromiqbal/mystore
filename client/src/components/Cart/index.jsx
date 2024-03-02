@@ -1,9 +1,12 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
+import { selectCurrUser } from '../../redux/currUserSlice';
 
 const Cart = () => {
+  const currUser = useSelector(selectCurrUser);
+  console.log(currUser);
   const dispatch = useDispatch();
   return (
     <div className='flex flex-col gap-2 relative'>
