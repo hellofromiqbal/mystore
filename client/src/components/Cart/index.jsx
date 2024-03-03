@@ -6,6 +6,7 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import { decrementCartItemAmout, incrementCartItemAmount, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
+import Button from '../Button';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -74,39 +75,77 @@ const Cart = () => {
         <IoCloseCircleOutline size={25}/>
       </button>
       <h2 className='text-2xl font-bold text-center'>Cart</h2>
-      <ul className='flex flex-col border-t'>
-        {currUser?.cart?.length < 1 ?
-          <div className='flex justify-center items-center h-[100px]'>
-            <h1 className='text-lg font-bold text-slate-400'>No items yet.</h1>
-          </div>
-            :
-          ''
-        }
-        {currUser?.cart?.map((cartItem) => (
-          <li key={cartItem._id} className='flex justify-between border-b py-2'>
-            <div>
-              <h3 className='font-medium text-lg'>{cartItem?.product?.name}</h3>
-              <p>{cartItem?.product?.description}</p>
-              <div className='flex items-center gap-2 w-max'>
-                <button onClick={() => decAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'decrement')}>
-                  <AiOutlineMinusCircle size={20}/>
-                </button>
-                <p className='font-medium'>{cartItem?.amount}</p>
-                <button onClick={() => incAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'increment')}>
-                  <AiOutlinePlusCircle size={20}/>
-                </button>
+      <div className='flex flex-col gap-2 py-2 border-t'>
+        <h3 className='text-xl font-medium'>Order</h3>
+        <ul className='flex flex-col gap-2'>
+          {currUser?.cart?.length < 1 ?
+            <div className='flex justify-center items-center h-[100px]'>
+              <h1 className='text-lg font-bold text-slate-700'>No items yet.</h1>
+            </div>
+              :
+            ''
+          }
+          {currUser?.cart?.map((cartItem) => (
+            <li key={cartItem._id} className='flex justify-between'>
+              <div>
+                <h4 className='font-medium'>{cartItem?.product?.name}</h4>
+                <p className='text-gray-700'>{cartItem?.product?.description}</p>
+                <div className='flex items-center gap-4'>
+                  <p className='text-gray-700'>Amount</p>
+                  <div className='flex items-center gap-2 w-max'>
+                    <button onClick={() => decAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'decrement')}>
+                      <AiOutlineMinusCircle size={20}/>
+                    </button>
+                    <p className='font-medium'>{cartItem?.amount}</p>
+                    <button onClick={() => incAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'increment')}>
+                      <AiOutlinePlusCircle size={20}/>
+                    </button>
+                  </div>
+                </div>
               </div>
+              <div className='self-end'>
+                <p className='font-medium'>{currencyFormatter.format(cartItem?.product?.price * cartItem?.amount)}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className='flex flex-col gap-2 py-2 border-t'>
+          <h3 className='text-xl font-medium'>Address</h3>
+          <div className='flex flex-col gap-2'>
+            <div className='flex items-center gap-1'>
+              <h4 className='text-gray-700'>Deliver to</h4>
+              <select className='border rounded-md'>
+                <option value="" className='text-center'>-- Select Address --</option>
+                {currUser.address.map((item) => (
+                  <option key={item?._id} value={item?.fullAddress}>{item?.fullAddress}</option>
+                ))}
+              </select>
             </div>
-            <div className='self-end'>
-              <p className='font-medium'>{currencyFormatter.format(cartItem?.product?.price * cartItem?.amount)}</p>
+            <div className='flex justify-between'>
+              <h4 className='text-gray-700'>Deliver fee</h4>
+              <h4 className='font-medium'>{currencyFormatter.format(10000)}</h4>
             </div>
-          </li>
-        ))}
-        <div className='flex justify-between items-center border-b py-2'>
-          <h3 className='font-medium text-lg'>Total</h3>
-          <h3 className='text-lg font-bold'>Rp 500.000</h3>
+          </div>
         </div>
-      </ul>
+        <div className='flex justify-between items-center border-y py-2'>
+          <h3 className='text-xl font-medium'>Total</h3>
+          <h3 className='text-lg font-bold'>{currencyFormatter.format(136000)}</h3>
+        </div>
+        <div className='flex justify-between pt-2'>
+          <small className='text-red-500'>* Please check all data before checkout.</small>
+          <Button
+            padding='px-2 py-1'
+            fontSize='text-base'
+            textColor='text-white'
+            fontWeight='font-medium'
+            bgColor='bg-green-600'
+            border='border'
+            borderColor='border-transparent'
+            borderRadius='rounded-md'
+            text='Checkout'
+          />
+        </div>
+      </div>
     </div>
   )
 };
