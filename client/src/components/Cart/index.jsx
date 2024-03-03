@@ -12,11 +12,34 @@ const Cart = () => {
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
 
-  const incAmount = (productId, cartItemId) => {
-    dispatch(incrementCartItemAmount(productId));
+  const updateCartItemAmount = async (cartItemId, productId, amount, updateType) => {
+    try {
+      const res = await fetch('http://localhost:3001/api/cart-items', {
+        method: 'PUT',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ cartItemId, amount })
+      });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        if(updateType === 'increment') {
+          dispatch(incrementCartItemAmount(productId));
+        } else {
+          dispatch(decrementCartItemAmout(productId));
+        }
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
   };
 
-  const decAmount = async (productId, cartItemId) => {
+  const incAmount = (cartItemId, productId, amount, updateType) => {
+    amount += 1;
+    updateCartItemAmount(cartItemId, productId, amount, updateType);
+  };
+
+  const decAmount = async (cartItemId, productId, amount, updateType) => {
     const cartItem = currUser.cart.find((item) => item._id === cartItemId);
     if(cartItem.amount === 1) {
       try {
@@ -37,7 +60,8 @@ const Cart = () => {
         notifyFailed(error.message);
       }
     } else {
-      dispatch(decrementCartItemAmout(productId));
+      amount -= 1;
+      updateCartItemAmount(cartItemId, productId, amount, updateType);
     }
   };
 
@@ -64,11 +88,11 @@ const Cart = () => {
               <h3 className='font-medium text-lg'>{cartItem?.product?.name}</h3>
               <p>{cartItem?.product?.description}</p>
               <div className='flex items-center gap-2 w-max'>
-                <button onClick={() => decAmount(cartItem?.product?._id, cartItem?._id)}>
+                <button onClick={() => decAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'decrement')}>
                   <AiOutlineMinusCircle size={20}/>
                 </button>
                 <p className='font-medium'>{cartItem?.amount}</p>
-                <button onClick={() => incAmount(cartItem?.product?._id, cartItem?._id)}>
+                <button onClick={() => incAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'increment')}>
                   <AiOutlinePlusCircle size={20}/>
                 </button>
               </div>

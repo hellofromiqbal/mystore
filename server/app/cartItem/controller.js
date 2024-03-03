@@ -51,4 +51,18 @@ const destroy = async (req, res) => {
   };
 };
 
-module.exports = { store, destroy };
+const update = async (req, res) => {
+  try {
+    const { cartItemId, amount } = req.body;
+    await CartItem.findByIdAndUpdate(cartItemId, { amount });
+    return res.status(200).json({
+      message: 'Amount updated.'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  };
+};
+
+module.exports = { store, destroy, update };
