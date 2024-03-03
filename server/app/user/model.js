@@ -17,6 +17,10 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'CartItem'
   }],
+  address: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Address'
+  }],
   role: {
     type: String,
     enum: ['user', 'admin'],

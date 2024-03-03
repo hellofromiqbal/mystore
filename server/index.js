@@ -10,6 +10,7 @@ const productRouter = require('./app/product/router');
 const categoryRouter = require('./app/category/router');
 const tagRouter = require('./app/tag/router');
 const cartItemRouter = require('./app/cartItem/router');
+const addressRouter = require('./app/address/router');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/api', productRouter);
 app.use('/api', categoryRouter);
 app.use('/api', tagRouter);
 app.use('/api', cartItemRouter);
+app.use('/api', addressRouter);
 
 mongooseConnection(app);
 
