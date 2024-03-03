@@ -44,6 +44,10 @@ const login = async (req, res) => {
           path: 'product',
           select: '-__v -createdAt -updatedAt'
         }
+      })
+      .populate({
+        path: 'address',
+        select: '-__v -createdAt -updatedAt'
       });
     
     const isPasswordCorrect = await bcrypt.compare(password, isUserExist.password);
@@ -57,6 +61,7 @@ const login = async (req, res) => {
       _id: isUserExist._id,
       fullname: isUserExist.fullname,
       email: isUserExist.email,
+      address: isUserExist.address,
       role: isUserExist.role
     };
 
@@ -106,6 +111,10 @@ const currUserInfo = async (req, res) => {
           path: 'product',
           select: '-__v -createdAt -updatedAt'
         }
+      })
+      .populate({
+        path: 'address',
+        select: '-__v -createdAt -updatedAt'
       })
       .select('-password -createdAt -updatedAt -__v');
     
