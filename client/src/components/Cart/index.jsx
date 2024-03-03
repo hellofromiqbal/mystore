@@ -3,8 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
-import { decrementCartItemAmout, incrementCartItemAmount, selectCurrUser } from '../../redux/currUserSlice';
+import { decrementCartItemAmout, incrementCartItemAmount, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
+import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -15,8 +16,29 @@ const Cart = () => {
     dispatch(incrementCartItemAmount(productId));
   };
 
-  const decAmount = (productId, cartItemId) => {
-    dispatch(decrementCartItemAmout(productId));
+  const decAmount = async (productId, cartItemId) => {
+    const cartItem = currUser.cart.find((item) => item._id === cartItemId);
+    if(cartItem.amount === 1) {
+      try {
+        const res = await fetch('http://localhost:3001/api/cart-items', {
+          method: 'DELETE',
+          headers: { 'Content-type': 'application/json' },
+          body: JSON.stringify({ userId: currUser._id, productId })
+        });
+        if(!res.ok) {
+          const result = await res.json();
+          throw new Error(result.message);
+        } else {
+          const result = await res.json();
+          dispatch(removeCartItemFromCurrUser(productId));
+          notifySuccess(result.message);
+        }
+      } catch (error) {
+        notifyFailed(error.message);
+      }
+    } else {
+      dispatch(decrementCartItemAmout(productId));
+    }
   };
 
   return (
@@ -29,6 +51,13 @@ const Cart = () => {
       </button>
       <h2 className='text-2xl font-bold text-center'>Cart</h2>
       <ul className='flex flex-col border-t'>
+        {currUser?.cart?.length < 1 ?
+          <div className='flex justify-center items-center h-[100px]'>
+            <h1 className='text-lg font-bold text-slate-400'>No items yet.</h1>
+          </div>
+            :
+          ''
+        }
         {currUser?.cart?.map((cartItem) => (
           <li key={cartItem._id} className='flex justify-between border-b py-2'>
             <div>
