@@ -64,6 +64,11 @@ const LoginForm = () => {
         <Button
           padding='px-0 py-1'
           fontSize='text-base'
+          textColor='text-white'
+          fontWeight='font-medium'
+          bgColor='bg-green-600'
+          border='border'
+          borderColor='border-transparent'
           borderRadius='rounded-full'
           text='Login'
         />

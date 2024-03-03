@@ -1,16 +1,16 @@
 import React from 'react'
 
 const Button = ({
-  padding = 'px-3 py-1',
-  fontSize = 'text-sm',
-  textColor = 'text-white',
-  fontWeight = 'font-medium',
-  bgColor = 'bg-green-600',
-  border = 'border',
-  borderColor = 'border-transparent',
-  borderRadius = 'rounded-md',
+  padding = '',
+  fontSize = '',
+  textColor = '',
+  fontWeight = '',
+  bgColor = '',
+  border = '',
+  borderColor = '',
+  borderRadius = '',
   text = 'Button',
-  clickEvent = () => console.log('Clicked!')
+  clickEvent = () => {}
 }) => {
   return (
     <button

@@ -33,7 +33,10 @@ const Navbar = () => {
       <h1 className='text-2xl font-medium text-green-600'>MyStore</h1>
       {currUser && <p>Logged in.</p>}
       <div className='flex items-center gap-4'>
-        <div className='flex relative'>
+        <button
+          className='flex relative'
+          onClick={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
+        >
           {currUser && currUser.cart.length > 0 ?
             <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
               <small className='text-white text-xs'>{currUser.cart.length}</small>
@@ -41,19 +44,20 @@ const Navbar = () => {
             :
             ''
           }
-            <Button
-              padding=''
-              bgColor=''
-              textColor='text-black'
-              border=''
-              clickEvent={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
-              text={<BsBag size={21}/>}
-            />
-        </div>
+            <BsBag size={21}/>
+        </button>
         <ul className='flex gap-3 ps-4 border-s'>
           {!currUser ?
             <li>
               <Button
+                padding='px-3 py-1'
+                fontSize='text-sm'
+                textColor='text-white'
+                fontWeight='font-medium'
+                bgColor='bg-green-600'
+                border='border'
+                borderColor='border-transparent'
+                borderRadius='rounded-md'
                 text='Register'
                 clickEvent={() => dispatch(toggleModal({ modalType: 'register', modalWidth: 'w-1/3' }))}
               />
@@ -62,6 +66,11 @@ const Navbar = () => {
           }
           <li>
             <Button
+              padding='px-3 py-1'
+              fontSize='text-sm'
+              fontWeight='font-medium'
+              border='border'
+              borderRadius='rounded-md'
               textColor={currUser ? 'text-white' : 'text-green-600'}
               bgColor={currUser ? 'bg-red-500' : 'bg-transparent'}
               borderColor={currUser ? 'border-transparent' : 'border-green-600'}
