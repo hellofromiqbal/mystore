@@ -13,6 +13,14 @@ const Cart = () => {
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
 
+  const totalPrice = () => {
+    const deliveryFee = 10000;
+    const subTotal = currUser.cart.reduce((acc, cartItem) => {
+      return acc + (cartItem.product.price * cartItem.amount);
+    }, 0);
+    return subTotal + deliveryFee;
+  };
+
   const updateCartItemAmount = async (cartItemId, productId, amount, updateType) => {
     try {
       const res = await fetch('http://localhost:3001/api/cart-items', {
@@ -129,7 +137,7 @@ const Cart = () => {
         </div>
         <div className='flex justify-between items-center border-y py-2'>
           <h3 className='text-xl font-medium'>Total</h3>
-          <h3 className='text-lg font-bold'>{currencyFormatter.format(136000)}</h3>
+          <h3 className='text-lg font-bold'>{currencyFormatter.format(totalPrice())}</h3>
         </div>
         <div className='flex justify-between pt-2'>
           <small className='text-red-500'>* Please check all data before checkout.</small>
