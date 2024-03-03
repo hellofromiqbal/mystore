@@ -83,7 +83,7 @@ const Cart = () => {
         <IoCloseCircleOutline size={25}/>
       </button>
       <h2 className='text-2xl font-bold text-center'>Cart</h2>
-      <div className='flex flex-col gap-2 py-2 border-t'>
+      <div className='flex flex-col gap-2 py-2 border-t h-[50vh] overflow-auto pe-2'>
         <h3 className='text-xl font-medium'>Order</h3>
         <ul className='flex flex-col gap-2'>
           {currUser?.cart?.length < 1 ?

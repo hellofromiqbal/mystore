@@ -39,7 +39,7 @@ const Navbar = () => {
         >
           {currUser && currUser.cart.length > 0 ?
             <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
-              <small className='text-white text-xs'>{currUser.cart.length}</small>
+              <small className='text-white text-xs font-extrabold'>{currUser.cart.length}</small>
             </div>
             :
             ''
