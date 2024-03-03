@@ -98,10 +98,14 @@ const Cart = () => {
               </div>
             </div>
             <div className='self-end'>
-              <p className='font-medium'>{currencyFormatter.format(cartItem?.product?.price)}</p>
+              <p className='font-medium'>{currencyFormatter.format(cartItem?.product?.price * cartItem?.amount)}</p>
             </div>
           </li>
         ))}
+        <div className='flex justify-between items-center border-b py-2'>
+          <h3 className='font-medium text-lg'>Total</h3>
+          <h3 className='text-lg font-bold'>Rp 500.000</h3>
+        </div>
       </ul>
     </div>
   )
