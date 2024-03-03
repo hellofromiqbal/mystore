@@ -2,13 +2,23 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
-import { selectCurrUser } from '../../redux/currUserSlice';
+import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
+import { decrementCartItemAmout, incrementCartItemAmount, selectCurrUser } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
-  const dispatch = useDispatch();
+
+  const incAmount = (productId, cartItemId) => {
+    dispatch(incrementCartItemAmount(productId));
+  };
+
+  const decAmount = (productId, cartItemId) => {
+    dispatch(decrementCartItemAmout(productId));
+  };
+
   return (
     <div className='flex flex-col gap-2 relative'>
       <button
@@ -24,7 +34,15 @@ const Cart = () => {
             <div>
               <h3 className='font-medium text-lg'>{cartItem?.product?.name}</h3>
               <p>{cartItem?.product?.description}</p>
-              <p className='font-medium'>{cartItem?.amount}</p>
+              <div className='flex items-center gap-2 w-max'>
+                <button onClick={() => decAmount(cartItem?.product?._id, cartItem?._id)}>
+                  <AiOutlineMinusCircle size={20}/>
+                </button>
+                <p className='font-medium'>{cartItem?.amount}</p>
+                <button onClick={() => incAmount(cartItem?.product?._id, cartItem?._id)}>
+                  <AiOutlinePlusCircle size={20}/>
+                </button>
+              </div>
             </div>
             <div className='self-end'>
               <p className='font-medium'>{currencyFormatter.format(cartItem?.product?.price)}</p>
