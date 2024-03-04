@@ -45,7 +45,7 @@ const Invoice = () => {
             <div key={invoice?._id} className='border p-2'>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xl font-medium border-b-2 border-yellow-400'>Invoice #{invoice?._id?.slice(0, 10)}</h3>
-                <p className='font-bold text-green-600'>{invoice?.paymentStatus}</p>
+                <p className='bg-red-400 font-medium text-white px-2'>{invoice?.paymentStatus}</p>
               </div>
               <div className='flex flex-col gap-2'>
                 <div className='flex flex-col'>
