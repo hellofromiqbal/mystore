@@ -62,6 +62,7 @@ const login = async (req, res) => {
       fullname: isUserExist.fullname,
       email: isUserExist.email,
       address: isUserExist.address,
+      invoices: isUserExist.invoices,
       role: isUserExist.role
     };
 

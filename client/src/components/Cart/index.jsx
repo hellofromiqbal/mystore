@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
-import { clearCart, decrementCartItemAmout, incrementCartItemAmount, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
+import { addNewInvoice, clearCart, decrementCartItemAmout, incrementCartItemAmount, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import Button from '../Button';
@@ -88,6 +88,7 @@ const Cart = () => {
       } else {
         const result = await res.json();
         notifySuccess(result.message);
+        dispatch(addNewInvoice(result.data._id));
         dispatch(clearCart());
         dispatch(toggleModal(''));
         console.log(result.data);

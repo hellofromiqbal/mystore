@@ -38,6 +38,9 @@ const currUser = createSlice({
         }
       });
     },
+    addNewInvoice: (state, action) => {
+      state.info.invoices.push(action.payload);
+    },
     clearCart: (state, action) => {
       state.info.cart = [];
     }
@@ -51,6 +54,7 @@ export const {
   removeCartItemFromCurrUser,
   incrementCartItemAmount,
   decrementCartItemAmout,
+  addNewInvoice,
   clearCart
 } = currUser.actions;
 export const selectCurrUser = (state) => state.currUser.info;
