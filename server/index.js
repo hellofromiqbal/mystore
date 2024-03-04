@@ -11,6 +11,7 @@ const categoryRouter = require('./app/category/router');
 const tagRouter = require('./app/tag/router');
 const cartItemRouter = require('./app/cartItem/router');
 const addressRouter = require('./app/address/router');
+const invoiceRouter = require('./app/invoice/router');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/api', categoryRouter);
 app.use('/api', tagRouter);
 app.use('/api', cartItemRouter);
 app.use('/api', addressRouter);
+app.use('/api', invoiceRouter);
 
 mongooseConnection(app);
 
