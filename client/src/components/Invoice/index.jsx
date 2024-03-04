@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
-import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
-import { addNewInvoice, clearCart, decrementCartItemAmout, incrementCartItemAmount, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
+import { selectCurrUser } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import Button from '../Button';
@@ -12,68 +11,6 @@ const Invoice = () => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
-  const [selectedAddress, setSelectedAddress] = useState('');
-
-  const totalPrice = () => {
-    const deliveryFee = selectedAddress !== '' ? 10000 : 0;
-    const subTotal = currUser.cart.reduce((acc, cartItem) => {
-      return acc + (cartItem.product.price * cartItem.amount);
-    }, 0);
-    return subTotal + deliveryFee;
-  };
-
-  const updateCartItemAmount = async (cartItemId, productId, amount, updateType) => {
-    try {
-      const res = await fetch('http://localhost:3001/api/cart-items', {
-        method: 'PUT',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ cartItemId, amount })
-      });
-      if(!res.ok) {
-        const result = await res.json();
-        throw new Error(result.message);
-      } else {
-        if(updateType === 'increment') {
-          dispatch(incrementCartItemAmount(productId));
-        } else {
-          dispatch(decrementCartItemAmout(productId));
-        }
-      }
-    } catch (error) {
-      notifyFailed(error.message);
-    }
-  };
-
-  const incAmount = (cartItemId, productId, amount, updateType) => {
-    amount += 1;
-    updateCartItemAmount(cartItemId, productId, amount, updateType);
-  };
-
-  const decAmount = async (cartItemId, productId, amount, updateType) => {
-    const cartItem = currUser.cart.find((item) => item._id === cartItemId);
-    if(cartItem.amount === 1) {
-      try {
-        const res = await fetch('http://localhost:3001/api/cart-items', {
-          method: 'DELETE',
-          headers: { 'Content-type': 'application/json' },
-          body: JSON.stringify({ userId: currUser._id, productId })
-        });
-        if(!res.ok) {
-          const result = await res.json();
-          throw new Error(result.message);
-        } else {
-          const result = await res.json();
-          dispatch(removeCartItemFromCurrUser(productId));
-          notifySuccess(result.message);
-        }
-      } catch (error) {
-        notifyFailed(error.message);
-      }
-    } else {
-      amount -= 1;
-      updateCartItemAmount(cartItemId, productId, amount, updateType);
-    }
-  };
 
   return (
     <div className='flex flex-col gap-2 relative'>
