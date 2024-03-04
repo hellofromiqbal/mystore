@@ -8,7 +8,11 @@ const store = async (req, res) => {
     const { userId, selectedAddress } = req.body;
     const user = await User.findById(userId);
 
-    const cartItems = await CartItem.find({ _id: { $in: user.cart } });
+    const cartItems = await CartItem.find({ _id: { $in: user.cart } })
+      .populate({
+        path: 'product',
+        select: '-__v -createdAt -updatedAt'
+      });
     const items = cartItems.map(cartItem => ({
       product: cartItem.product,
       amount: cartItem.amount

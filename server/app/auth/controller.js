@@ -48,10 +48,19 @@ const login = async (req, res) => {
       .populate({
         path: 'invoices',
         select: '-__v',
-        populate: {
-          path: 'user',
-          select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
-        }
+        populate: [
+          {
+            path: 'user',
+            select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
+          },
+          {
+            path: 'items',
+            populate: {
+              path: 'product',
+              select: '-__v -createdAt -updatedAt'
+            }
+          }
+        ]
       })
       .populate({
         path: 'address',
@@ -124,10 +133,19 @@ const currUserInfo = async (req, res) => {
       .populate({
         path: 'invoices',
         select: '-__v',
-        populate: {
-          path: 'user',
-          select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
-        }
+        populate: [
+          {
+            path: 'user',
+            select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
+          },
+          {
+            path: 'items',
+            populate: {
+              path: 'product',
+              select: '-__v -createdAt -updatedAt'
+            }
+          }
+        ]
       })
       .populate({
         path: 'address',
