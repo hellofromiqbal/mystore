@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
@@ -12,6 +12,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
+  const [selectedAddress, setSelectedAddress] = useState('');
 
   const totalPrice = () => {
     const deliveryFee = 10000;
@@ -122,17 +123,21 @@ const Cart = () => {
           <div className='flex flex-col gap-2'>
             <div className='flex items-center gap-1'>
               <h4 className='text-gray-700'>Deliver to</h4>
-              <select className='border rounded-md'>
+              <select className='border rounded-md' onChange={(e) => setSelectedAddress(e.target.value)}>
                 <option value="" className='text-center'>-- Select Address --</option>
                 {currUser.address.map((item) => (
                   <option key={item?._id} value={item?.fullAddress}>{item?.fullAddress}</option>
                 ))}
               </select>
             </div>
-            <div className='flex justify-between'>
-              <h4 className='text-gray-700'>Delivery fee</h4>
-              <h4 className='font-medium'>{currencyFormatter.format(10000)}</h4>
-            </div>
+            {selectedAddress !== '' ?
+              <div className='flex justify-between'>
+                <h4 className='text-gray-700'>Delivery fee</h4>
+                <h4 className='font-medium'>{currencyFormatter.format(10000)}</h4>
+              </div>
+              :
+              ''
+            }
           </div>
         </div>
         <div className='flex justify-between items-center border-y py-2'>
@@ -146,11 +151,11 @@ const Cart = () => {
             fontSize='text-base'
             textColor='text-white'
             fontWeight='font-medium'
-            bgColor={currUser?.cart?.length < 1 ? 'bg-gray-300' : 'bg-green-600'}
+            bgColor={currUser?.cart?.length < 1 || selectedAddress === '' ? 'bg-gray-300' : 'bg-green-600'}
             border='border'
             borderColor='border-transparent'
             borderRadius='rounded-md'
-            disabled={currUser?.cart?.length < 1}
+            disabled={currUser?.cart?.length < 1 || selectedAddress === ''}
             text='Checkout'
           />
         </div>
