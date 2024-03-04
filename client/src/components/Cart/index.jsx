@@ -15,7 +15,7 @@ const Cart = () => {
   const [selectedAddress, setSelectedAddress] = useState('');
 
   const totalPrice = () => {
-    const deliveryFee = 10000;
+    const deliveryFee = selectedAddress !== '' ? 10000 : 0;
     const subTotal = currUser.cart.reduce((acc, cartItem) => {
       return acc + (cartItem.product.price * cartItem.amount);
     }, 0);
