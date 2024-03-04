@@ -13,10 +13,6 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  cart: [{
-    type: Schema.Types.ObjectId,
-    ref: 'CartItem'
-  }],
   address: [{
     type: Schema.Types.ObjectId,
     ref: 'Address'
@@ -25,7 +21,15 @@ const userSchema = new Schema({
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
-  }
+  },
+  cart: [{
+    type: Schema.Types.ObjectId,
+    ref: 'CartItem'
+  }],
+  invoices: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Invoice'
+  }]
 }, { timestamps: true });
 
 module.exports = model('User', userSchema);
