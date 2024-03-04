@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Button from '../Button';
-import { BsBag } from "react-icons/bs";
+import { BsReceipt, BsBag } from "react-icons/bs";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUserSlice';
@@ -31,8 +31,23 @@ const Navbar = () => {
   return (
     <nav className='fixed bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
       <h1 className='text-2xl font-medium text-green-600'>MyStore</h1>
-      {currUser && <p>Logged in.</p>}
       <div className='flex items-center gap-4'>
+        {currUser ?
+          <button
+            className='flex relative'
+            onClick={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
+          >
+            {currUser && currUser.invoices.length > 0 ?
+              <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
+                <small className='text-white text-xs font-extrabold'>{currUser.invoices.length}</small>
+              </div>
+              :
+              ''
+            }
+              <BsReceipt size={21}/>
+          </button>
+          : ''
+        }
         <button
           className='flex relative'
           onClick={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
@@ -41,8 +56,7 @@ const Navbar = () => {
             <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
               <small className='text-white text-xs font-extrabold'>{currUser.cart.length}</small>
             </div>
-            :
-            ''
+            : ''
           }
             <BsBag size={21}/>
         </button>
