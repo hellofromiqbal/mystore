@@ -75,29 +75,6 @@ const Invoice = () => {
     }
   };
 
-  const handleCheckout = async () => {
-    try {
-      const res = await fetch('http://localhost:3001/api/invoices', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify({ userId: currUser?._id, selectedAddress })
-      });
-      if(!res.ok) {
-        const result = await res.json();
-        throw new Error(result.message);
-      } else {
-        const result = await res.json();
-        notifySuccess(result.message);
-        dispatch(addNewInvoice(result.data._id));
-        dispatch(clearCart());
-        dispatch(toggleModal(''));
-        console.log(result.data);
-      }
-    } catch (error) {
-      notifyFailed(error.message);
-    }
-  };
-
   return (
     <div className='flex flex-col gap-2 relative'>
       <button
@@ -109,34 +86,20 @@ const Invoice = () => {
       <h2 className='text-2xl font-bold text-center'>My Invoices</h2>
       <div className='flex flex-col gap-2 py-2 border-t max-h-[70vh] overflow-auto pe-2'>
         <ul className='flex flex-col gap-2'>
-          {currUser?.cart?.length < 1 ?
+          {currUser?.invoices?.length < 1 ?
             <div className='flex justify-center items-center h-[100px]'>
               <h1 className='text-lg font-bold text-slate-300'>No invoice yet.</h1>
             </div>
             : ''
           }
-          {currUser?.cart?.map((cartItem) => (
-            <li key={cartItem._id} className='flex justify-between'>
-              <div>
-                <h4 className='font-medium'>{cartItem?.product?.name}</h4>
-                <p className='text-gray-700'>{cartItem?.product?.description}</p>
-                <div className='flex items-center gap-4'>
-                  <p className='text-gray-700'>Amount</p>
-                  <div className='flex items-center gap-2 w-max'>
-                    <button onClick={() => decAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'decrement')}>
-                      <AiOutlineMinusCircle size={20}/>
-                    </button>
-                    <p className='font-medium'>{cartItem?.amount}</p>
-                    <button onClick={() => incAmount(cartItem?._id, cartItem?.product?._id, cartItem?.amount, 'increment')}>
-                      <AiOutlinePlusCircle size={20}/>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className='self-end'>
-                <p className='font-medium'>{currencyFormatter.format(cartItem?.product?.price * cartItem?.amount)}</p>
-              </div>
-            </li>
+          {currUser?.invoices?.map((invoice) => (
+            <ul key={invoice?._id}>
+              {invoice?.items?.map((item) => (
+                <li key={item?._id} className='flex justify-between'>
+                  {item?.product?.name}
+                </li>
+              ))}
+            </ul>
           ))}
         </ul>
         <div className='flex items-center justify-between pt-2'>
