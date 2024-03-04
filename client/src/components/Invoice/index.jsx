@@ -106,16 +106,14 @@ const Invoice = () => {
       >
         <IoCloseCircleOutline size={25}/>
       </button>
-      <h2 className='text-2xl font-bold text-center'>My Cart</h2>
+      <h2 className='text-2xl font-bold text-center'>My Invoices</h2>
       <div className='flex flex-col gap-2 py-2 border-t max-h-[70vh] overflow-auto pe-2'>
-        <h3 className='text-xl font-medium'>Items</h3>
         <ul className='flex flex-col gap-2'>
           {currUser?.cart?.length < 1 ?
             <div className='flex justify-center items-center h-[100px]'>
-              <h1 className='text-lg font-bold text-slate-300'>No items yet.</h1>
+              <h1 className='text-lg font-bold text-slate-300'>No invoice yet.</h1>
             </div>
-              :
-            ''
+            : ''
           }
           {currUser?.cart?.map((cartItem) => (
             <li key={cartItem._id} className='flex justify-between'>
@@ -141,46 +139,19 @@ const Invoice = () => {
             </li>
           ))}
         </ul>
-        <div className='flex flex-col gap-2 py-2 border-t'>
-          <h3 className='text-xl font-medium'>Address</h3>
-          <div className='flex flex-col gap-2'>
-            <div className='flex items-center gap-1'>
-              <h4 className='text-gray-700'>Deliver to</h4>
-              <select className='border rounded-md' onChange={(e) => setSelectedAddress(e.target.value)}>
-                <option value="" className='text-center'>-- Select Address --</option>
-                {currUser.address.map((item) => (
-                  <option key={item?._id} value={item?.fullAddress}>{item?.fullAddress}</option>
-                ))}
-              </select>
-            </div>
-            {selectedAddress !== '' ?
-              <div className='flex justify-between'>
-                <h4 className='text-gray-700'>Delivery fee</h4>
-                <h4 className='font-medium'>{currencyFormatter.format(10000)}</h4>
-              </div>
-              :
-              ''
-            }
-          </div>
-        </div>
-        <div className='flex justify-between items-center border-y py-2'>
-          <h3 className='text-xl font-medium'>Total</h3>
-          <h3 className='text-lg font-bold'>{currencyFormatter.format(totalPrice())}</h3>
-        </div>
         <div className='flex items-center justify-between pt-2'>
-          <small className='text-red-500'>* Please check all data before checkout.</small>
+          <small className='text-red-500'>* Your item will be delivered after payment.</small>
           <Button
             padding='px-2 py-1'
             fontSize='text-base'
             textColor='text-white'
             fontWeight='font-medium'
-            bgColor={currUser?.cart?.length < 1 || selectedAddress === '' ? 'bg-gray-300' : 'bg-green-600'}
+            bgColor={'bg-green-600'}
             border='border'
             borderColor='border-transparent'
             borderRadius='rounded-md'
-            disabled={currUser?.cart?.length < 1 || selectedAddress === ''}
-            text='Checkout'
-            clickEvent={handleCheckout}
+            text='Okay'
+            clickEvent={() => dispatch(toggleModal(''))}
           />
         </div>
       </div>
