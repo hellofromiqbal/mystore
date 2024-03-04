@@ -9,6 +9,7 @@ const Button = ({
   border = '',
   borderColor = '',
   borderRadius = '',
+  disabled,
   text = 'Button',
   clickEvent = () => {}
 }) => {
@@ -16,6 +17,7 @@ const Button = ({
     <button
       className={`${padding} ${fontSize} ${textColor} ${fontWeight} ${bgColor} ${border} ${borderColor} ${borderRadius}`}
       onClick={clickEvent}
+      disabled={disabled}
     >
       {text}
     </button>
