@@ -1,9 +1,11 @@
 const Invoice = require('./model');
+const User = require('../user/model');
 
 const store = async (req, res) => {
   try {
     const { userId, selectedAddress } = req.body;
     const newInvoice = await Invoice.create({ user: userId, selectedAddress });
+    await User.findByIdAndUpdate(userId, { cart: [] });
     return res.status(200).json({
       message: 'Checkout success. Please make a payment so we can proceed to the delivering process.',
       data: newInvoice
