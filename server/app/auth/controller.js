@@ -51,7 +51,7 @@ const login = async (req, res) => {
         populate: [
           {
             path: 'user',
-            select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
+            select: '-__v -email -password -address -cart -invoices -createdAt -updatedAt'
           },
           {
             path: 'items',
@@ -136,7 +136,7 @@ const currUserInfo = async (req, res) => {
         populate: [
           {
             path: 'user',
-            select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
+            select: '-__v -email -password -address -cart -invoices -createdAt -updatedAt'
           },
           {
             path: 'items',

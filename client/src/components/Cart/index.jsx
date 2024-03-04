@@ -167,22 +167,22 @@ const Cart = () => {
           <h3 className='text-xl font-medium'>Total</h3>
           <h3 className='text-lg font-bold'>{currencyFormatter.format(totalPrice())}</h3>
         </div>
-        <div className='flex items-center justify-between pt-2'>
-          <small className='text-red-500'>* Please check all data before checkout.</small>
-          <Button
-            padding='px-2 py-1'
-            fontSize='text-base'
-            textColor='text-white'
-            fontWeight='font-medium'
-            bgColor={currUser?.cart?.length < 1 || selectedAddress === '' ? 'bg-gray-300' : 'bg-green-600'}
-            border='border'
-            borderColor='border-transparent'
-            borderRadius='rounded-md'
-            disabled={currUser?.cart?.length < 1 || selectedAddress === ''}
-            text='Checkout'
-            clickEvent={handleCheckout}
-          />
-        </div>
+      </div>
+      <div className='flex items-center justify-between pt-2'>
+        <small className='text-red-500'>* Please check all data before checkout.</small>
+        <Button
+          padding='px-2 py-1'
+          fontSize='text-base'
+          textColor='text-white'
+          fontWeight='font-medium'
+          bgColor={currUser?.cart?.length < 1 || selectedAddress === '' ? 'bg-gray-300' : 'bg-green-600'}
+          border='border'
+          borderColor='border-transparent'
+          borderRadius='rounded-md'
+          disabled={currUser?.cart?.length < 1 || selectedAddress === ''}
+          text='Checkout'
+          clickEvent={handleCheckout}
+        />
       </div>
     </div>
   )
