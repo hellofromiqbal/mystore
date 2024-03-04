@@ -2,6 +2,7 @@ import React from 'react';
 import RegisterForm from '../Forms/RegisterForm';
 import LoginForm from '../Forms/LoginForm';
 import Cart from '../Cart';
+import Invoice from '../Invoice';
 import { useSelector } from 'react-redux';
 import { selectModal } from '../../redux/modalSlice';
 
@@ -10,7 +11,8 @@ const Modal = ({ modalType }) => {
   const modalContent = {
     register: <RegisterForm/>,
     login: <LoginForm/>,
-    cart: <Cart/>
+    cart: <Cart/>,
+    invoice: <Invoice/>
   };
 
   return (
