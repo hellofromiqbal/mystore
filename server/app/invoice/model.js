@@ -5,6 +5,16 @@ const invoiceSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  items: [{
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: 'Product'
+    },
+    amount: {
+      type: Number,
+      required: true
+    }
+  }],
   selectedAddress: {
     type: String,
     required: true
