@@ -75,6 +75,26 @@ const Cart = () => {
     }
   };
 
+  const handleCheckout = async () => {
+    try {
+      const res = await fetch('http://localhost:3001/api/invoices', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ userId: currUser?._id, selectedAddress })
+      });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        const result = await res.json();
+        notifySuccess(result.message);
+        console.log(result.data);
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
+  };
+
   return (
     <div className='flex flex-col gap-2 relative'>
       <button
@@ -157,6 +177,7 @@ const Cart = () => {
             borderRadius='rounded-md'
             disabled={currUser?.cart?.length < 1 || selectedAddress === ''}
             text='Checkout'
+            clickEvent={handleCheckout}
           />
         </div>
       </div>
