@@ -46,6 +46,14 @@ const login = async (req, res) => {
         }
       })
       .populate({
+        path: 'invoices',
+        select: '-__v',
+        populate: {
+          path: 'user',
+          select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
+        }
+      })
+      .populate({
         path: 'address',
         select: '-__v -createdAt -updatedAt'
       });
@@ -111,6 +119,14 @@ const currUserInfo = async (req, res) => {
         populate: {
           path: 'product',
           select: '-__v -createdAt -updatedAt'
+        }
+      })
+      .populate({
+        path: 'invoices',
+        select: '-__v',
+        populate: {
+          path: 'user',
+          select: '-__v -fullname -email -password -address -cart -invoices -createdAt -updatedAt'
         }
       })
       .populate({
