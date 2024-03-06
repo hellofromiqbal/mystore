@@ -1,14 +1,39 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline } from 'react-icons/io5';
 import { selectCurrUser } from '../../redux/currUserSlice';
+import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const { register, handleSubmit, reset } = useForm();
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
+
+  const submitForm = async (data) => {
+    console.log(data);
+    try {
+      const res = await fetch('http://localhost:3001/api/addresses', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ userId: currUser?._id, fullAddress: data.fullAddress })
+      });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        const result = await res.json();
+        notifySuccess(result.message);
+        reset();
+        dispatch(toggleModal(''));
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
+  };
 
   return (
     <div className='flex flex-col gap-2 relative'>
@@ -44,9 +69,10 @@ const Profile = () => {
                   : ''
                 }
                 {showNewAddressForm ?
-                  <form>
+                  <form onSubmit={handleSubmit(submitForm)}>
                     <textarea
                       className='w-full h-[100px] p-2 text-sm resize-none border rounded-sm'
+                      {...register('fullAddress')}
                     />
                     <div className='flex justify-end gap-2'>
                       <button
