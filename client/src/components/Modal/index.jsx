@@ -18,7 +18,7 @@ const Modal = ({ modalType }) => {
   };
 
   return (
-    <div className='fixed z-10 top-0 right-0 bottom-0 left-0 flex justify-center items-center bg-black bg-opacity-50'>
+    <div className='fixed z-20 top-0 right-0 bottom-0 left-0 flex justify-center items-center bg-black bg-opacity-50'>
       <div className={`${modalConfig.modalWidth} px-5 py-4 bg-white rounded-md flex flex-col`}>
         {modalContent[modalType]}
       </div>
