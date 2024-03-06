@@ -45,9 +45,35 @@ const Invoice = () => {
             <div key={invoice?._id} className='border p-2'>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xl font-bold border-b-2 border-yellow-400'>Invoice #{invoice?._id?.slice(0, 10)}</h3>
-                <p className='bg-red-400 font-medium text-white px-2'>{invoice?.paymentStatus}</p>
+                <p className={
+                  invoice?.paymentStatus === 'waiting_for_payment' ? 'bg-red-400 font-medium text-white px-2'
+                  : invoice?.paymentStatus === 'delivering' ? 'bg-slate-500 font-medium text-white px-2' : 'bg-yellow-400 font-medium text-black px-2'
+                }>{invoice?.paymentStatus}</p>
               </div>
               <div className='flex flex-col gap-2'>
+                <div className='flex flex-col'>
+                  <p className='font-medium'>FROM</p>
+                  <ul>
+                    <li className='flex justify-between items-center'>
+                      <p className='text-sm text-gray-700'>Seller:</p>
+                      <p className='text-sm font-medium'>MyStore</p>
+                    </li>
+                    <li className='flex justify-between items-center'>
+                      <p className='text-sm text-gray-700'>Bank account number:</p>
+                      <p className='text-sm font-medium'>123-XXX-XXX</p>
+                    </li>
+                    <li className='flex justify-between items-center'>
+                      <p className='text-sm text-gray-700'>Admin contact:</p>
+                      <p className='text-sm font-medium'>+123-XXX-XXX</p>
+                    </li>
+                    {invoice?.paymentStatus === 'waiting_for_payment' ?
+                      <div>
+                        <small className='text-red-500'>* This item will be delivered after payment and payment confirmation to the admin.</small>
+                      </div>
+                      : ''
+                    }
+                  </ul>
+                </div>
                 <div className='flex flex-col'>
                   <p className='font-medium'>FOR</p>
                   <ul>
@@ -102,8 +128,7 @@ const Invoice = () => {
           ))}
         </ul>
       </div>
-      <div className='flex justify-between items-center pt-2'>
-        <small className='text-red-500'>* Your item will be delivered after payment.</small>
+      <div className='flex justify-end items-center pt-2'>
         <Button
           padding='px-2 py-1'
           fontSize='text-base'
