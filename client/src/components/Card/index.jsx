@@ -8,6 +8,7 @@ import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import { toggleModal } from '../../redux/modalSlice';
 
 const Card = ({ productId, name, description, price, image_url }) => {
+  console.log(image_url.split('\\')[2]);
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   const alreadyInCart = currUser?.cart?.find((cartItem) => cartItem?.product?._id === productId);
@@ -54,8 +55,12 @@ const Card = ({ productId, name, description, price, image_url }) => {
 
   return (
     <div className='flex flex-col w-[300px] shadow-md hover:shadow-xl transition-all duration-300'>
-      <div className='min-h-[300px] bg-slate-300'>
-        {/* <img src={`http://localhost:3001/${image_url}`} alt={name} /> */}
+      <div className='min-h-[300px] bg-slate-300 relative'>
+        <img
+          src={`http://localhost:3001/images/${image_url?.split('\\')[2]}`}
+          alt={name}
+          className='absolute object-cover w-full h-full'
+        />
       </div>
       <div className='flex flex-col px-3 py-2'>
         <div className='flex flex-col'>
