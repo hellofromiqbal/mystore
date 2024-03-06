@@ -63,7 +63,7 @@ const Navbar = () => {
         {currUser ?
           <button
             className='flex relative'
-            onClick={() => dispatch(toggleModal({ modalType: 'invoice', modalWidth: 'w-2/3' }))}
+            onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/3' }))}
           >
             <FaRegCircleUser size={21}/>
           </button>

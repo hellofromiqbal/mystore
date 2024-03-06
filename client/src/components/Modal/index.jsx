@@ -5,6 +5,7 @@ import Cart from '../Cart';
 import Invoice from '../Invoice';
 import { useSelector } from 'react-redux';
 import { selectModal } from '../../redux/modalSlice';
+import Profile from '../Profile';
 
 const Modal = ({ modalType }) => {
   const modalConfig = useSelector(selectModal);
@@ -12,7 +13,8 @@ const Modal = ({ modalType }) => {
     register: <RegisterForm/>,
     login: <LoginForm/>,
     cart: <Cart/>,
-    invoice: <Invoice/>
+    invoice: <Invoice/>,
+    profile: <Profile/>
   };
 
   return (
