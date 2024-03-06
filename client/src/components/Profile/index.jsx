@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline } from 'react-icons/io5';
-import { selectCurrUser } from '../../redux/currUserSlice';
+import { addNewAddress, selectCurrUser } from '../../redux/currUserSlice';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
+import Button from '../Button';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -27,8 +28,9 @@ const Profile = () => {
       } else {
         const result = await res.json();
         notifySuccess(result.message);
+        dispatch(addNewAddress(result.data));
+        setShowNewAddressForm((prev) => !prev);
         reset();
-        dispatch(toggleModal(''));
       }
     } catch (error) {
       notifyFailed(error.message);
@@ -93,8 +95,22 @@ const Profile = () => {
               </div>
             </ol>
           </li>
-
         </ul>
+      </div>
+      <div className='flex justify-end items-center pt-2 border-t'>
+        <Button
+          padding='px-2 py-1'
+          fontSize='text-base'
+          textColor='text-white'
+          fontWeight='font-medium'
+          bgColor={showNewAddressForm ? 'bg-gray-300' : 'bg-green-600'}
+          border='border'
+          borderColor='border-transparent'
+          borderRadius='rounded-md'
+          disabled={showNewAddressForm}
+          text='Okay'
+          clickEvent={() => dispatch(toggleModal(''))}
+        />
       </div>
     </div>
   )

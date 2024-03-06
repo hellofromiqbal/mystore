@@ -4,7 +4,8 @@ const User = require('../user/model');
 const store = async (req, res) => {
   try {
     const { userId, fullAddress } = req.body;
-    const newAddress = await Address.create({ user: userId, fullAddress });
+    const newDocument = await Address.create({ user: userId, fullAddress });
+    const newAddress = await Address.findById(newDocument?._id).select('-__v -createdAt -updatedAt');
 
     await User.findByIdAndUpdate(userId, {
       $push: { address: newAddress._id }

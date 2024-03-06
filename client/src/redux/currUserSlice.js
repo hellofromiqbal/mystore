@@ -38,11 +38,14 @@ const currUser = createSlice({
         }
       });
     },
+    clearCart: (state, action) => {
+      state.info.cart = [];
+    },
     addNewInvoice: (state, action) => {
       state.info.invoices.push(action.payload);
     },
-    clearCart: (state, action) => {
-      state.info.cart = [];
+    addNewAddress: (state, action) => {
+      state.info.address.push(action.payload);
     }
   }
 })
@@ -54,8 +57,9 @@ export const {
   removeCartItemFromCurrUser,
   incrementCartItemAmount,
   decrementCartItemAmout,
+  clearCart,
   addNewInvoice,
-  clearCart
+  addNewAddress
 } = currUser.actions;
 export const selectCurrUser = (state) => state.currUser.info;
 export default currUser.reducer;
