@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import Button from '../Button';
-import { BsReceipt, BsBag } from "react-icons/bs";
-import { FaRegCircleUser } from "react-icons/fa6";
+import { BsReceipt, BsBag, BsFilePlusFill  } from "react-icons/bs";
+import { FaRegCircleUser, FaCircleUser } from "react-icons/fa6";
+import { FaReceipt } from "react-icons/fa";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUserSlice';
@@ -44,7 +45,11 @@ const Navbar = () => {
               </div>
               : ''
             }
-              <BsReceipt size={21}/>
+              {currUser?.role === 'user' ?
+                <BsReceipt size={21}/>
+                :
+                <FaReceipt size={21}/>
+              }
           </button>
           : ''
         }
@@ -64,12 +69,28 @@ const Navbar = () => {
           : ''
         }
         {currUser ?
-          <button
-            className='flex relative'
-            onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
-          >
-            <FaRegCircleUser size={21}/>
-          </button>
+          currUser?.role === 'user' ?
+            <button
+              className='flex relative'
+              onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
+            >
+              <FaRegCircleUser size={21}/>
+            </button>
+            :
+            <>
+              <button
+                className='flex relative'
+                onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
+              >
+                <BsFilePlusFill size={21}/>
+              </button>
+              <button
+                className='flex relative'
+                onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
+              >
+                <FaCircleUser size={21}/>
+              </button>
+            </>
           : ''
         }
         <ul className='flex gap-3 ps-4 border-s'>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { BsBagPlus, BsBagPlusFill } from "react-icons/bs";
+import { RiEdit2Fill } from "react-icons/ri";
 import Button from '../Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { addCartItemToCurrUser, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
@@ -69,15 +70,27 @@ const Card = ({ productId, name, description, price, image_url }) => {
           <p className='text-sm font-medium mt-2'>{currencyFormatter.format(price)}</p>
         </div>
         <div className='flex justify-end'>
-          <Button
-            padding=''
-            bgColor=''
-            textColor='text-black'
-            border=''
-            borderRadius=''
-            clickEvent={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : alreadyInCart ? handleDeleteFromCart : handleAddToCart}
-            text={alreadyInCart ? <BsBagPlusFill size={21}/> : <BsBagPlus size={21}/>}
-          />
+          {currUser?.role === 'user' || currUser?.role === undefined ?
+            <Button
+              padding=''
+              bgColor=''
+              textColor='text-black'
+              border=''
+              borderRadius=''
+              clickEvent={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : alreadyInCart ? handleDeleteFromCart : handleAddToCart}
+              text={alreadyInCart ? <BsBagPlusFill size={21}/> : <BsBagPlus size={21}/>}
+            />
+            :
+            <Button
+              padding=''
+              bgColor=''
+              textColor='text-black'
+              border=''
+              borderRadius=''
+              clickEvent={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : alreadyInCart ? handleDeleteFromCart : handleAddToCart}
+              text={<RiEdit2Fill size={21}/>}
+            />
+          }
         </div>
       </div>
     </div>
