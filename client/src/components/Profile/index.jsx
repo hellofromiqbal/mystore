@@ -56,45 +56,48 @@ const Profile = () => {
             <p className='text-sm font-medium'>Email:</p>
             <p className='text-sm text-gray-700'>{currUser?.email}</p>
           </li>
-          <li className='flex flex-col'>
-            <p className='text-sm font-medium'>Address:</p>
-            <ol className='list-decimal list-inside'>
-              {currUser?.address.map((item) => (
-                <li key={item?._id} className='text-sm text-gray-700'>{item.fullAddress}</li>
-              ))}
-              <div>
-                {!showNewAddressForm ?
-                  <button
-                    className='text-sm bg-green-500 text-white font-medium px-2 rounded-md'
-                    onClick={() => setShowNewAddressForm((prev) => !prev)}
-                  >Add new</button>
-                  : ''
-                }
-                {showNewAddressForm ?
-                  <form onSubmit={handleSubmit(submitForm)}>
-                    <textarea
-                      className='w-full h-[100px] p-2 text-sm resize-none border rounded-sm'
-                      {...register('fullAddress')}
-                    />
-                    <div className='flex justify-end gap-2'>
-                      <button
-                        className='text-sm bg-red-400 text-white font-medium px-2 rounded-md'
-                        onClick={() => setShowNewAddressForm((prev) => !prev)}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className='text-sm bg-green-500 text-white font-medium px-2 rounded-md'
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </form>
-                  : ''
-                }
-              </div>
-            </ol>
-          </li>
+          {currUser?.role === 'user' ?
+            <li className='flex flex-col'>
+              <p className='text-sm font-medium'>Address:</p>
+              <ol className='list-decimal list-inside'>
+                {currUser?.address.map((item) => (
+                  <li key={item?._id} className='text-sm text-gray-700'>{item.fullAddress}</li>
+                ))}
+                <div>
+                  {!showNewAddressForm ?
+                    <button
+                      className='text-sm bg-green-500 text-white font-medium px-2 rounded-md'
+                      onClick={() => setShowNewAddressForm((prev) => !prev)}
+                    >Add new</button>
+                    : ''
+                  }
+                  {showNewAddressForm ?
+                    <form onSubmit={handleSubmit(submitForm)}>
+                      <textarea
+                        className='w-full h-[100px] p-2 text-sm resize-none border rounded-sm'
+                        {...register('fullAddress')}
+                      />
+                      <div className='flex justify-end gap-2'>
+                        <button
+                          className='text-sm bg-red-400 text-white font-medium px-2 rounded-md'
+                          onClick={() => setShowNewAddressForm((prev) => !prev)}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className='text-sm bg-green-500 text-white font-medium px-2 rounded-md'
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </form>
+                    : ''
+                  }
+                </div>
+              </ol>
+            </li>
+            : ''
+          }
         </ul>
       </div>
       <div className='flex justify-end items-center pt-2 border-t'>

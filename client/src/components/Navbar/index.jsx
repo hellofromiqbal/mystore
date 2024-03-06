@@ -48,18 +48,21 @@ const Navbar = () => {
           </button>
           : ''
         }
-        <button
-          className='flex relative'
-          onClick={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
-        >
-          {currUser && currUser.cart.length > 0 ?
-            <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
-              <small className='text-white text-xs font-extrabold'>{currUser.cart.length}</small>
-            </div>
-            : ''
-          }
-            <BsBag size={21}/>
-        </button>
+        {currUser?.role === 'user' ?
+          <button
+            className='flex relative'
+            onClick={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
+          >
+            {currUser && currUser.cart.length > 0 ?
+              <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
+                <small className='text-white text-xs font-extrabold'>{currUser.cart.length}</small>
+              </div>
+              : ''
+            }
+              <BsBag size={21}/>
+          </button>
+          : ''
+        }
         {currUser ?
           <button
             className='flex relative'
