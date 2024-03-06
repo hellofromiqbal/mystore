@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Button from '../Button';
 import { BsReceipt, BsBag } from "react-icons/bs";
+import { FaRegCircleUser } from "react-icons/fa6";
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUserSlice';
@@ -59,6 +60,15 @@ const Navbar = () => {
           }
             <BsBag size={21}/>
         </button>
+        {currUser ?
+          <button
+            className='flex relative'
+            onClick={() => dispatch(toggleModal({ modalType: 'invoice', modalWidth: 'w-2/3' }))}
+          >
+            <FaRegCircleUser size={21}/>
+          </button>
+          : ''
+        }
         <ul className='flex gap-3 ps-4 border-s'>
           {!currUser ?
             <li>
