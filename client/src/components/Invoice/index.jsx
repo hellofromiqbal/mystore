@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
-import { selectCurrUser } from '../../redux/currUserSlice';
+import { selectCurrUser, setInvoices } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import Button from '../Button';
@@ -10,12 +10,21 @@ import Button from '../Button';
 const Invoice = () => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
-  console.log(currUser);
+  // console.log(currUser);
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/invoices/${currUser?._id}`, { method: 'POST' })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data);
+        dispatch(setInvoices(data.data))
+      });
+  }, []);
 
   const countTotal = (items, includeDeliveryFee) => {
     const deliveryFee = 10000;
-    const totalExpenditure = items.reduce((acc, items) => {
-      return acc + (items.product.price * items.amount);
+    const totalExpenditure = items?.reduce((acc, items) => {
+      return acc + (items?.product?.price * items?.amount);
     }, 0);
     if(includeDeliveryFee){
       return totalExpenditure + deliveryFee;
@@ -95,7 +104,7 @@ const Invoice = () => {
                   <p className='font-medium'>ITEM INFO</p>
                   <ul>
                     {invoice?.items?.map((item) => (
-                      <li key={item._id} className='flex flex-col'>
+                      <li key={item?._id} className='flex flex-col'>
                         <div className='flex justify-between items-center'>
                           <div className='flex gap-2'>
                             <p className='text-sm text-gray-700'>{item?.product?.name}</p>

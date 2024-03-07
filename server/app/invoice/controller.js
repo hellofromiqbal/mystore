@@ -46,4 +46,49 @@ const store = async (req, res) => {
   };
 };
 
-module.exports = { store };
+const index = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    let invoices;
+    if(user.role === 'admin') {
+      invoices = await Invoice.find()
+        .populate({
+          path: 'user',
+          select: '-__v -email -password -address -cart -invoices -createdAt -updatedAt'
+        })
+        .populate({
+          path: 'items',
+          populate: [
+            {
+              path: 'product',
+              select: '-__v -category -tags -description -createdAt -updatedAt'
+            }
+          ]
+        });
+    } else {
+      invoices = await Invoice.find({ user: id })
+        .populate({
+          path: 'user',
+          select: '-__v -email -password -address -cart -invoices -createdAt -updatedAt'
+        })
+        .populate({
+          path: 'items',
+          populate: [
+            {
+              path: 'product',
+              select: '-__v -category -tags -description -createdAt -updatedAt'
+            }
+          ]
+        });
+    };
+    return res.status(200).json({
+      message: 'Invoices fetched!',
+      data: invoices
+    });
+  } catch (error) {
+    
+  }
+};
+
+module.exports = { store, index };

@@ -41,6 +41,10 @@ const currUser = createSlice({
     clearCart: (state, action) => {
       state.info.cart = [];
     },
+    setInvoices: (state, action) => {
+      state.info.invoices = action.payload;
+      console.log(state.info.invoices);
+    },
     addNewInvoice: (state, action) => {
       state.info.invoices.push(action.payload);
     },
@@ -58,6 +62,7 @@ export const {
   incrementCartItemAmount,
   decrementCartItemAmout,
   clearCart,
+  setInvoices,
   addNewInvoice,
   addNewAddress
 } = currUser.actions;

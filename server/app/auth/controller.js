@@ -45,27 +45,10 @@ const login = async (req, res) => {
           select: '-__v -createdAt -updatedAt'
         }
       })
-      .populate({
-        path: 'invoices',
-        select: '-__v',
-        populate: [
-          {
-            path: 'user',
-            select: '-__v -email -password -address -cart -invoices -createdAt -updatedAt'
-          },
-          {
-            path: 'items',
-            populate: {
-              path: 'product',
-              select: '-__v -createdAt -updatedAt'
-            }
-          }
-        ]
-      })
-      .populate({
-        path: 'address',
-        select: '-__v -createdAt -updatedAt'
-      });
+      // .populate({
+      //   path: 'address',
+      //   select: '-__v -createdAt -updatedAt'
+      // });
     
     const isPasswordCorrect = await bcrypt.compare(password, isUserExist.password);
     if(!isUserExist || !isPasswordCorrect) {
@@ -130,27 +113,10 @@ const currUserInfo = async (req, res) => {
           select: '-__v -createdAt -updatedAt'
         }
       })
-      .populate({
-        path: 'invoices',
-        select: '-__v',
-        populate: [
-          {
-            path: 'user',
-            select: '-__v -email -password -address -cart -invoices -createdAt -updatedAt'
-          },
-          {
-            path: 'items',
-            populate: {
-              path: 'product',
-              select: '-__v -createdAt -updatedAt'
-            }
-          }
-        ]
-      })
-      .populate({
-        path: 'address',
-        select: '-__v -createdAt -updatedAt'
-      })
+      // .populate({
+      //   path: 'address',
+      //   select: '-__v -createdAt -updatedAt'
+      // })
       .select('-password -createdAt -updatedAt -__v');
     
     if(!currUser) {
