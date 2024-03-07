@@ -1,7 +1,7 @@
 import React from 'react';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { BsBagPlus, BsBagPlusFill } from "react-icons/bs";
-import { PiSignatureFill, PiFireFill, PiCrownSimpleFill } from "react-icons/pi";
+import { PiFireFill, PiCrownSimpleFill } from "react-icons/pi";
 import { RiEdit2Fill } from "react-icons/ri";
 import Button from '../Button';
 import { useSelector, useDispatch } from 'react-redux';
