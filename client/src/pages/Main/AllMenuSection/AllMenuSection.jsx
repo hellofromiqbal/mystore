@@ -6,7 +6,10 @@ const AllMenuSection = () => {
   useState(() => {
     fetch('http://localhost:3001/api/products')
       .then((res) => res.json())
-      .then((data) => setProducts(data.data));
+      .then((data) => {
+        console.log(data.data);
+        setProducts(data.data);
+      });
   }, []);
   return (
     <section className='px-8 py-8 grid grid-cols-4 gap-8'>
@@ -18,6 +21,7 @@ const AllMenuSection = () => {
             description={product?.description}
             price={product?.price}
             image_url={product?.image_url}
+            tags={product?.tags}
           />
         </div>
       ))}
