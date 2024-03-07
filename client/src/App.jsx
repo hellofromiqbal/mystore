@@ -1,11 +1,10 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Main from './pages/Main'
 import Modal from './components/Modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectModal } from './redux/modalSlice'
-import AddProduct from './pages/AddProduct'
 
 
 const App = () => {
@@ -18,7 +17,6 @@ const App = () => {
       <div className='pt-14'>
         <Routes>
           <Route path="/" exact element={<Main />} />
-          <Route path="/add-product" exact element={<AddProduct />} />
         </Routes>
       </div>
     </div>
