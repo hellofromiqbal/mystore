@@ -6,10 +6,7 @@ const AllMenuSection = () => {
   useState(() => {
     fetch('http://localhost:3001/api/products')
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        setProducts(data.data);
-      });
+      .then((data) => setProducts(data.data));
   }, []);
   return (
     <section className='px-8 py-8 grid grid-cols-4 gap-8'>
