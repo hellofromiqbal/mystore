@@ -43,10 +43,12 @@ const currUser = createSlice({
     },
     setInvoices: (state, action) => {
       state.info.invoices = action.payload;
-      console.log(state.info.invoices);
     },
     addNewInvoice: (state, action) => {
       state.info.invoices.push(action.payload);
+    },
+    setAddresses: (state, action) => {
+      state.info.address = action.payload;
     },
     addNewAddress: (state, action) => {
       state.info.address.push(action.payload);
@@ -64,6 +66,7 @@ export const {
   clearCart,
   setInvoices,
   addNewInvoice,
+  setAddresses,
   addNewAddress
 } = currUser.actions;
 export const selectCurrUser = (state) => state.currUser.info;

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline } from 'react-icons/io5';
-import { addNewAddress, selectCurrUser } from '../../redux/currUserSlice';
+import { addNewAddress, selectCurrUser, setAddresses } from '../../redux/currUserSlice';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import Button from '../Button';
 
@@ -13,6 +13,12 @@ const Profile = () => {
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/addresses/${currUser?._id}`, { method: 'POST' })
+      .then((res) => res.json())
+      .then((data) => dispatch(setAddresses(data.data)));
+  }, []);
 
   const submitForm = async (data) => {
     console.log(data);

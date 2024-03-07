@@ -22,6 +22,21 @@ const store = async (req, res) => {
   }
 };
 
+const index = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const addresses = await Address.find({ user: id });
+    return res.status(200).json({
+      message: 'Addresses fetched.',
+      data: addresses
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
 const update = async (req, res) => {
   try {
     const { addressId, fullAddress } = req.body;
@@ -55,4 +70,4 @@ const destroy = async (req, res) => {
   }
 };
 
-module.exports = { store, update, destroy };
+module.exports = { store, index, update, destroy };

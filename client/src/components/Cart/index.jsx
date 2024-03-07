@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
-import { addNewInvoice, clearCart, decrementCartItemAmout, incrementCartItemAmount, removeCartItemFromCurrUser, selectCurrUser } from '../../redux/currUserSlice';
+import { addNewInvoice, clearCart, decrementCartItemAmout, incrementCartItemAmount, removeCartItemFromCurrUser, selectCurrUser, setAddresses } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import Button from '../Button';
@@ -13,6 +13,12 @@ const Cart = () => {
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
   const [selectedAddress, setSelectedAddress] = useState('');
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/addresses/${currUser?._id}`, { method: 'POST' })
+      .then((res) => res.json())
+      .then((data) => dispatch(setAddresses(data.data)));
+  }, []);
 
   const totalPrice = () => {
     const deliveryFee = selectedAddress !== '' ? 10000 : 0;
