@@ -10,15 +10,11 @@ import Button from '../Button';
 const Invoice = () => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
-  // console.log(currUser);
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/invoices/${currUser?._id}`, { method: 'POST' })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        dispatch(setInvoices(data.data))
-      });
+      .then((data) => dispatch(setInvoices(data.data)));
   }, []);
 
   const countTotal = (items, includeDeliveryFee) => {
