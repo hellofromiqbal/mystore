@@ -47,7 +47,7 @@ const Invoice = () => {
             : ''
           }
           {currUser?.invoices?.map((invoice, index) => (
-            <div key={invoice?._id} className='border p-2'>
+            <div key={index} className='border p-2'>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xl font-bold border-b-2 border-yellow-400'>Invoice #{invoice?._id?.slice(0, 10)}</h3>
                 <p className={
