@@ -10,7 +10,6 @@ import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import { toggleModal } from '../../redux/modalSlice';
 
 const Card = ({ productId, name, description, price, image_url, tags }) => {
-  console.log(tags);
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   const alreadyInCart = currUser?.cart?.find((cartItem) => cartItem?.product?._id === productId);
