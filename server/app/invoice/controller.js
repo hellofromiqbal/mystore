@@ -30,6 +30,10 @@ const store = async (req, res) => {
       $set: { cart: [] },
       $push: { invoices: newInvoice.id }
     });
+
+    await User.findOneAndUpdate({ role: 'admin' }, {
+      $push: { invoices: newInvoice.id }
+    });
     
     return res.status(200).json({
       message: 'Checkout success. Please make a payment so we can proceed to the delivering process.',
