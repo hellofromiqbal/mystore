@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { notifySuccess } from '../../helpers/toaster';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -78,12 +79,12 @@ const Navbar = () => {
             </button>
             :
             <>
-              <button
+              <Link
                 className='flex relative'
-                onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
+                to={"/add-product"}
               >
                 <BsFilePlusFill size={21}/>
-              </button>
+              </Link>
               <button
                 className='flex relative'
                 onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
