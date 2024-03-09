@@ -15,7 +15,8 @@ const store = async (req, res) => {
       });
     const items = cartItems.map(cartItem => ({
       product: cartItem.product,
-      amount: cartItem.amount
+      amount: cartItem.amount,
+      price: cartItem.product.price
     }));
 
     await CartItem.deleteMany({ _id: { $in: user.cart } });

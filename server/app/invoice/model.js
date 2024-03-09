@@ -13,6 +13,10 @@ const invoiceSchema = new Schema({
     amount: {
       type: Number,
       required: true
+    },
+    price: {
+      type: Number,
+      required: true
     }
   }],
   selectedAddress: {

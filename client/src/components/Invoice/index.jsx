@@ -20,7 +20,7 @@ const Invoice = () => {
   const countTotal = (items, includeDeliveryFee) => {
     const deliveryFee = 10000;
     const totalExpenditure = items?.reduce((acc, items) => {
-      return acc + (items?.product?.price * items?.amount);
+      return acc + (items?.price * items?.amount);
     }, 0);
     if(includeDeliveryFee){
       return totalExpenditure + deliveryFee;
@@ -106,7 +106,7 @@ const Invoice = () => {
                             <p className='text-sm text-gray-700'>{item?.product?.name}</p>
                             <p className='text-sm text-gray-700'>x {item?.amount}</p>
                           </div>
-                          <p className='text-sm'>{currencyFormatter.format(item?.product?.price * item?.amount)}</p>
+                          <p className='text-sm'>{currencyFormatter.format(item?.price * item?.amount)}</p>
                         </div>
                       </li>
                     ))}
