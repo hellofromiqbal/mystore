@@ -56,7 +56,10 @@ const Card = ({ productId, name, description, price, image_url, tags }) => {
 
   return (
     <div className='flex flex-col w-[300px] shadow-md hover:shadow-xl transition-all duration-300'>
-      <div className='min-h-[300px] bg-slate-300 relative'>
+      <div
+        className='min-h-[300px] bg-slate-300 relative bg-center bg-cover cursor-pointer'
+        style={{ backgroundImage: `url(http://localhost:3001/images/${image_url?.split('\\')[2]})` }}
+      >
         <div className='absolute left-1 top-1 z-[5] flex gap-2'>
           {tags?.map((tag) => (
             <div key={tag?._id} className='absolute bg-yellow-400 border-black text-black p-2 rounded-full'>
@@ -68,11 +71,11 @@ const Card = ({ productId, name, description, price, image_url, tags }) => {
             </div>
           ))}
         </div>
-        <img
+        {/* <img
           src={`http://localhost:3001/images/${image_url?.split('\\')[2]}`}
           alt={name}
           className='absolute object-cover w-full h-full'
-        />
+        /> */}
       </div>
       <div className='flex flex-col px-3 py-2'>
         <div className='flex flex-col'>
