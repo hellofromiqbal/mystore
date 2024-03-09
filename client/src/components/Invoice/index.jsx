@@ -103,7 +103,7 @@ const Invoice = () => {
                       <li key={item?._id} className='flex flex-col'>
                         <div className='flex justify-between items-center'>
                           <div className='flex gap-2'>
-                            <p className='text-sm text-gray-700'>{item?.product?.name}</p>
+                            <p className='text-sm text-gray-700'>{item?.productName}</p>
                             <p className='text-sm text-gray-700'>x {item?.amount}</p>
                           </div>
                           <p className='text-sm'>{currencyFormatter.format(item?.price * item?.amount)}</p>
