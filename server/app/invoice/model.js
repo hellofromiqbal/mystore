@@ -6,6 +6,10 @@ const invoiceSchema = new Schema({
     ref: 'User'
   },
   items: [{
+    productId: {
+      type: String,
+      required: true
+    },
     productName: {
       type: String,
       required: true

@@ -14,6 +14,7 @@ const store = async (req, res) => {
         select: '-__v -createdAt -updatedAt'
       });
     const items = cartItems.map(cartItem => ({
+      productId: cartItem.product._id,
       productName: cartItem.product.name,
       amount: cartItem.amount,
       price: cartItem.product.price
