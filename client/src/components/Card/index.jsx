@@ -96,7 +96,7 @@ const Card = ({ productId, name, description, price, image_url, tags }) => {
               textColor='text-black'
               border=''
               borderRadius=''
-              clickEvent={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : alreadyInCart ? handleDeleteFromCart : handleAddToCart}
+              clickEvent={() => dispatch(toggleModal({ modalType: 'editProduct', modalWidth: 'w-2/4' }))}
               text={<RiEdit2Fill size={21}/>}
             />
           }
