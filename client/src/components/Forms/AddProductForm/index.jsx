@@ -43,22 +43,57 @@ const AddProductForm = () => {
       </button>
       <h2 className='text-2xl font-bold text-center'>New Product</h2>
       <form
-        className='flex flex-col gap-2'
+        className='flex flex-col gap-4'
         onSubmit={handleSubmit(submitForm)}
       >
-        <div className='flex flex-col gap-2 my-2'>
-          <input
-            className='border px-2 py-1 rounded-sm'
-            type="email"
-            placeholder='Email'
-            {...register('email')}
-          />
-          <input
-            className='border px-2 py-1 rounded-sm'
-            type="password"
-            placeholder='Password'
-            {...register('password')}
-          />
+        <div className='flex gap-4'>
+          <div className='basis-1/2'>
+            <div
+              className='min-h-[300px] relative bg-center bg-cover cursor-pointer border-2 border-dashed flex justify-center items-center'
+            >
+              <p className='text-gray-500'>Select Image</p>
+            </div>
+          </div>
+          <div className='basis-1/2 flex flex-col gap-2 my-2'>
+            <input
+              className='border px-2 py-1 rounded-sm'
+              type="text"
+              placeholder='Name'
+              {...register('name')}
+            />
+            <input
+              className='border px-2 py-1 rounded-sm'
+              type="text"
+              placeholder='Description'
+              {...register('description')}
+            />
+            <input
+              className='border px-2 py-1 rounded-sm'
+              type="number"
+              placeholder='Price'
+              {...register('price')}
+            />
+            <select className='border px-2 py-1 rounded-sm'>
+              <option value="">-- Select Category --</option>
+              <option value="">Food</option>
+              <option value="">Drink</option>
+              <option value="">Snack</option>
+            </select>
+            <div className='flex flex-col gap-2'>
+              <div className='flex justify-between items-center'>
+                <p>Tags</p>
+                <small>1 selected</small>
+              </div>
+              <ul className='flex gap-2 flex-wrap h-full'>
+                <li>
+                  <small className='border px-2 py-1'>Best seller</small>
+                </li>
+                <li>
+                  <small className='border px-2 py-1'>Signature</small>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <Button
           padding='px-0 py-1'
@@ -69,7 +104,7 @@ const AddProductForm = () => {
           border='border'
           borderColor='border-transparent'
           borderRadius='rounded-full'
-          text='Login'
+          text='Add Product'
         />
       </form>
     </div>
