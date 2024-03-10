@@ -3,7 +3,6 @@ import AllMenuSection from './AllMenuSection/AllMenuSection';
 import JumboSection from './JumboSection/JumboSection';
 import { useSelector } from 'react-redux';
 import { selectCurrUser } from '../../redux/currUserSlice';
-import AdminDashboard from './AdminDashboard';
 
 const MainPage = () => {
   const currUser = useSelector(selectCurrUser);
@@ -15,9 +14,7 @@ const MainPage = () => {
           <AllMenuSection/>
         </>
         :
-        <div className='-mt-14'>
-          <AdminDashboard/>
-        </div>
+        <AllMenuSection/>
       }
     </div>
   )
