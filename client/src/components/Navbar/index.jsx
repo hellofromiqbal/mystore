@@ -79,12 +79,12 @@ const Navbar = () => {
             </button>
             :
             <>
-              <Link
+              <button
                 className='flex relative'
-                to={"/add-product"}
+                onClick={() => dispatch(toggleModal({ modalType: 'addProduct', modalWidth: 'w-2/4' }))}
               >
                 <BsFilePlusFill size={21}/>
-              </Link>
+              </button>
               <button
                 className='flex relative'
                 onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}

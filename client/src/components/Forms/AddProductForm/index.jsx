@@ -1,9 +1,77 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
+import { toggleModal } from '../../../redux/modalSlice';
+import { IoCloseCircleOutline } from 'react-icons/io5';
+import Button from '../../Button';
 
 const AddProductForm = () => {
+  const dispatch = useDispatch();
+  const { register, handleSubmit, reset } = useForm();
+  const submitForm = (data) => {
+    fetch('http://localhost:3001/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password
+      })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if(data.data) {
+          // dispatch(addCurrUser(data.data));
+          notifySuccess(data.message);
+          dispatch(toggleModal(''));
+        } else {
+          notifyFailed(data.message);
+        }
+      })
+      .catch((error) => console.log(error.message));
+    reset();
+  };
+  
   return (
-    <div>
-      <h1>Hello</h1>
+    <div className='flex flex-col gap-2 relative'>
+      <button
+        className='absolute -top-2 -right-2'
+        onClick={() => dispatch(toggleModal(''))}
+      >
+        <IoCloseCircleOutline size={25}/>
+      </button>
+      <h2 className='text-2xl font-bold text-center'>New Product</h2>
+      <form
+        className='flex flex-col gap-2'
+        onSubmit={handleSubmit(submitForm)}
+      >
+        <div className='flex flex-col gap-2 my-2'>
+          <input
+            className='border px-2 py-1 rounded-sm'
+            type="email"
+            placeholder='Email'
+            {...register('email')}
+          />
+          <input
+            className='border px-2 py-1 rounded-sm'
+            type="password"
+            placeholder='Password'
+            {...register('password')}
+          />
+        </div>
+        <Button
+          padding='px-0 py-1'
+          fontSize='text-base'
+          textColor='text-white'
+          fontWeight='font-medium'
+          bgColor='bg-green-600'
+          border='border'
+          borderColor='border-transparent'
+          borderRadius='rounded-full'
+          text='Login'
+        />
+      </form>
     </div>
   )
 };
