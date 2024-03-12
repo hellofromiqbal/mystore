@@ -73,7 +73,7 @@ const EditProductForm = () => {
       >
         <IoCloseCircleOutline size={25}/>
       </button>
-      <h2 className='text-2xl font-bold text-center'>New Product</h2>
+      <h2 className='text-2xl font-bold text-center'>Edit Product</h2>
       <form
         className='flex flex-col gap-4'
         encType='multipart/form-data'
@@ -153,7 +153,7 @@ const EditProductForm = () => {
           border='border'
           borderColor='border-transparent'
           borderRadius='rounded-full'
-          text='Add Product'
+          text='Edit Product'
         />
       </form>
       <div className='flex flex-col gap-2 mt-4'>
