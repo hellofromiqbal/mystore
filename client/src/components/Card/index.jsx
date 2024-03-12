@@ -10,6 +10,7 @@ import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import { toggleModal } from '../../redux/modalSlice';
 
 const Card = ({ productId, name, description, price, image_url, tags }) => {
+  console.log({ name, tags });
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   const alreadyInCart = currUser?.cart?.find((cartItem) => cartItem?.product?._id === productId);
@@ -62,7 +63,7 @@ const Card = ({ productId, name, description, price, image_url, tags }) => {
       >
         <div className='absolute left-1 top-1 z-[5] flex gap-2'>
           {tags?.map((tag) => (
-            <div key={tag?._id} className='absolute bg-yellow-400 border-black text-black p-2 rounded-full'>
+            <div key={tag?._id} className='bg-yellow-400 border-black text-black p-2 rounded-full'>
               {tag.name === 'signature' ?
                 <PiCrownSimpleFill size={18}/>
                 :

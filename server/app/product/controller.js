@@ -5,9 +5,10 @@ const store = async (req, res) => {
   try {
     let payload = req.body;
     if(payload.tags && payload.tags.length > 0) {
-      payload = { ...payload, tags: payload.tags.split(',') };
+      payload = { ...payload, tags: payload.tags };
     };
     const imageFile = req.file;
+    console.log(imageFile);
     const newProduct = await Product.create({
       ...payload,
       image_url: imageFile.path
