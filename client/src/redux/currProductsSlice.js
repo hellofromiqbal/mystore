@@ -7,13 +7,19 @@ const currProducts = createSlice({
   },
   reducers: {
     addCurrProducts: (state, action) => {
+      console.log(action.payload);
       state.info = action.payload;
+    },
+    addNewProduct: (state, action) => {
+      console.log(action.payload);
+      state.info.push(action.payload);
     }
   }
 });
 
 export const {
-  addCurrProducts
+  addCurrProducts,
+  addNewProduct
 } = currProducts.actions;
 export const selectCurrProducts = (state) => state.currProducts.info;
 export default currProducts.reducer;

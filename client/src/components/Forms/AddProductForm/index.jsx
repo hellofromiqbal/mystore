@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
@@ -6,6 +7,7 @@ import Button from '../../Button';
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
   const [tags, setTags] = useState([]);
   const handleAddTags = (e, value) => {
@@ -56,6 +58,7 @@ const AddProductForm = () => {
         const result = await res.json();
         console.log(result.data);
         notifySuccess(result.message);
+        navigate("/");
       }
     } catch (error) {
       notifyFailed(error.message);

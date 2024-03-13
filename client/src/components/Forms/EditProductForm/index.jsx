@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -7,6 +8,7 @@ import Button from '../../Button';
 
 const EditProductForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { register, handleSubmit, reset } = useForm();
   const [tags, setTags] = useState([]);
@@ -20,6 +22,22 @@ const EditProductForm = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setSelectedImage(file);
+  };
+
+  const handleDeleteProduct = async () => {
+    try {
+      const res = await fetch(`http://localhost:3001/api/products/${id}`, { method: 'DELETE' });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        const result = await res.json();
+        notifySuccess(result.message);
+        navigate("/");
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
   };
 
   const submitForm = async (data) => {
@@ -162,6 +180,7 @@ const EditProductForm = () => {
           borderColor='border-transparent'
           borderRadius='rounded-full'
           text='Delete Product'
+          clickEvent={handleDeleteProduct}
         />
       </div>
     </div>
