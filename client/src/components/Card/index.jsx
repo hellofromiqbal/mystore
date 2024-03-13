@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { BsBagPlus, BsBagPlusFill } from "react-icons/bs";
 import { PiFireFill, PiCrownSimpleFill } from "react-icons/pi";
@@ -12,6 +13,7 @@ import { toggleModal } from '../../redux/modalSlice';
 const Card = ({ productId, name, description, price, image_url, tags }) => {
   console.log({ name, tags });
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currUser = useSelector(selectCurrUser);
   const alreadyInCart = currUser?.cart?.find((cartItem) => cartItem?.product?._id === productId);
   const handleAddToCart = async () => {
@@ -97,7 +99,7 @@ const Card = ({ productId, name, description, price, image_url, tags }) => {
               textColor='text-black'
               border=''
               borderRadius=''
-              clickEvent={() => dispatch(toggleModal({ modalType: 'editProduct', modalWidth: 'w-2/4' }))}
+              clickEvent={() => navigate(`/edit-product/${productId}`)}
               text={<RiEdit2Fill size={21}/>}
             />
           }
