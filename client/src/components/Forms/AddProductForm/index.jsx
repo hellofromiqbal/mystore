@@ -2,8 +2,6 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
-import { toggleModal } from '../../../redux/modalSlice';
-import { IoCloseCircleOutline } from 'react-icons/io5';
 import Button from '../../Button';
 
 const AddProductForm = () => {
@@ -66,13 +64,7 @@ const AddProductForm = () => {
   };
   
   return (
-    <div className='flex flex-col gap-2 relative'>
-      <button
-        className='absolute -top-2 -right-2'
-        onClick={() => dispatch(toggleModal(''))}
-      >
-        <IoCloseCircleOutline size={25}/>
-      </button>
+    <div className='flex flex-col gap-2'>
       <h2 className='text-2xl font-bold text-center'>New Product</h2>
       <form
         className='flex flex-col gap-4'
@@ -127,7 +119,7 @@ const AddProductForm = () => {
             <div className='flex flex-col gap-2'>
               <div className='flex justify-between items-center'>
                 <p>Tags</p>
-                <small>1 selected</small>
+                <small>{tags.length} selected</small>
               </div>
               <ul className='flex gap-2 flex-wrap h-full'>
                 <li>

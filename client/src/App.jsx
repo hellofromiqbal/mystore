@@ -5,6 +5,7 @@ import Main from './pages/Main'
 import Modal from './components/Modal'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectModal } from './redux/modalSlice'
+import AddProductPage from './pages/AddProduct'
 
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
       <div className='pt-14'>
         <Routes>
           <Route path="/" exact element={<Main />} />
+          <Route path="/add-product" exact element={<AddProductPage />} />
         </Routes>
       </div>
     </div>

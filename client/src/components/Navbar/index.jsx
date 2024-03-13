@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import { BsReceipt, BsBag, BsFilePlusFill  } from "react-icons/bs";
 import { FaRegCircleUser, FaCircleUser } from "react-icons/fa6";
@@ -11,6 +12,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currUser = useSelector(selectCurrUser);
   const handleLogout = () => {
     fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
@@ -81,7 +83,7 @@ const Navbar = () => {
             <>
               <button
                 className='flex relative'
-                onClick={() => dispatch(toggleModal({ modalType: 'addProduct', modalWidth: 'w-2/4' }))}
+                onClick={() => navigate("/add-product")}
               >
                 <BsFilePlusFill size={21}/>
               </button>
