@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
@@ -6,6 +7,7 @@ import Button from '../../Button';
 
 const EditProductForm = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const { register, handleSubmit, reset } = useForm();
   const [tags, setTags] = useState([]);
   const handleAddTags = (e, value) => {
