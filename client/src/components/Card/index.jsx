@@ -11,7 +11,6 @@ import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import { toggleModal } from '../../redux/modalSlice';
 
 const Card = ({ productId, name, description, price, image_url, tags }) => {
-  console.log({ name, tags });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currUser = useSelector(selectCurrUser);
