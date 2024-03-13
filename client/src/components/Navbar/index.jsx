@@ -9,6 +9,7 @@ import { toggleModal } from '../../redux/modalSlice';
 import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUserSlice';
 import { notifySuccess } from '../../helpers/toaster';
 import { Link } from 'react-router-dom';
+import { addCurrProducts } from '../../redux/currProductsSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,13 @@ const Navbar = () => {
       .then((data) => {
         dispatch(addCurrUser(data.data));
       })
+      .catch((error) => console.log(error.message));
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/products')
+      .then((res) => res.json())
+      .then((data) => dispatch(addCurrProducts(data.data)))
       .catch((error) => console.log(error.message));
   }, []);
 
