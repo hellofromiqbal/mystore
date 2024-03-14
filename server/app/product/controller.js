@@ -61,16 +61,18 @@ const index = async (req, res) => {
     };
 
     if(tags.length) {
-      const tagsResult = await Tag.find({ name: { $in: tags } });
+      const tagIds = tags.split(',');
 
-      if(tagsResult.length > 0) {
-        criteria = { ...criteria, tags: { $in: tagsResult.map((tag) => tag._id) } }
-      };
+      const tagsResult = await Tag.find({ _id: { $in: tagIds } });
+
+      if (tagsResult.length > 0) {
+        const tagIdsArray = tagsResult.map(tag => tag._id);
+
+        criteria = { ...criteria, tags: { $in: tagIdsArray } };
+      }
     };
 
     const count = await Product.find(criteria).countDocuments();
-
-    console.log(criteria);
 
     const products = await Product
       .find(criteria)

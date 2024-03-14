@@ -18,7 +18,8 @@ const Navbar = () => {
   const [showTags, setShowTags] = useState(false);
   const [searchCriteria, setSearchCriteria] = useState({
     q: '',
-    cat: ''
+    cat: '',
+    tags: []
   });
   const handleLogout = () => {
     fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
@@ -30,11 +31,12 @@ const Navbar = () => {
       .catch((error) => console.log(error.message));
   };
 
-  const handleSearch = ({ inputSearch, category }) => {
+  const handleSearch = ({ inputSearch, category, selectedTags }) => {
     setSearchCriteria((prev) => ({
       ...prev,
       q: inputSearch !== undefined ? inputSearch : prev.q,
-      cat: category !== undefined ? category : prev.cat
+      cat: category !== undefined ? category : prev.cat,
+      tags: selectedTags !== undefined ? selectedTags : prev.tags
     }));
 
     const menuSection = document.getElementById('menuSection');
@@ -64,6 +66,10 @@ const Navbar = () => {
       queryParams.push(`cat=${searchCriteria.cat}`);
     }
 
+    if(searchCriteria.tags.length > 0) {
+      queryParams.push(`tags=${searchCriteria.tags.join(',')}`);
+    }
+
     if (queryParams.length > 0) {
       url += '?' + queryParams.join('&');
     }
@@ -72,7 +78,7 @@ const Navbar = () => {
       .then((res) => res.json())
       .then((data) => dispatch(addCurrProducts(data.data)))
       .catch((error) => console.log(error.message));
-  }, [searchCriteria.q, searchCriteria.cat]);
+  }, [searchCriteria.q, searchCriteria.cat, searchCriteria.tags]);
 
   return (
     <nav className='fixed z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
@@ -97,25 +103,55 @@ const Navbar = () => {
             <option value="65dd798ebfcd13e374c712f6">Drink</option>
             <option value="65dd7992bfcd13e374c712f8">Snack</option>
           </select>
-          <button
-            className='flex items-center relative border px-2 py-1 text-sm'
-            onClick={() => setShowTags((prev) => !prev)}
+          <div
+            className='flex items-center relative border text-sm'
           >
-            <p>Tags</p>
-            {showTags ?
-              <div className='absolute -bottom-[5rem] -left-[3.3rem] p-2 w-max flex flex-col gap-2 bg-white border rounded-sm shadow-sm'>
-                <div className='flex gap-1'>
-                  <input type="checkbox" id="best_seller" />
-                  <label htmlFor="best_seller">Best Seller</label>
+            <button
+              className='px-2 py-1'
+              onClick={() => setShowTags((prev) => !prev)}
+            >Tags</button>
+            <div>
+              {showTags ?
+                <div className='absolute -bottom-[5rem] -left-[3.3rem] p-2 w-max flex flex-col gap-2 bg-white border rounded-sm shadow-sm'>
+                  <div className='flex gap-1'>
+                    <input
+                      type="checkbox"
+                      id="best_seller"
+                      value="65dd7ccfa2ac445e2d7b6500"
+                      onClick={(e) => {
+                        const tagValue = e.target.value;
+                        setSearchCriteria((prev) => ({
+                          ...prev,
+                          tags: prev.tags.includes(tagValue)
+                            ? prev.tags.filter(tag => tag !== tagValue)
+                            : [...prev.tags, tagValue]
+                        }));
+                      }}
+                    />
+                    <label htmlFor="best_seller">Best Seller</label>
+                  </div>
+                  <div className='flex gap-1'>
+                    <input
+                      type="checkbox"
+                      id="signature"
+                      value="65ddac61ce85d49e21317e72"
+                      onClick={(e) => {
+                        const tagValue = e.target.value;
+                        setSearchCriteria((prev) => ({
+                          ...prev,
+                          tags: prev.tags.includes(tagValue)
+                            ? prev.tags.filter(tag => tag !== tagValue)
+                            : [...prev.tags, tagValue]
+                        }));
+                      }}
+                    />
+                    <label htmlFor="signature">Signature</label>
+                  </div>
                 </div>
-                <div className='flex gap-1'>
-                  <input type="checkbox" id="signature" />
-                  <label htmlFor="best_seller">Signature</label>
-                </div>
-              </div>
-              : ''
-            }
-          </button>
+                : ''
+              }
+            </div>
+          </div>
         </div>
         {currUser ?
           <button
