@@ -32,7 +32,7 @@ const index = async (req, res) => {
     const {
       q = '',
       id = '',
-      category = '',
+      cat = '',
       tags = []
     } = req.query;
 
@@ -52,11 +52,11 @@ const index = async (req, res) => {
       };
     };
 
-    if(category.length) {
-      const categoryResult = await Category.findOne({ name: { $regex: `${category}`, $options: 'i' } });
+    if(cat.length) {
+      const catResult = await Category.findOne({ _id: cat });
 
-      if(categoryResult) {
-        criteria = { ...criteria, category: categoryResult._id }
+      if(catResult) {
+        criteria = { ...criteria, category: catResult._id }
       };
     };
 
@@ -69,6 +69,8 @@ const index = async (req, res) => {
     };
 
     const count = await Product.find(criteria).countDocuments();
+
+    console.log(criteria);
 
     const products = await Product
       .find(criteria)

@@ -16,7 +16,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const currUser = useSelector(selectCurrUser);
   const [searchCriteria, setSearchCriteria] = useState({
-    q: ''
+    q: '',
+    cat: ''
   });
   const handleLogout = () => {
     fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
@@ -28,8 +29,13 @@ const Navbar = () => {
       .catch((error) => console.log(error.message));
   };
 
-  const handleSearch = (inputSearch) => {
-    setSearchCriteria((prev) => ({ ...prev, q: inputSearch }));
+  const handleSearch = ({ inputSearch, category }) => {
+    setSearchCriteria((prev) => ({
+      ...prev,
+      q: inputSearch !== undefined ? inputSearch : prev.q,
+      cat: category !== undefined ? category : prev.cat
+    }));
+
     const menuSection = document.getElementById('menuSection');
     if (menuSection) {
       menuSection.scrollIntoView({ behavior: 'smooth' });
@@ -48,15 +54,24 @@ const Navbar = () => {
   useEffect(() => {
     let url = 'http://localhost:3001/api/products';
     
+    const queryParams = [];
     if (searchCriteria.q !== '') {
-      url += `?q=${searchCriteria.q}`;
+      queryParams.push(`q=${searchCriteria.q}`);
+    }
+
+    if (searchCriteria.cat !== '') {
+      queryParams.push(`cat=${searchCriteria.cat}`);
+    }
+
+    if (queryParams.length > 0) {
+      url += '?' + queryParams.join('&');
     }
   
     fetch(url)
       .then((res) => res.json())
       .then((data) => dispatch(addCurrProducts(data.data)))
       .catch((error) => console.log(error.message));
-  }, [searchCriteria.q]);
+  }, [searchCriteria.q, searchCriteria.cat]);
 
   return (
     <nav className='fixed z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
@@ -65,12 +80,23 @@ const Navbar = () => {
         to={"/"}
       >MyStore</Link>
       <div className='flex items-center gap-4'>
-        <input
-          type="search"
-          className='rounded-sm border w-[250px] px-2 py-1'
-          placeholder='Search...'
-          onChange={(e) => handleSearch(e.target.value)}
-        />
+        <div className='flex gap-2'>
+          <input
+            type="search"
+            className='rounded-sm border w-[250px] px-2 py-1'
+            placeholder='Search...'
+            onChange={(e) => handleSearch({ inputSearch: e.target.value })}
+          />
+          <select
+            className='border w-max px-2 py-1'
+            onChange={(e) => handleSearch({ category: e.target.value })}
+          >
+            <option value="">All</option>
+            <option value="65dd7986bfcd13e374c712f4">Food</option>
+            <option value="65dd798ebfcd13e374c712f6">Drink</option>
+            <option value="65dd7992bfcd13e374c712f8">Snack</option>
+          </select>
+        </div>
         {currUser ?
           <button
             className='flex relative'
