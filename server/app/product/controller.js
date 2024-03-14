@@ -30,8 +30,6 @@ const store = async (req, res) => {
 const index = async (req, res) => {
   try {
     const {
-      skip = 0,
-      limit = 10,
       q = '',
       id = '',
       category = '',
@@ -74,11 +72,10 @@ const index = async (req, res) => {
 
     const products = await Product
       .find(criteria)
-      .skip(parseInt(skip))
-      .limit(parseInt(limit))
       .populate('category')
       .populate('tags');
     return res.status(200).json({
+      count,
       message: 'Products fetched!',
       data: products
     });
