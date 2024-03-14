@@ -28,6 +28,14 @@ const Navbar = () => {
       .catch((error) => console.log(error.message));
   };
 
+  const handleSearch = (inputSearch) => {
+    setSearchCriteria((prev) => ({ ...prev, q: inputSearch }));
+    const menuSection = document.getElementById('menuSection');
+    if (menuSection) {
+      menuSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     fetch('http://localhost:3001/auth/me', { credentials: 'include' })
       .then((res) => res.json())
@@ -61,7 +69,7 @@ const Navbar = () => {
           type="search"
           className='rounded-sm border w-[250px] px-2 py-1'
           placeholder='Search...'
-          onChange={(e) => setSearchCriteria((prev) => ({ ...prev, q: e.target.value }))}
+          onChange={(e) => handleSearch(e.target.value)}
         />
         {currUser ?
           <button
