@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button';
 import { BsReceipt, BsBag, BsFilePlusFill  } from "react-icons/bs";
@@ -15,6 +15,9 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currUser = useSelector(selectCurrUser);
+  const [searchCriteria, setSearchCriteria] = useState({
+    q: ''
+  });
   const handleLogout = () => {
     fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
       .then((res) => res.json())
@@ -35,11 +38,17 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/products')
+    let url = 'http://localhost:3001/api/products';
+    
+    if (searchCriteria.q !== '') {
+      url += `?q=${searchCriteria.q}`;
+    }
+  
+    fetch(url)
       .then((res) => res.json())
       .then((data) => dispatch(addCurrProducts(data.data)))
       .catch((error) => console.log(error.message));
-  }, []);
+  }, [searchCriteria.q]);
 
   return (
     <nav className='fixed z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
@@ -52,6 +61,7 @@ const Navbar = () => {
           type="search"
           className='rounded-sm border w-[250px] px-2 py-1'
           placeholder='Search...'
+          onChange={(e) => setSearchCriteria((prev) => ({ ...prev, q: e.target.value }))}
         />
         {currUser ?
           <button

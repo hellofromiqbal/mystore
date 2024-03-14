@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
-import Card from '../../../components/Card'
+import React, { useState } from 'react';
+import Card from '../../../components/Card';
+import { useSelector } from 'react-redux';
+import { selectCurrProducts } from '../../../redux/currProductsSlice';
 
 const AllMenuSection = () => {
-  const [products, setProducts] = useState([]);
-  useState(() => {
-    fetch('http://localhost:3001/api/products')
-      .then((res) => res.json())
-      .then((data) => setProducts(data.data));
-  }, []);
+  const products = useSelector(selectCurrProducts);
   return (
     <section className='px-8 py-8 grid grid-cols-4 gap-8'>
-      {products.map((product) => (
+      {products?.map((product) => (
         <div key={product?._id} className='flex justify-center'>
           <Card
             productId={product?._id}
@@ -24,6 +21,6 @@ const AllMenuSection = () => {
       ))}
     </section>
   )
-}
+};
 
-export default AllMenuSection
+export default AllMenuSection;
