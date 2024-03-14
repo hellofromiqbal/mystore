@@ -48,6 +48,11 @@ const Navbar = () => {
         to={"/"}
       >MyStore</Link>
       <div className='flex items-center gap-4'>
+        <input
+          type="search"
+          className='rounded-sm border w-[250px] px-2 py-1'
+          placeholder='Search...'
+        />
         {currUser ?
           <button
             className='flex relative'
