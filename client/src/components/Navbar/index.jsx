@@ -15,6 +15,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currUser = useSelector(selectCurrUser);
+  const [showTags, setShowTags] = useState(false);
   const [searchCriteria, setSearchCriteria] = useState({
     q: '',
     cat: ''
@@ -88,7 +89,7 @@ const Navbar = () => {
             onChange={(e) => handleSearch({ inputSearch: e.target.value })}
           />
           <select
-            className='border w-max px-2 py-1'
+            className='border w-max px-2 py-1 text-sm'
             onChange={(e) => handleSearch({ category: e.target.value })}
           >
             <option value="">All</option>
@@ -96,6 +97,25 @@ const Navbar = () => {
             <option value="65dd798ebfcd13e374c712f6">Drink</option>
             <option value="65dd7992bfcd13e374c712f8">Snack</option>
           </select>
+          <button
+            className='flex items-center relative border px-2 py-1 text-sm'
+            onClick={() => setShowTags((prev) => !prev)}
+          >
+            <p>Tags</p>
+            {showTags ?
+              <div className='absolute -bottom-[5rem] -left-[3.3rem] p-2 w-max flex flex-col gap-2 bg-white border rounded-sm shadow-sm'>
+                <div className='flex gap-1'>
+                  <input type="checkbox" id="best_seller" />
+                  <label htmlFor="best_seller">Best Seller</label>
+                </div>
+                <div className='flex gap-1'>
+                  <input type="checkbox" id="signature" />
+                  <label htmlFor="best_seller">Signature</label>
+                </div>
+              </div>
+              : ''
+            }
+          </button>
         </div>
         {currUser ?
           <button
