@@ -38,7 +38,9 @@ const Navbar = () => {
       cat: category !== undefined ? category : prev.cat,
       tags: selectedTags !== undefined ? selectedTags : prev.tags
     }));
+  };
 
+  const handleFocus = () => {
     const menuSection = document.getElementById('menuSection');
     if (menuSection) {
       menuSection.scrollIntoView({ behavior: 'smooth' });
@@ -93,10 +95,12 @@ const Navbar = () => {
             className='rounded-sm border w-[250px] px-2 py-1'
             placeholder='Search...'
             onChange={(e) => handleSearch({ inputSearch: e.target.value })}
+            onFocus={handleFocus}
           />
           <select
             className='border w-max px-2 py-1 text-sm'
             onChange={(e) => handleSearch({ category: e.target.value })}
+            onClick={handleFocus}
           >
             <option value="">All</option>
             <option value="65dd7986bfcd13e374c712f4">Food</option>
@@ -108,7 +112,10 @@ const Navbar = () => {
           >
             <button
               className='px-2 py-1'
-              onClick={() => setShowTags((prev) => !prev)}
+              onClick={() => {
+                setShowTags((prev) => !prev);
+                handleFocus();
+              }}
             >Tags</button>
             <div>
               {showTags ?
