@@ -101,8 +101,12 @@ const update = async (req, res) => {
       payload = { ...payload, category: payload.category };
     };
 
+    // if(payload.tags && payload.tags.length > 0) {
+    //   payload = { ...payload, tags: payload.tags.split(',') };
+    // };
+
     if(payload.tags && payload.tags.length > 0) {
-      payload = { ...payload, tags: payload.tags.split(',') };
+      payload = { ...payload, tags: payload.tags };
     };
 
     if (imageFile) {

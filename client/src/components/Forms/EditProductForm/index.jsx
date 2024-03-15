@@ -1,27 +1,37 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 import Button from '../../Button';
+import { selectCurrTags } from '../../../redux/currTagsSlice';
+import { selectCurrCategories } from '../../../redux/currCategoriesSlice';
 
 const EditProductForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currTags = useSelector(selectCurrTags);
+  const currCategories = useSelector(selectCurrCategories);
   const { id } = useParams();
   const { register, handleSubmit, reset } = useForm();
-  const [tags, setTags] = useState([]);
+  const [productDetail, setProductDetail] = useState({
+    tags: []
+  });
+
   const handleAddTags = (e, value) => {
     e.preventDefault();
-    setTags((prev) => [...prev, value]);
+    setProductDetail((prev) => ({
+      ...prev,
+      tags: [...(prev.tags || []), value]
+    }));
+    console.log(productDetail.tags);
   };
-  const [category, setCategory] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
+
   const imageChooserRef = useRef();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setSelectedImage(file);
+    setProductDetail((prev) => ({ ...prev, image: file }));
   };
 
   const handleDeleteProduct = async () => {
@@ -41,47 +51,55 @@ const EditProductForm = () => {
   };
 
   const submitForm = async (data) => {
+    console.log(productDetail);
     try {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });
 
-      if(category) {
-        formData.append('category', category);
+      if(productDetail.category) {
+        formData.append('category', productDetail.category);
       } else {
         notifyFailed('Category must be chosen.');
         return;
       }
 
-      tags.forEach((tag) => {
+      productDetail.tags.forEach((tag) => {
         formData.append('tags[]', tag);
       });
       
-      if(selectedImage) {
-        formData.append('image', selectedImage);
-      } else {
-        notifyFailed('Image must be chosen.');
-        return;
+      if(productDetail.image) {
+        formData.append('image', productDetail.image);
       }
 
-      const res = await fetch('http://localhost:3001/api/products', {
-        method: 'POST',
-        body: formData
-      });
-      if(!res.ok) {
-        const result = await res.json();
-        throw new Error(result.message);
-      } else {
-        const result = await res.json();
-        console.log(result.data);
-        notifySuccess(result.message);
-      }
+      // const res = await fetch('http://localhost:3001/api/products', {
+      //   method: 'PUT',
+      //   body: formData
+      // });
+      // if(!res.ok) {
+      //   const result = await res.json();
+      //   throw new Error(result.message);
+      // } else {
+      //   const result = await res.json();
+      //   console.log(result.data);
+      //   notifySuccess(result.message);
+      // }
     } catch (error) {
       notifyFailed(error.message);
     }
     reset();
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/products/?id=${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.data[0]);
+        setProductDetail(data.data[0]);
+      })
+      .catch((error) => console.log(error.message));
+  }, []);
   
   return (
     <div className='flex flex-col gap-2'>
@@ -97,8 +115,9 @@ const EditProductForm = () => {
               className='min-h-[300px] relative bg-center bg-cover cursor-pointer border-2 border-dashed flex justify-center items-center'
               onClick={() => imageChooserRef.current.click()}
             >
-              {selectedImage ?
-                <img src={URL.createObjectURL(selectedImage)} alt="selected-image" className='max-h-full' />
+              {productDetail?.image ?
+                // <img src={URL.createObjectURL(productDetail?.image)} alt="selected-image" className='max-h-full' />
+                <img src={`http://localhost:3001/images/${productDetail?.image?.split('\\')[2]})`} alt="selected-image" className='max-h-full' />
                 :
                 <p className='text-gray-500'>Select Image</p>
               }
@@ -116,43 +135,55 @@ const EditProductForm = () => {
               className='border px-2 py-1 rounded-sm'
               type="text"
               placeholder='Name'
+              defaultValue={productDetail?.name}
               {...register('name')}
             />
             <input
               className='border px-2 py-1 rounded-sm'
               type="text"
               placeholder='Description'
+              defaultValue={productDetail?.description}
               {...register('description')}
             />
             <input
               className='border px-2 py-1 rounded-sm'
               type="number"
               placeholder='Price'
+              defaultValue={productDetail?.price}
               {...register('price')}
             />
-            <select className='border px-2 py-1 rounded-sm' onChange={(e) => setCategory(e.target.value)}>
-              <option value="">-- Select Category --</option>
-              <option value="65dd7986bfcd13e374c712f4">Food</option>
-              <option value="65dd798ebfcd13e374c712f6">Drink</option>
-              <option value="65dd7992bfcd13e374c712f8">Snack</option>
+            <select
+              className='border px-2 py-1 rounded-sm text-base capitalize'
+              value={productDetail?.category?._id || ''} // Set the value of the select element to the category ID
+              onChange={(e) => setProductDetail((prev) => ({ ...prev, category: { _id: e.target.value } }))} // Ensure category is set as an object
+            >
+              <option value="" className='text-base capitalize'>-- Select Category --</option>
+              {currCategories?.map((category) => (
+                <option
+                  key={category?._id}
+                  value={category?._id}
+                  className='text-base capitalize'
+                >
+                  {category?.name}
+                </option>
+              ))}
             </select>
             <div className='flex flex-col gap-2'>
               <div className='flex justify-between items-center'>
                 <p>Tags</p>
-                <small>1 selected</small>
+                <small>{productDetail?.tags?.length} selected</small>
               </div>
-              <ul className='flex gap-2 flex-wrap h-full'>
-                <li>
-                  <button onClick={(e) => handleAddTags(e, '65dd7ccfa2ac445e2d7b6500')}>
-                    <small className='border px-2 py-1'>Best seller</small>
+              <div className='flex gap-2 flex-wrap h-full'>
+                {currTags?.map((tag) => (
+                  <button
+                    key={tag?._id}
+                    onClick={(e) => handleAddTags(e, tag?._id)}
+                    className={productDetail?.tags?.find((item) => item?._id === tag?._id) ? 'bg-green-500 text-white' : ''}
+                  >
+                    <small className='border px-2 py-1 capitalize'>{tag?.name.replace('_', ' ')}</small>
                   </button>
-                </li>
-                <li>
-                  <button onClick={(e) => handleAddTags(e, '65ddac61ce85d49e21317e72')}>
-                    <small className='border px-2 py-1'>Signature</small>
-                  </button>
-                </li>
-              </ul>
+                ))}
+              </div>
             </div>
           </div>
         </div>
