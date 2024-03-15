@@ -10,11 +10,15 @@ import { addCurrUser, removeCurrUser, selectCurrUser } from '../../redux/currUse
 import { notifySuccess } from '../../helpers/toaster';
 import { Link } from 'react-router-dom';
 import { addCurrProducts } from '../../redux/currProductsSlice';
+import { addCurrCategories, selectCurrCategories } from '../../redux/currCategoriesSlice';
+import { addCurrTags, selectCurrTags } from '../../redux/currTagsSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currUser = useSelector(selectCurrUser);
+  const currCategories = useSelector(selectCurrCategories);
+  const currTags = useSelector(selectCurrTags);
   const [showTags, setShowTags] = useState(false);
   const [searchCriteria, setSearchCriteria] = useState({
     q: '',
@@ -82,6 +86,20 @@ const Navbar = () => {
       .catch((error) => console.log(error.message));
   }, [searchCriteria.q, searchCriteria.cat, searchCriteria.tags]);
 
+  useEffect(() => {
+    fetch('http://localhost:3001/api/categories')
+      .then((res) => res.json())
+      .then((data) => dispatch(addCurrCategories((data.data))))
+      .catch((error) => console.log(error.message));
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/tags')
+      .then((res) => res.json())
+      .then((data) => dispatch(addCurrTags((data.data))))
+      .catch((error) => console.log(error.message));
+  }, []);
+
   return (
     <nav className='fixed z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
       <Link
@@ -103,9 +121,13 @@ const Navbar = () => {
             onClick={handleFocus}
           >
             <option value="">All</option>
-            <option value="65dd7986bfcd13e374c712f4">Food</option>
-            <option value="65dd798ebfcd13e374c712f6">Drink</option>
-            <option value="65dd7992bfcd13e374c712f8">Snack</option>
+            {currCategories?.map((category) => (
+              <option
+                key={category?._id}
+                className='capitalize'
+                value={category?._id}
+              >{category?.name}</option>
+            ))}
           </select>
           <div
             className='flex items-center relative border text-sm'
@@ -120,39 +142,26 @@ const Navbar = () => {
             <div>
               {showTags ?
                 <div className='absolute -bottom-[5rem] -left-[3.3rem] p-2 w-max flex flex-col gap-2 bg-white border rounded-sm shadow-sm'>
-                  <div className='flex gap-1'>
-                    <input
-                      type="checkbox"
-                      id="best_seller"
-                      value="65dd7ccfa2ac445e2d7b6500"
-                      onClick={(e) => {
-                        const tagValue = e.target.value;
-                        setSearchCriteria((prev) => ({
-                          ...prev,
-                          tags: prev.tags.includes(tagValue)
-                            ? prev.tags.filter(tag => tag !== tagValue)
-                            : [...prev.tags, tagValue]
-                        }));
-                      }}
-                    />
-                    <label htmlFor="best_seller">Best Seller</label>
-                  </div>
-                  <div className='flex gap-1'>
-                    <input
-                      type="checkbox"
-                      id="signature"
-                      value="65ddac61ce85d49e21317e72"
-                      onClick={(e) => {
-                        const tagValue = e.target.value;
-                        setSearchCriteria((prev) => ({
-                          ...prev,
-                          tags: prev.tags.includes(tagValue)
-                            ? prev.tags.filter(tag => tag !== tagValue)
-                            : [...prev.tags, tagValue]
-                        }));
-                      }}
-                    />
-                    <label htmlFor="signature">Signature</label>
+                  <div className='flex flex-col gap-2'>
+                    {currTags?.map((tag) => (
+                      <div key={tag?._id} className='flex gap-1'>
+                        <input
+                          type="checkbox"
+                          id={tag?.name}
+                          value={tag?._id}
+                          onClick={(e) => {
+                            const tagValue = e.target.value;
+                            setSearchCriteria((prev) => ({
+                              ...prev,
+                              tags: prev.tags.includes(tagValue)
+                                ? prev.tags.filter(tag => tag !== tagValue)
+                                : [...prev.tags, tagValue]
+                            }));
+                          }}
+                        />
+                      <label htmlFor={tag?.name} className='capitalize'>{tag?.name?.replace('_', ' ')}</label>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 : ''
