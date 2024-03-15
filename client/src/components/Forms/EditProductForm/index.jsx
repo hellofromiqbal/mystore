@@ -25,7 +25,6 @@ const EditProductForm = () => {
       ...prev,
       tags: [...(prev.tags || []), value]
     }));
-    console.log(productDetail.tags);
   };
 
   const imageChooserRef = useRef();
@@ -177,7 +176,7 @@ const EditProductForm = () => {
                 {currTags?.map((tag) => (
                   <button
                     key={tag?._id}
-                    onClick={(e) => handleAddTags(e, tag?._id)}
+                    onClick={(e) => handleAddTags(e, tag)}
                     className={productDetail?.tags?.find((item) => item?._id === tag?._id) ? 'bg-green-500 text-white' : ''}
                   >
                     <small className='border px-2 py-1 capitalize'>{tag?.name.replace('_', ' ')}</small>
