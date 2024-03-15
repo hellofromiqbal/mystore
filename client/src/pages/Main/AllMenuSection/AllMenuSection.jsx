@@ -6,7 +6,7 @@ import { selectCurrProducts } from '../../../redux/currProductsSlice';
 const AllMenuSection = () => {
   const products = useSelector(selectCurrProducts);
   return (
-    <section id="menuSection" className='px-8 py-8 grid grid-cols-4 gap-8'>
+    <section id="menuSection" className='px-8 py-8 grid md:grid-cols-3 lg:grid-cols-4 gap-8'>
       {products?.map((product) => (
         <div key={product?._id} className='flex justify-center'>
           <Card

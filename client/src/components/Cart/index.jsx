@@ -157,10 +157,10 @@ const Cart = () => {
               <div className='flex flex-col gap-2'>
                 <div className='flex items-center gap-1'>
                   <h4 className='text-gray-700'>Deliver to</h4>
-                  <select className='border rounded-md' onChange={(e) => setSelectedAddress(e.target.value)}>
-                    <option value="" className='text-center'>-- Select Address --</option>
+                  <select className='border rounded-md text-sm' onChange={(e) => setSelectedAddress(e.target.value)}>
+                    <option value="" className='text-center text-xs lg:text-sm'>-- Select Address --</option>
                     {currUser.address.map((item) => (
-                      <option key={item?._id} value={item?.fullAddress}>{item?.fullAddress}</option>
+                      <option key={item?._id} value={item?.fullAddress} className='text-xs lg:text-sm'>{item?.fullAddress}</option>
                     ))}
                   </select>
                 </div>

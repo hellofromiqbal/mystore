@@ -120,11 +120,12 @@ const Navbar = () => {
             onChange={(e) => handleSearch({ category: e.target.value })}
             onClick={handleFocus}
           >
-            <option value="">All</option>
+            <option value="" className='text-xs lg:text-sm'>All</option>
             {currCategories?.map((category) => (
               <option
                 key={category?._id}
                 value={category?._id}
+                className='text-xs lg:text-sm'
               >{category?.name}</option>
             ))}
           </select>
@@ -158,7 +159,7 @@ const Navbar = () => {
                             }));
                           }}
                         />
-                      <label htmlFor={tag?.name} className='capitalize'>{tag?.name?.replace('_', ' ')}</label>
+                      <label htmlFor={tag?.name} className='text-sm capitalize'>{tag?.name?.replace('_', ' ')}</label>
                       </div>
                     ))}
                   </div>
@@ -171,7 +172,7 @@ const Navbar = () => {
         {currUser ?
           <button
             className='flex relative'
-            onClick={() => dispatch(toggleModal({ modalType: 'invoice', modalWidth: 'w-2/3' }))}
+            onClick={() => dispatch(toggleModal({ modalType: 'invoice', modalWidth: 'md:w-11/12 lg:w-2/3' }))}
           >
             {currUser && currUser.invoices.length > 0 ?
               <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
@@ -190,7 +191,7 @@ const Navbar = () => {
         {currUser?.role === 'user' ?
           <button
             className='flex relative'
-            onClick={!currUser ? () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' })) : () => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-2/3' }))}
+            onClick={() => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'md:w-11/12 lg:w-2/3' }))}
           >
             {currUser && currUser.cart.length > 0 ?
               <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
@@ -206,7 +207,7 @@ const Navbar = () => {
           currUser?.role === 'user' ?
             <button
               className='flex relative'
-              onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
+              onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'md:w-4/5 lg:w-1/2' }))}
             >
               <FaRegCircleUser size={21}/>
             </button>
@@ -220,7 +221,7 @@ const Navbar = () => {
               </button>
               <button
                 className='flex relative'
-                onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-2/4' }))}
+                onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'md:w-4/5 lg:w-1/2' }))}
               >
                 <FaCircleUser size={21}/>
               </button>
@@ -240,7 +241,7 @@ const Navbar = () => {
                 borderColor='border-transparent'
                 borderRadius='rounded-md'
                 text='Register'
-                clickEvent={() => dispatch(toggleModal({ modalType: 'register', modalWidth: 'w-1/3' }))}
+                clickEvent={() => dispatch(toggleModal({ modalType: 'register', modalWidth: 'w-2/3 lg:w-1/3' }))}
               />
             </li>
             : ''
@@ -256,7 +257,7 @@ const Navbar = () => {
               bgColor={currUser ? 'bg-red-500' : 'bg-transparent'}
               borderColor={currUser ? 'border-transparent' : 'border-green-600'}
               text={currUser ? 'Logout' : 'Login'}
-              clickEvent={currUser ? handleLogout : () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-1/3' }))}
+              clickEvent={currUser ? handleLogout : () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-2/3 lg:w-1/3' }))}
             />
           </li>
         </ul>
