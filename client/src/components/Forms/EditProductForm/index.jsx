@@ -19,12 +19,21 @@ const EditProductForm = () => {
     tags: []
   });
 
-  const handleAddTags = (e, value) => {
+  const handleAddTags = (e, tag) => {
     e.preventDefault();
-    setProductDetail((prev) => ({
-      ...prev,
-      tags: [...(prev.tags || []), value]
-    }));
+    setProductDetail((prev) => {
+      const alreadyExists = prev.tags && prev.tags.some(prevTag => prevTag._id === tag._id);
+      if (alreadyExists) {
+        return {
+          ...prev,
+          tags: prev.tags.filter(prevTag => prevTag._id !== tag._id)
+        };
+      }
+      return {
+        ...prev,
+        tags: [...(prev.tags || []), tag]
+      };
+    });
   };
 
   const imageChooserRef = useRef();
@@ -51,6 +60,7 @@ const EditProductForm = () => {
 
   const submitForm = async (data) => {
     console.log(productDetail);
+    console.log(data);
     try {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
