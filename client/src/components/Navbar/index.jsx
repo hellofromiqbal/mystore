@@ -116,7 +116,7 @@ const Navbar = () => {
             onFocus={handleFocus}
           />
           <select
-            className='border w-max px-2 py-1 text-sm'
+            className='border w-max px-2 py-1 text-sm capitalize'
             onChange={(e) => handleSearch({ category: e.target.value })}
             onClick={handleFocus}
           >
@@ -124,7 +124,6 @@ const Navbar = () => {
             {currCategories?.map((category) => (
               <option
                 key={category?._id}
-                className='capitalize'
                 value={category?._id}
               >{category?.name}</option>
             ))}
