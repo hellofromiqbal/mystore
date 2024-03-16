@@ -1,19 +1,29 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 import Button from '../../Button';
 import { addNewProduct } from '../../../redux/currProductsSlice';
+import { selectCurrTags } from '../../../redux/currTagsSlice';
+import { selectCurrCategories } from '../../../redux/currCategoriesSlice';
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currTags = useSelector(selectCurrTags);
+  const currCategories = useSelector(selectCurrCategories);
   const { register, handleSubmit, reset } = useForm();
   const [tags, setTags] = useState([]);
-  const handleAddTags = (e, value) => {
+  const handleAddTags = (e, tag) => {
     e.preventDefault();
-    setTags((prev) => [...prev, value]);
+    setTags((prev) => {
+      const alreadyExists = prev && prev.some(prevTag => prevTag._id === tag._id);
+      if (alreadyExists) {
+        return prev.filter(prevTag => prevTag._id !== tag._id)
+      }
+      return [...(prev || []), tag];
+    });
   };
   const [category, setCategory] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
@@ -126,18 +136,17 @@ const AddProductForm = () => {
                 <p>Tags</p>
                 <small>{tags.length} selected</small>
               </div>
-              <ul className='flex gap-2 flex-wrap h-full'>
-                <li>
-                  <button onClick={(e) => handleAddTags(e, '65dd7ccfa2ac445e2d7b6500')}>
-                    <small className='border px-2 py-1'>Best seller</small>
+              <div className='flex gap-2 flex-wrap h-full'>
+                {currTags?.map((tag) => (
+                  <button
+                    key={tag?._id}
+                    onClick={(e) => handleAddTags(e, tag)}
+                    className={tags?.find((item) => item?._id === tag?._id) ? 'bg-green-500 text-white' : ''}
+                  >
+                    <small className='border px-2 py-1 capitalize'>{tag?.name.replace('_', ' ')}</small>
                   </button>
-                </li>
-                <li>
-                  <button onClick={(e) => handleAddTags(e, '65ddac61ce85d49e21317e72')}>
-                    <small className='border px-2 py-1'>Signature</small>
-                  </button>
-                </li>
-              </ul>
+                ))}
+              </div>
             </div>
           </div>
         </div>
