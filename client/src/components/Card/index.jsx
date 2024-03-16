@@ -63,8 +63,8 @@ const Card = ({ productId, name, description, price, image_url, tags }) => {
         style={{ backgroundImage: `url(http://localhost:3001/images/${image_url?.split('\\')[2]})` }}
       >
         <div className='absolute left-1 top-1 z-[5] flex gap-2'>
-          {tags?.map((tag) => (
-            <div key={tag?._id} className='bg-yellow-400 border-black text-black p-2 rounded-full'>
+          {tags?.map((tag,index) => (
+            <div key={index} className='bg-yellow-400 border-black text-black p-2 rounded-full'>
               {tag.name === 'signature' ?
                 <PiCrownSimpleFill size={18}/>
                 :

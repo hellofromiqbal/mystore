@@ -7,8 +7,8 @@ const AllMenuSection = () => {
   const products = useSelector(selectCurrProducts);
   return (
     <section id="menuSection" className='px-8 py-8 grid md:grid-cols-3 lg:grid-cols-4 gap-8'>
-      {products?.map((product) => (
-        <div key={product?._id} className='flex justify-center'>
+      {products?.map((product, index) => (
+        <div key={index} className='flex justify-center'>
           <Card
             productId={product?._id}
             name={product?.name}

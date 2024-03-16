@@ -44,7 +44,6 @@ const AddProductForm = () => {
   };
 
   const submitForm = async (data) => {
-    console.log(state.tags);
     try {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
