@@ -14,46 +14,56 @@ const AddProductForm = () => {
   const currTags = useSelector(selectCurrTags);
   const currCategories = useSelector(selectCurrCategories);
   const { register, handleSubmit, reset } = useForm();
-  const [tags, setTags] = useState([]);
+
+  const [state, setState] = useState({
+    category: '',
+    tags: [],
+    image: null
+  });
+
   const handleAddTags = (e, tag) => {
     e.preventDefault();
-    setTags((prev) => {
-      const alreadyExists = prev && prev.some(prevTag => prevTag._id === tag._id);
+    setState((prev) => {
+      const alreadyExists = prev.tags && prev.tags.some(prevTag => prevTag._id === tag._id);
       if (alreadyExists) {
-        return prev.filter(prevTag => prevTag._id !== tag._id)
+        return {
+          ...prev,
+          tags: prev.tags.filter(prevTag => prevTag._id !== tag._id)
+        };
       }
-      return [...(prev || []), tag];
+      return {
+        ...prev,
+        tags: [...(prev.tags || []), tag]
+      };
     });
   };
-  const [category, setCategory] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
   const imageChooserRef = useRef();
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setSelectedImage(file);
+    setState((prev) => ({ ...prev, image: file }));
   };
 
   const submitForm = async (data) => {
-    console.log(tags);
+    console.log(state.tags);
     try {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
         formData.append(key, data[key]);
       });
 
-      if(category) {
-        formData.append('category', category);
+      if(state.category) {
+        formData.append('category', state.category);
       } else {
         notifyFailed('Category must be chosen.');
         return;
       }
 
-      tags.forEach((tag) => {
+      state.tags.forEach((tag) => {
         formData.append('tags[]', tag._id);
       });
       
-      if(selectedImage) {
-        formData.append('image', selectedImage);
+      if(state.image) {
+        formData.append('image', state.image);
       } else {
         notifyFailed('Image must be chosen.');
         return;
@@ -93,8 +103,8 @@ const AddProductForm = () => {
               className='min-h-[300px] relative bg-center bg-cover cursor-pointer border-2 border-dashed flex justify-center items-center'
               onClick={() => imageChooserRef.current.click()}
             >
-              {selectedImage ?
-                <img src={URL.createObjectURL(selectedImage)} alt="selected-image" className='max-h-full' />
+              {state.image ?
+                <img src={URL.createObjectURL(state.image)} alt="selected-image" className='max-h-full' />
                 :
                 <p className='text-gray-500'>Select Image</p>
               }
@@ -128,10 +138,10 @@ const AddProductForm = () => {
             />
             <select
               className='border px-2 py-1 rounded-sm text-base capitalize'
-              value={category || ''} // Set the value of the select element to the category ID
+              value={state.category || ''} // Set the value of the select element to the category ID
               onChange={(e) => {
-                setCategory((prev) => prev = e.target.value );
-                console.log(category);
+                setState((prev) => ({ ...prev, category: e.target.value }));
+                console.log(state.category);
               }} // Ensure category is set as an object
             >
               <option value="" className='text-base capitalize'>-- Select Category --</option>
@@ -148,14 +158,14 @@ const AddProductForm = () => {
             <div className='flex flex-col gap-2'>
               <div className='flex justify-between items-center'>
                 <p>Tags</p>
-                <small>{tags.length} selected</small>
+                <small>{state.tags.length} selected</small>
               </div>
               <div className='flex gap-2 flex-wrap h-full'>
                 {currTags?.map((tag) => (
                   <button
                     key={tag?._id}
                     onClick={(e) => handleAddTags(e, tag)}
-                    className={tags?.find((item) => item?._id === tag?._id) ? 'bg-green-500 text-white' : ''}
+                    className={state.tags?.find((item) => item?._id === tag?._id) ? 'bg-green-500 text-white' : ''}
                   >
                     <small className='border px-2 py-1 capitalize'>{tag?.name.replace('_', ' ')}</small>
                   </button>
