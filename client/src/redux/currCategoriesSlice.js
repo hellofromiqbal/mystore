@@ -7,7 +7,6 @@ const currCategories = createSlice({
   },
   reducers: {
     addCurrCategories: (state, action) => {
-      console.log(action.payload);
       state.info = action.payload;
     }
   }

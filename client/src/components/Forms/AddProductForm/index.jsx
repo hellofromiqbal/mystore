@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 import Button from '../../Button';
+import { addNewProduct } from '../../../redux/currProductsSlice';
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ const AddProductForm = () => {
       } else {
         const result = await res.json();
         console.log(result.data);
+        dispatch(addNewProduct(result.data));
         notifySuccess(result.message);
         navigate("/");
       }

@@ -7,6 +7,7 @@ import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 import Button from '../../Button';
 import { selectCurrTags } from '../../../redux/currTagsSlice';
 import { selectCurrCategories } from '../../../redux/currCategoriesSlice';
+import { deleteProduct } from '../../../redux/currProductsSlice';
 
 const EditProductForm = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const EditProductForm = () => {
       } else {
         const result = await res.json();
         notifySuccess(result.message);
+        dispatch(deleteProduct(id))
         navigate("/");
       }
     } catch (error) {

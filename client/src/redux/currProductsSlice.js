@@ -11,15 +11,18 @@ const currProducts = createSlice({
       state.info = action.payload;
     },
     addNewProduct: (state, action) => {
-      console.log(action.payload);
       state.info.push(action.payload);
+    },
+    deleteProduct: (state, action) => {
+      state.info = state.info.filter((product) => product._id !== action.payload);
     }
   }
 });
 
 export const {
   addCurrProducts,
-  addNewProduct
+  addNewProduct,
+  deleteProduct
 } = currProducts.actions;
 export const selectCurrProducts = (state) => state.currProducts.info;
 export default currProducts.reducer;

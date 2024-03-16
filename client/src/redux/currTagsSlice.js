@@ -7,7 +7,6 @@ const currTags = createSlice({
   },
   reducers: {
     addCurrTags: (state, action) => {
-      console.log(action.payload);
       state.info = action.payload;
     }
   }

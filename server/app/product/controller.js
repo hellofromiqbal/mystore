@@ -14,7 +14,7 @@ const store = async (req, res) => {
     const newProduct = await Product.create({
       ...payload,
       image_url: imageFile.path
-    });
+    }).then((product) => product.populate('category'));
 
     return res.status(201).json({
       message: 'New product created!',
