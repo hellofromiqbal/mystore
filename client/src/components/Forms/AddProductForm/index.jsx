@@ -34,6 +34,7 @@ const AddProductForm = () => {
   };
 
   const submitForm = async (data) => {
+    console.log(tags);
     try {
       const formData = new FormData();
       Object.keys(data).forEach((key) => {
@@ -48,7 +49,7 @@ const AddProductForm = () => {
       }
 
       tags.forEach((tag) => {
-        formData.append('tags[]', tag);
+        formData.append('tags[]', tag._id);
       });
       
       if(selectedImage) {
@@ -125,11 +126,24 @@ const AddProductForm = () => {
               placeholder='Price'
               {...register('price')}
             />
-            <select className='border px-2 py-1 rounded-sm' onChange={(e) => setCategory(e.target.value)}>
-              <option value="">-- Select Category --</option>
-              <option value="65dd7986bfcd13e374c712f4">Food</option>
-              <option value="65dd798ebfcd13e374c712f6">Drink</option>
-              <option value="65dd7992bfcd13e374c712f8">Snack</option>
+            <select
+              className='border px-2 py-1 rounded-sm text-base capitalize'
+              value={category || ''} // Set the value of the select element to the category ID
+              onChange={(e) => {
+                setCategory((prev) => prev = e.target.value );
+                console.log(category);
+              }} // Ensure category is set as an object
+            >
+              <option value="" className='text-base capitalize'>-- Select Category --</option>
+              {currCategories?.map((category) => (
+                <option
+                  key={category?._id}
+                  value={category?._id}
+                  className='text-base capitalize'
+                >
+                  {category?.name}
+                </option>
+              ))}
             </select>
             <div className='flex flex-col gap-2'>
               <div className='flex justify-between items-center'>
