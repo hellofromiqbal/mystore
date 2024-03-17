@@ -13,6 +13,15 @@ const currProducts = createSlice({
     addNewProduct: (state, action) => {
       state.info.push(action.payload);
     },
+    editProduct: (state, action) => {
+      state.info = state.info.map((product) => {
+        if(product._id === action.payload._id) {
+          return action.payload;
+        } else {
+          return product;
+        }
+      });
+    },
     deleteProduct: (state, action) => {
       state.info = state.info.filter((product) => product._id !== action.payload);
     }
@@ -22,6 +31,7 @@ const currProducts = createSlice({
 export const {
   addCurrProducts,
   addNewProduct,
+  editProduct,
   deleteProduct
 } = currProducts.actions;
 export const selectCurrProducts = (state) => state.currProducts.info;

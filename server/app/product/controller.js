@@ -93,12 +93,14 @@ const index = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const product = await Product.findById(id);
     const imageFile = req.file;
     
     let payload = req.body;
+    console.log(payload.tags);
     if(payload.category) {
-      payload = { ...payload, category: payload.category };
+      payload = { ...payload, category: payload.category._id };
     };
 
     // if(payload.tags && payload.tags.length > 0) {
@@ -112,8 +114,6 @@ const update = async (req, res) => {
     if (imageFile) {
       fs.unlinkSync(product.image_url);
       payload = { ...payload, image_url: imageFile.path };
-    } else {
-      payload = { ...payload, image_url: product.image_url };
     };
 
     const updatedProduct = await Product.findByIdAndUpdate(id, payload, { new:true });
