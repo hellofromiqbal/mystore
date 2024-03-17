@@ -8,7 +8,7 @@ import { addNewProduct, editProduct } from '../../../redux/currProductsSlice';
 import { selectCurrTags } from '../../../redux/currTagsSlice';
 import { selectCurrCategories } from '../../../redux/currCategoriesSlice';
 
-const AddProductForm = () => {
+const EditProductForm = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,15 +62,19 @@ const AddProductForm = () => {
       });
 
       if(state.category) {
-        formData.append('category', state.category);
+        formData.append('category', state.category._id);
       } else {
         notifyFailed('Category must be chosen.');
         return;
       }
 
-      state.tags.forEach((tag) => {
-        formData.append('tags[]', tag._id);
-      });
+      if(state.tags.length > 0) {
+        state.tags.forEach((tag) => {
+          formData.append('tags[]', tag._id);
+        });
+      } else {
+        formData.append('tags', state.tags);
+      }
       
       if(state.image) {
         formData.append('image', state.image);
@@ -87,7 +91,6 @@ const AddProductForm = () => {
         throw new Error(result.message);
       } else {
         const result = await res.json();
-        console.log(result.data);
         dispatch(editProduct(result.data));
         notifySuccess(result.message);
         navigate("/");
@@ -150,11 +153,10 @@ const AddProductForm = () => {
             />
             <select
               className='border px-2 py-1 rounded-sm text-base capitalize'
-              value={state.category?._id || ''} // Set the value of the select element to the category ID
+              value={state.category?._id || ''}
               onChange={(e) => {
                 setState((prev) => ({ ...prev, category: { _id: e.target.value } }));
-                console.log(state.category);
-              }} // Ensure category is set as an object
+              }}
             >
               <option value="" className='text-base capitalize'>-- Select Category --</option>
               {currCategories?.map((category) => (
@@ -202,4 +204,4 @@ const AddProductForm = () => {
   )
 };
 
-export default AddProductForm;
+export default EditProductForm;

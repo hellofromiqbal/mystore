@@ -93,22 +93,18 @@ const index = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const product = await Product.findById(id);
     const imageFile = req.file;
     
     let payload = req.body;
-    console.log(payload.tags);
     if(payload.category) {
-      payload = { ...payload, category: payload.category._id };
+      payload = { ...payload, category: payload.category };
     };
 
-    // if(payload.tags && payload.tags.length > 0) {
-    //   payload = { ...payload, tags: payload.tags.split(',') };
-    // };
-
-    if(payload.tags && payload.tags.length > 0) {
+    if(payload.tags !== '') {
       payload = { ...payload, tags: payload.tags };
+    } else {
+      payload = { ...payload, tags: [] };
     };
 
     if (imageFile) {
@@ -116,7 +112,10 @@ const update = async (req, res) => {
       payload = { ...payload, image_url: imageFile.path };
     };
 
-    const updatedProduct = await Product.findByIdAndUpdate(id, payload, { new:true });
+    const updatedProduct = await Product
+      .findByIdAndUpdate(id, payload, { new:true })
+      .populate('category')
+      .populate('tags');
 
     return res.status(200).json({
       message: 'Product updated!',
