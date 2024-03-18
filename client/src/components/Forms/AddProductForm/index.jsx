@@ -98,21 +98,21 @@ const AddProductForm = () => {
       >
         <div className='flex gap-4'>
           <div className='basis-1/2'>
-          <div
-            className='min-h-[300px] relative bg-center bg-cover cursor-pointer border-2 border-dashed flex justify-center items-center'
-            onClick={() => imageChooserRef.current.click()}
-            style={{ overflow: 'hidden' }}
-          >
-            {state.image ?
-              <img 
-                src={URL.createObjectURL(state.image)}
-                alt="selected-image"
-                className='max-h-full h-full w-full object-cover object-center'
-              />
-              :
-              <p className='text-gray-500'>Select Image</p>
-            }
-          </div>
+            <div
+              className='min-h-[300px] relative bg-center bg-cover cursor-pointer border-2 border-dashed flex justify-center items-center'
+              onClick={() => imageChooserRef.current.click()}
+              style={{ overflow: 'hidden' }}
+            >
+              {state.image ?
+                <img 
+                  src={URL.createObjectURL(state.image)}
+                  alt="selected-image"
+                  className='max-h-full h-full w-full object-cover object-center'
+                />
+                :
+                <p className='text-gray-500'>Select Image</p>
+              }
+            </div>
             <input
               type="file"
               accept='image/*'
