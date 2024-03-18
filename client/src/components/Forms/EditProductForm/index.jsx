@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 import Button from '../../Button';
-import { addNewProduct, editProduct } from '../../../redux/currProductsSlice';
+import { addNewProduct, deleteProduct, editProduct } from '../../../redux/currProductsSlice';
 import { selectCurrTags } from '../../../redux/currTagsSlice';
 import { selectCurrCategories } from '../../../redux/currCategoriesSlice';
 
@@ -96,6 +96,23 @@ const EditProductForm = () => {
       notifyFailed(error.message);
     }
     reset();
+  };
+
+  const handleDeleteProduct = async () => {
+    try {
+      const res = await fetch(`http://localhost:3001/api/products/${id}`, { method: 'DELETE' });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        const result = await res.json();
+        notifySuccess(result.message);
+        dispatch(deleteProduct(id));
+        navigate("/");
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
   };
   
   return (
@@ -210,6 +227,21 @@ const EditProductForm = () => {
           text='Save changes'
         />
       </form>
+      <div className='flex flex-col mt-4 gap-2'>
+        <p className='text-center text-sm md:text-base'>Danger zone</p>
+        <Button
+          padding='px-0 py-1'
+          fontSize='text-base'
+          textColor='text-white'
+          fontWeight='font-medium'
+          bgColor='bg-red-600'
+          border='border'
+          borderColor='border-transparent'
+          borderRadius='rounded-full'
+          text='Delete product'
+          clickEvent={handleDeleteProduct}
+        />
+      </div>
     </div>
   )
 };
