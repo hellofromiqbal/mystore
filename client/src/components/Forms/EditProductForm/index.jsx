@@ -114,9 +114,15 @@ const EditProductForm = () => {
             <div
               className='min-h-[300px] relative bg-center bg-cover cursor-pointer border-2 border-dashed flex justify-center items-center'
               onClick={() => imageChooserRef.current.click()}
+              style={{ overflow: 'hidden' }}
             >
+              {console.log(state.image_url?.split('\\')[2])}
               {state.image ?
-                <img src={URL.createObjectURL(state.image)} alt="selected-image" className='max-h-full' />
+                <img
+                  src={URL.createObjectURL(state.image) || `http://localhost:3001/images/${state.image_url?.split('\\')[2]})`}
+                  alt="selected-image"
+                  className='max-h-full h-full w-full object-cover object-center'
+                />
                 :
                 <p className='text-gray-500'>Select Image</p>
               }
