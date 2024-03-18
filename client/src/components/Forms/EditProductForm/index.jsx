@@ -25,10 +25,7 @@ const EditProductForm = () => {
   useEffect(() => {
     fetch(`http://localhost:3001/api/products/?id=${id}`)
       .then((res) => res.json())
-      .then((data) => {
-        setState(data.data[0]);
-        console.log(data.data[0]);
-      })
+      .then((data) => { setState(data.data[0])})
       .catch((error) => console.log(error.message));
   }, []);
 

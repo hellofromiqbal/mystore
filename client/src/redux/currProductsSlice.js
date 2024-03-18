@@ -7,7 +7,6 @@ const currProducts = createSlice({
   },
   reducers: {
     addCurrProducts: (state, action) => {
-      console.log(action.payload);
       state.info = action.payload;
     },
     addNewProduct: (state, action) => {
