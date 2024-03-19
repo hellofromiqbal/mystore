@@ -50,10 +50,22 @@ const Invoice = () => {
             <div key={index} className='border p-2'>
               <div className='flex justify-between items-center'>
                 <h3 className='text-xl font-bold border-b-2 border-yellow-400'>Invoice #{invoice?._id?.slice(0, 10)}</h3>
-                <p className={
-                  invoice?.paymentStatus === 'waiting_for_payment' ? 'bg-red-400 font-medium text-white px-2'
-                  : invoice?.paymentStatus === 'delivering' ? 'bg-slate-500 font-medium text-white px-2' : 'bg-yellow-400 font-medium text-black px-2'
-                }>{invoice?.paymentStatus}</p>
+                {currUser?.role === 'admin' ?
+                  <div className='flex gap-2'>
+                    <select className='border text-sm'>
+                      <option value="">-- Select Status --</option>
+                      <option value="">waiting_for_payment</option>
+                      <option value="">delivering</option>
+                      <option value="">complete</option>
+                    </select>
+                    <button className='px-2 bg-green-600 text-white text-sm font-medium rounded-sm'>Save</button>
+                  </div>
+                  :
+                  <p className={
+                    invoice?.paymentStatus === 'waiting_for_payment' ? 'bg-red-400 font-medium text-white px-2'
+                    : invoice?.paymentStatus === 'delivering' ? 'bg-slate-500 font-medium text-white px-2' : 'bg-yellow-400 font-medium text-black px-2'
+                  }>{invoice?.paymentStatus}</p>
+                }
               </div>
               <div className='flex flex-col gap-2'>
                 <div className='flex flex-col'>
