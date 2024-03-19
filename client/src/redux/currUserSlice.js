@@ -47,6 +47,16 @@ const currUser = createSlice({
     addNewInvoice: (state, action) => {
       state.info.invoices.push(action.payload);
     },
+    editInvoice: (state, action) => {
+      state.info.invoices = state.info.invoices.map((invoice) => {
+        if(invoice._id === action.payload.invoiceId) {
+          invoice.paymentStatus = action.payload.paymentStatus;
+          return invoice;
+        } else {
+          return invoice;
+        }
+      });
+    },
     setAddresses: (state, action) => {
       state.info.address = action.payload;
     },
@@ -66,6 +76,7 @@ export const {
   clearCart,
   setInvoices,
   addNewInvoice,
+  editInvoice,
   setAddresses,
   addNewAddress
 } = currUser.actions;

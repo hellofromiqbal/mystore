@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModal } from '../../redux/modalSlice';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
-import { selectCurrUser, setInvoices } from '../../redux/currUserSlice';
+import { editInvoice, selectCurrUser, setInvoices } from '../../redux/currUserSlice';
 import { currencyFormatter } from '../../../helpers/currencyFormatter';
 import { notifyFailed, notifySuccess } from '../../helpers/toaster';
 import Button from '../Button';
@@ -10,12 +10,7 @@ import Button from '../Button';
 const Invoice = () => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
-
-  useEffect(() => {
-    fetch(`http://localhost:3001/api/invoices/${currUser?._id}`, { method: 'POST' })
-      .then((res) => res.json())
-      .then((data) => dispatch(setInvoices(data.data)));
-  }, []);
+  const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("");
 
   const countTotal = (items, includeDeliveryFee) => {
     const deliveryFee = 10000;
@@ -28,6 +23,14 @@ const Invoice = () => {
       return totalExpenditure
     }
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/invoices/${currUser?._id}`, { method: 'POST' })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch(setInvoices(data.data));
+      });
+  }, []);
 
   return (
     <div className='flex flex-col gap-2 relative'>
@@ -54,15 +57,20 @@ const Invoice = () => {
                   <div className='flex gap-2'>
                     <select
                       className='border text-sm'
+                      value={selectedPaymentStatus === "" ? invoice?.paymentStatus : selectedPaymentStatus}
+                      onChange={(e) => setSelectedPaymentStatus(e.target.value)}
                     >
                       <option value="">-- Select Status --</option>
                       <option value="waiting_for_payment">waiting_for_payment</option>
                       <option value="delivering">delivering</option>
                       <option value="completed">completed</option>
                     </select>
-                    <button
-                      className='px-2 bg-green-600 text-white text-sm font-medium rounded-sm'
-                    >Save</button>
+                    {selectedPaymentStatus !== "" && selectedPaymentStatus !== invoice?.paymentStatus ?
+                      <button
+                        className='px-2 bg-green-600 text-white text-sm font-medium rounded-sm'
+                      >Save</button>
+                      : ''
+                    }
                   </div>
                   :
                   <p className={
