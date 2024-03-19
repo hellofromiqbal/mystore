@@ -60,7 +60,6 @@ const Invoice = () => {
                       value={selectedPaymentStatus === "" ? invoice?.paymentStatus : selectedPaymentStatus}
                       onChange={(e) => setSelectedPaymentStatus(e.target.value)}
                     >
-                      <option value="">-- Select Status --</option>
                       <option value="waiting_for_payment">waiting_for_payment</option>
                       <option value="delivering">delivering</option>
                       <option value="completed">completed</option>
