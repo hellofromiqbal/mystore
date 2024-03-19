@@ -52,13 +52,17 @@ const Invoice = () => {
                 <h3 className='text-xl font-bold border-b-2 border-yellow-400'>Invoice #{invoice?._id?.slice(0, 10)}</h3>
                 {currUser?.role === 'admin' ?
                   <div className='flex gap-2'>
-                    <select className='border text-sm'>
+                    <select
+                      className='border text-sm'
+                    >
                       <option value="">-- Select Status --</option>
-                      <option value="">waiting_for_payment</option>
-                      <option value="">delivering</option>
-                      <option value="">complete</option>
+                      <option value="waiting_for_payment">waiting_for_payment</option>
+                      <option value="delivering">delivering</option>
+                      <option value="completed">completed</option>
                     </select>
-                    <button className='px-2 bg-green-600 text-white text-sm font-medium rounded-sm'>Save</button>
+                    <button
+                      className='px-2 bg-green-600 text-white text-sm font-medium rounded-sm'
+                    >Save</button>
                   </div>
                   :
                   <p className={
