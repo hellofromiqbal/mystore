@@ -92,4 +92,19 @@ const index = async (req, res) => {
   }
 };
 
-module.exports = { store, index };
+const update = async (req, res) => {
+  try {
+    const { invoiceId, paymentStatus } = req.body;
+    const updateInvoice = await Invoice.findByIdAndUpdate(invoiceId, { paymentStatus: paymentStatus }, { new: true });
+    return res.status(200).json({
+      message: 'Invoice updated!',
+      data: updateInvoice
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message
+    })
+  };
+};
+
+module.exports = { store, index, update };

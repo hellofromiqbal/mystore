@@ -24,6 +24,27 @@ const Invoice = () => {
     }
   };
 
+  const handleChangeInvoicePaymentStatus = async (id) => {
+    try {
+      const res = await fetch('http://localhost:3001/api/invoices', {
+        method: 'PUT',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ invoiceId: id, paymentStatus: selectedPaymentStatus })
+      });
+      if(!res.ok) {
+        const result = await res.json();
+        throw new Error(result.message);
+      } else {
+        const result = await res.json();
+        notifySuccess(result.message);
+        dispatch(editInvoice({ invoiceId: id, paymentStatus: selectedPaymentStatus }));
+        setSelectedPaymentStatus("");
+      }
+    } catch (error) {
+      notifyFailed(error.message);
+    }
+  };
+
   useEffect(() => {
     fetch(`http://localhost:3001/api/invoices/${currUser?._id}`, { method: 'POST' })
       .then((res) => res.json())
@@ -67,6 +88,7 @@ const Invoice = () => {
                     {selectedPaymentStatus !== "" && selectedPaymentStatus !== invoice?.paymentStatus ?
                       <button
                         className='px-2 bg-green-600 text-white text-sm font-medium rounded-sm'
+                        onClick={() => handleChangeInvoicePaymentStatus(invoice?._id)}
                       >Save</button>
                       : ''
                     }
