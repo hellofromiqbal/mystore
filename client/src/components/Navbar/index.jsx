@@ -20,6 +20,7 @@ const Navbar = () => {
   const currCategories = useSelector(selectCurrCategories);
   const currTags = useSelector(selectCurrTags);
   const [showTags, setShowTags] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
   const [searchCriteria, setSearchCriteria] = useState({
     q: '',
     cat: '',
@@ -140,32 +141,37 @@ const Navbar = () => {
               }}
             >Tags</button>
             <div>
-              {showTags ?
-                <div className='absolute -bottom-[5rem] -left-[3.3rem] p-2 w-max flex flex-col gap-2 bg-white border rounded-sm shadow-sm'>
-                  <div className='flex flex-col gap-2'>
-                    {currTags?.map((tag) => (
-                      <div key={tag?._id} className='flex gap-1'>
-                        <input
-                          type="checkbox"
-                          id={tag?.name}
-                          value={tag?._id}
-                          onClick={(e) => {
-                            const tagValue = e.target.value;
-                            setSearchCriteria((prev) => ({
-                              ...prev,
-                              tags: prev.tags.includes(tagValue)
-                                ? prev.tags.filter(tag => tag !== tagValue)
-                                : [...prev.tags, tagValue]
-                            }));
-                          }}
-                        />
+            {showTags &&
+              <div className='absolute -bottom-[5rem] -left-[3.3rem] p-2 w-max flex flex-col gap-2 bg-white border rounded-sm shadow-sm'>
+                <div className='flex flex-col gap-2'>
+                  {currTags?.map((tag) => (
+                    <div key={tag?._id} className='flex gap-1'>
+                      <input
+                        type="checkbox"
+                        id={tag?.name}
+                        value={tag?._id}
+                        checked={selectedTags.includes(tag?._id)}
+                        onChange={(e) => {
+                          const tagValue = e.target.value;
+                          setSelectedTags((prevTags) => {
+                            return prevTags.includes(tagValue)
+                              ? prevTags.filter((tag) => tag !== tagValue)
+                              : [...prevTags, tagValue];
+                          });
+                          setSearchCriteria((prev) => ({
+                            ...prev,
+                            tags: prev.tags.includes(tagValue)
+                              ? prev.tags.filter((tag) => tag !== tagValue)
+                              : [...prev.tags, tagValue],
+                          }));
+                        }}
+                      />
                       <label htmlFor={tag?.name} className='text-sm capitalize'>{tag?.name?.replace('_', ' ')}</label>
-                      </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-                : ''
-              }
+              </div>
+            }
             </div>
           </div>
         </div>
