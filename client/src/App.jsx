@@ -14,7 +14,7 @@ const App = () => {
   const modal = useSelector(selectModal)
   
   return (
-    <div className='relative'>
+    <div className='relative mb-20 md:mb-0'>
       {modal.showModal === true ? <Modal modalType={modal.modalType}/> : ''}
       <Navbar />
       <div className='pt-14'>
@@ -24,7 +24,9 @@ const App = () => {
           <Route path="/edit-product/:id" exact element={<EditProductPage />} />
         </Routes>
       </div>
-      <NavbarMobile/>
+      <div className='md:hidden'>
+        <NavbarMobile/>
+      </div>
     </div>
   )
 }
