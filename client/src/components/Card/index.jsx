@@ -57,7 +57,7 @@ const Card = ({ productId, name, description, price, image_url, tags }) => {
   };
 
   return (
-    <div className='flex flex-col w-[300px] shadow-md hover:shadow-xl transition-all duration-300'>
+    <div className='flex flex-col w-full md:w-[300px] shadow-md hover:shadow-xl transition-all duration-300'>
       <div
         className='min-h-[300px] bg-slate-300 relative bg-center bg-cover cursor-pointer'
         style={{ backgroundImage: `url(http://localhost:3001/images/${image_url?.split('\\')[2]})` }}

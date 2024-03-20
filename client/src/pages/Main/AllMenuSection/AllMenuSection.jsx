@@ -8,7 +8,7 @@ const AllMenuSection = () => {
   return (
     <section id="menuSection" className='px-8 py-8 grid md:grid-cols-3 lg:grid-cols-4 gap-8'>
       {products?.map((product, index) => (
-        <div key={index} className='flex justify-center'>
+        <div key={index} className='flex md:justify-center'>
           <Card
             productId={product?._id}
             name={product?.name}
