@@ -14,4 +14,5 @@ FOR SERVER
    DB_NAME=yourdbname
    SECRET_KEY=yoursecretkey
    CLIENT_DOMAIN=http://localhost:5173
-3. Run the server using "npm run dev" command on your terminal.
+   RUNNING_PORT=8888
+4. Run the server using "npm run dev" command on your terminal.
