@@ -11,6 +11,7 @@ const Invoice = () => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("");
+  const [selectedInvoice, setSelectedInvoice] = useState("");
 
   const countTotal = (items, includeDeliveryFee) => {
     const deliveryFee = 10000;
@@ -78,14 +79,17 @@ const Invoice = () => {
                   <div className='flex gap-2'>
                     <select
                       className='border text-sm'
-                      value={selectedPaymentStatus === "" ? invoice?.paymentStatus : selectedPaymentStatus}
-                      onChange={(e) => setSelectedPaymentStatus(e.target.value)}
+                      value={selectedPaymentStatus === "" ? invoice?.paymentStatus : selectedInvoice === invoice?._id ? selectedPaymentStatus : invoice?.paymentStatus}
+                      onChange={(e) => {
+                        setSelectedPaymentStatus(e.target.value);
+                        setSelectedInvoice(invoice?._id);
+                      }}
                     >
                       <option value="waiting_for_payment">waiting_for_payment</option>
                       <option value="delivering">delivering</option>
                       <option value="completed">completed</option>
                     </select>
-                    {selectedPaymentStatus !== "" && selectedPaymentStatus !== invoice?.paymentStatus ?
+                    {selectedPaymentStatus !== "" && selectedPaymentStatus !== invoice?.paymentStatus && selectedInvoice === invoice?._id ?
                       <button
                         className='px-2 bg-green-600 text-white text-sm font-medium rounded-sm'
                         onClick={() => handleChangeInvoicePaymentStatus(invoice?._id)}
