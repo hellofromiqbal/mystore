@@ -102,11 +102,11 @@ const NavbarMobile = () => {
   }, []);
 
   return (
-    <nav className='fixed bottom-0 z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-4 md:px-8 border-b-[1px] shadow-sm'>
+    <nav className='fixed bottom-0 z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-t-[1px] md:border-t-0 md:border-b-[1px] shadow-sm'>
       {currUser ?
         <button
           className='flex relative'
-          onClick={() => dispatch(toggleModal({ modalType: 'invoice', modalWidth: 'md:w-11/12 lg:w-2/3' }))}
+          onClick={() => dispatch(toggleModal({ modalType: 'invoice', modalWidth: 'w-11/12 lg:w-2/3' }))}
         >
           {currUser && currUser.invoices.length > 0 ?
             <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
@@ -115,9 +115,9 @@ const NavbarMobile = () => {
             : ''
           }
             {currUser?.role === 'user' ?
-              <BsReceipt size={21}/>
+              <BsReceipt size={25}/>
               :
-              <FaReceipt size={21}/>
+              <FaReceipt size={25}/>
             }
         </button>
         : ''
@@ -125,7 +125,7 @@ const NavbarMobile = () => {
       {currUser?.role === 'user' ?
         <button
           className='flex relative'
-          onClick={() => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'md:w-11/12 lg:w-2/3' }))}
+          onClick={() => dispatch(toggleModal({ modalType: 'cart', modalWidth: 'w-11/12 lg:w-2/3' }))}
         >
           {currUser && currUser.cart.length > 0 ?
             <div className='absolute -top-2 -right-2 rounded-full bg-red-500 w-5 h-5 flex justify-center items-center'>
@@ -133,7 +133,7 @@ const NavbarMobile = () => {
             </div>
             : ''
           }
-            <BsBag size={21}/>
+            <BsBag size={25}/>
         </button>
         : ''
       }
@@ -141,9 +141,9 @@ const NavbarMobile = () => {
         currUser?.role === 'user' ?
           <button
             className='flex relative'
-            onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'md:w-4/5 lg:w-1/2' }))}
+            onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'w-11/12 md:w-4/5 lg:w-1/2' }))}
           >
-            <FaRegCircleUser size={21}/>
+            <FaRegCircleUser size={25}/>
           </button>
           :
           <>
@@ -151,13 +151,13 @@ const NavbarMobile = () => {
               className='flex relative'
               onClick={() => navigate("/add-product")}
             >
-              <BsFilePlusFill size={21}/>
+              <BsFilePlusFill size={25}/>
             </button>
             <button
               className='flex relative'
               onClick={() => dispatch(toggleModal({ modalType: 'profile', modalWidth: 'md:w-4/5 lg:w-1/2' }))}
             >
-              <FaCircleUser size={21}/>
+              <FaCircleUser size={25}/>
             </button>
           </>
         : ''
