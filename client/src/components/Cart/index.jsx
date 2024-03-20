@@ -11,11 +11,12 @@ import Button from '../Button';
 const Cart = () => {
   const dispatch = useDispatch();
   const currUser = useSelector(selectCurrUser);
+  const apiUrl = import.meta.env.VITE_API_URL;
   console.log(currUser);
   const [selectedAddress, setSelectedAddress] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/addresses/${currUser?._id}`, { method: 'POST' })
+    fetch(`${apiUrl}/api/addresses/${currUser?._id}`, { method: 'POST' })
       .then((res) => res.json())
       .then((data) => dispatch(setAddresses(data.data)));
   }, []);
@@ -30,7 +31,7 @@ const Cart = () => {
 
   const updateCartItemAmount = async (cartItemId, productId, amount, updateType) => {
     try {
-      const res = await fetch('http://localhost:3001/api/cart-items', {
+      const res = await fetch(`${apiUrl}/api/cart-items`, {
         method: 'PUT',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ cartItemId, amount })
@@ -59,7 +60,7 @@ const Cart = () => {
     const cartItem = currUser.cart.find((item) => item._id === cartItemId);
     if(cartItem.amount === 1) {
       try {
-        const res = await fetch('http://localhost:3001/api/cart-items', {
+        const res = await fetch(`${apiUrl}/api/cart-items`, {
           method: 'DELETE',
           headers: { 'Content-type': 'application/json' },
           body: JSON.stringify({ userId: currUser._id, productId })
@@ -83,7 +84,7 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/invoices', {
+      const res = await fetch(`${apiUrl}/api/invoices`, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ userId: currUser?._id, selectedAddress })

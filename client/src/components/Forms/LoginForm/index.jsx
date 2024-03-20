@@ -9,9 +9,10 @@ import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { register, handleSubmit, reset } = useForm();
   const submitForm = (data) => {
-    fetch('http://localhost:3001/auth/login', {
+    fetch(`${apiUrl}/auth/login`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-type': 'application/json' },

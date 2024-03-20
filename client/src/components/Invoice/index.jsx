@@ -9,6 +9,7 @@ import Button from '../Button';
 
 const Invoice = () => {
   const dispatch = useDispatch();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const currUser = useSelector(selectCurrUser);
   const [selectedPaymentStatus, setSelectedPaymentStatus] = useState("");
   const [selectedInvoice, setSelectedInvoice] = useState("");
@@ -27,7 +28,7 @@ const Invoice = () => {
 
   const handleChangeInvoicePaymentStatus = async (id) => {
     try {
-      const res = await fetch('http://localhost:3001/api/invoices', {
+      const res = await fetch(`${apiUrl}/api/invoices`, {
         method: 'PUT',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ invoiceId: id, paymentStatus: selectedPaymentStatus })
@@ -47,7 +48,7 @@ const Invoice = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/invoices/${currUser?._id}`, { method: 'POST' })
+    fetch(`${apiUrl}/api/invoices/${currUser?._id}`, { method: 'POST' })
       .then((res) => res.json())
       .then((data) => {
         dispatch(setInvoices(data.data));

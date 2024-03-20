@@ -12,6 +12,7 @@ const EditProductForm = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const currTags = useSelector(selectCurrTags);
   const currCategories = useSelector(selectCurrCategories);
   const { register, handleSubmit, reset } = useForm();
@@ -23,7 +24,7 @@ const EditProductForm = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/products/?id=${id}`)
+    fetch(`${apiUrl}/api/products/?id=${id}`)
       .then((res) => res.json())
       .then((data) => { setState(data.data[0])})
       .catch((error) => console.log(error.message));
@@ -79,7 +80,7 @@ const EditProductForm = () => {
         formData.append('image', null);
       }
 
-      const res = await fetch(`http://localhost:3001/api/products/${id}`, {
+      const res = await fetch(`${apiUrl}/api/products/${id}`, {
         method: 'PUT',
         body: formData
       });
@@ -100,7 +101,7 @@ const EditProductForm = () => {
 
   const handleDeleteProduct = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${apiUrl}/api/products/${id}`, { method: 'DELETE' });
       if(!res.ok) {
         const result = await res.json();
         throw new Error(result.message);
@@ -139,7 +140,7 @@ const EditProductForm = () => {
               ) : (
                 state.image_url ? (
                   <img
-                    src={`http://localhost:3001/images/${state.image_url?.split('\\')[2]}`}
+                    src={`${apiUrl}/images/${state.image_url?.split('\\')[2]}`}
                     alt="selected-image"
                     className='max-h-full h-full w-full object-cover object-center'
                   />

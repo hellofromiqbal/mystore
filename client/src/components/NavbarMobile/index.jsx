@@ -16,6 +16,7 @@ import { addCurrTags, selectCurrTags } from '../../redux/currTagsSlice';
 const NavbarMobile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const currUser = useSelector(selectCurrUser);
   const currCategories = useSelector(selectCurrCategories);
   const currTags = useSelector(selectCurrTags);
@@ -27,7 +28,7 @@ const NavbarMobile = () => {
     tags: []
   });
   const handleLogout = () => {
-    fetch('http://localhost:3001/auth/logout', { credentials: 'include' })
+    fetch(`${apiUrl}/auth/logout`, { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => {
         notifySuccess(data.message);
@@ -53,7 +54,7 @@ const NavbarMobile = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3001/auth/me', { credentials: 'include' })
+    fetch(`${apiUrl}/auth/me`, { credentials: 'include' })
       .then((res) => res.json())
       .then((data) => {
         dispatch(addCurrUser(data.data));
@@ -62,7 +63,7 @@ const NavbarMobile = () => {
   }, []);
 
   useEffect(() => {
-    let url = 'http://localhost:3001/api/products';
+    let url = `${apiUrl}/api/products`;
     
     const queryParams = [];
     if (searchCriteria.q !== '') {
@@ -88,14 +89,14 @@ const NavbarMobile = () => {
   }, [searchCriteria.q, searchCriteria.cat, searchCriteria.tags]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/categories')
+    fetch(`${apiUrl}/api/categories`)
       .then((res) => res.json())
       .then((data) => dispatch(addCurrCategories((data.data))))
       .catch((error) => console.log(error.message));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/tags')
+    fetch(`${apiUrl}/api/tags`)
       .then((res) => res.json())
       .then((data) => dispatch(addCurrTags((data.data))))
       .catch((error) => console.log(error.message));

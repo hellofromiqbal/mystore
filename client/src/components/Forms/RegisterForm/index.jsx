@@ -7,10 +7,11 @@ import { toggleModal } from '../../../redux/modalSlice';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { register, handleSubmit, reset } = useForm();
   const submitForm = (data) => {
     if(data.password !== data.confirmPassword) return;
-    fetch('http://localhost:3001/auth/register', {
+    fetch(`${apiUrl}/auth/register`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({

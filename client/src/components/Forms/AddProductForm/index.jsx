@@ -11,6 +11,7 @@ import { selectCurrCategories } from '../../../redux/currCategoriesSlice';
 const AddProductForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const currTags = useSelector(selectCurrTags);
   const currCategories = useSelector(selectCurrCategories);
   const { register, handleSubmit, reset } = useForm();
@@ -68,7 +69,7 @@ const AddProductForm = () => {
         return;
       }
 
-      const res = await fetch('http://localhost:3001/api/products', {
+      const res = await fetch(`${apiUrl}/api/products`, {
         method: 'POST',
         body: formData
       });

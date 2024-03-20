@@ -9,13 +9,14 @@ import Button from '../Button';
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { register, handleSubmit, reset } = useForm();
   const currUser = useSelector(selectCurrUser);
   console.log(currUser);
   const [showNewAddressForm, setShowNewAddressForm] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/addresses/${currUser?._id}`, { method: 'POST' })
+    fetch(`${apiUrl}/api/addresses/${currUser?._id}`, { method: 'POST' })
       .then((res) => res.json())
       .then((data) => dispatch(setAddresses(data.data)));
   }, []);
@@ -23,7 +24,7 @@ const Profile = () => {
   const submitForm = async (data) => {
     console.log(data);
     try {
-      const res = await fetch('http://localhost:3001/api/addresses', {
+      const res = await fetch(`${apiUrl}/api/addresses`, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ userId: currUser?._id, fullAddress: data.fullAddress })
