@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectModal } from './redux/modalSlice'
 import AddProductPage from './pages/AddProduct'
 import EditProductPage from './pages/EditProduct'
+import NavbarMobile from './components/NavbarMobile'
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/edit-product/:id" exact element={<EditProductPage />} />
         </Routes>
       </div>
+      <NavbarMobile/>
     </div>
   )
 }
