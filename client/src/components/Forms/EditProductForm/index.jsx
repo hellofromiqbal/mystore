@@ -123,7 +123,7 @@ const EditProductForm = () => {
         encType='multipart/form-data'
         onSubmit={handleSubmit(submitForm)}
       >
-        <div className='flex gap-4'>
+        <div className='flex flex-col md:flex-row gap-4'>
           <div className='basis-1/2'>
             <div
               className='min-h-[300px] relative bg-center bg-cover cursor-pointer border-2 border-dashed flex justify-center items-center'
