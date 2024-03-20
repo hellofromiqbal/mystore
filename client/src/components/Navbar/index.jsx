@@ -102,12 +102,12 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className='fixed z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-8 border-b-[1px] shadow-sm'>
+    <nav className='fixed z-10 bg-white w-full max-w-[1440px] flex justify-between items-center h-14 px-4 md:px-8 border-b-[1px] shadow-sm'>
       <Link
         className='text-2xl font-medium text-green-600'
         to={"/"}
       >MyStore</Link>
-      <div className='flex items-center gap-4'>
+      <div className='hidden md:flex items-center gap-4'>
         <div className='flex gap-2'>
           <input
             type="search"
@@ -268,6 +268,39 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+      <ul className='flex md:hidden gap-2'>
+        {!currUser ?
+          <li>
+            <Button
+              padding='px-3 py-1'
+              fontSize='text-sm'
+              textColor='text-white'
+              fontWeight='font-medium'
+              bgColor='bg-green-600'
+              border='border'
+              borderColor='border-transparent'
+              borderRadius='rounded-md'
+              text='Register'
+              clickEvent={() => dispatch(toggleModal({ modalType: 'register', modalWidth: 'w-2/3 lg:w-1/3' }))}
+            />
+          </li>
+          : ''
+        }
+        <li>
+          <Button
+            padding='px-3 py-1'
+            fontSize='text-sm'
+            fontWeight='font-medium'
+            border='border'
+            borderRadius='rounded-md'
+            textColor={currUser ? 'text-white' : 'text-green-600'}
+            bgColor={currUser ? 'bg-red-500' : 'bg-transparent'}
+            borderColor={currUser ? 'border-transparent' : 'border-green-600'}
+            text={currUser ? 'Logout' : 'Login'}
+            clickEvent={currUser ? handleLogout : () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-2/3 lg:w-1/3' }))}
+          />
+        </li>
+      </ul>
     </nav>
   )
 };
