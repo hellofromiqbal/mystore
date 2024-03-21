@@ -30,7 +30,7 @@ export const addNewProductFormSchema = z.object({
   description: z.string({
     required_error: "Product description is required.",
     invalid_type_error: "Product description must be a string."
-  }).min(2, { message: "Product description must be at least 2 or more characters long. "}).max(30, { message: "Product description must be 30 or fewer characters long." }),
+  }).min(2, { message: "Product description must be at least 2 or more characters long. "}).max(150, { message: "Product description must be 30 or fewer characters long." }),
   price: z.string().refine((val) => {
     const num = parseFloat(val);
     return !isNaN(num) && num > 0;
