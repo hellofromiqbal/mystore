@@ -2,11 +2,13 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 import Button from '../../Button';
 import { addNewProduct } from '../../../redux/currProductsSlice';
 import { selectCurrTags } from '../../../redux/currTagsSlice';
 import { selectCurrCategories } from '../../../redux/currCategoriesSlice';
+import { addNewProductFormSchema } from '../../../helpers/zodSchema';
 
 const AddProductForm = () => {
   const dispatch = useDispatch();
@@ -14,7 +16,7 @@ const AddProductForm = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const currTags = useSelector(selectCurrTags);
   const currCategories = useSelector(selectCurrCategories);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(addNewProductFormSchema) });
 
   const [state, setState] = useState({
     category: '',
@@ -184,11 +186,12 @@ const AddProductForm = () => {
           fontSize='text-base'
           textColor='text-white'
           fontWeight='font-medium'
-          bgColor='bg-green-600'
+          bgColor={errors.name || errors.description || errors.price || !state.image || !state.category ? 'bg-gray-400' : 'bg-green-600'}
           border='border'
           borderColor='border-transparent'
           borderRadius='rounded-full'
           text='Add Product'
+          disabled={errors.name || errors.description || errors.price || !state.image || !state.category}
         />
       </form>
     </div>
