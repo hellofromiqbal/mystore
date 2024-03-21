@@ -78,7 +78,7 @@ const RegisterForm = () => {
           text='Register'
         />
       </form>
-      <ul className='list-disc px-6'>
+      <ul className='list-disc px-6 text-gray-700'>
         {errors.fullname ? <li className="text-sm">{errors.fullname.message}</li> : ''}
         {errors.email ? <li className="text-sm">{errors.email.message}</li> : ''}
         {errors.password ? <li className="text-sm">{errors.password.message}</li> : ''}

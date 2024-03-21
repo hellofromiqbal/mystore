@@ -1,16 +1,18 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../../Button';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../../redux/modalSlice';
 import { addCurrUser } from '../../../redux/currUserSlice';
 import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
+import { loginFormSchema } from '../../../helpers/zodSchema';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const apiUrl = import.meta.env.VITE_API_URL;
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(loginFormSchema) });
   const submitForm = (data) => {
     fetch(`${apiUrl}/auth/login`, {
       method: 'POST',
@@ -74,6 +76,10 @@ const LoginForm = () => {
           text='Login'
         />
       </form>
+      <ul className='list-disc px-6 text-gray-700'>
+        {errors.email ? <li className="text-sm">{errors.email.message}</li> : ''}
+        {errors.password ? <li className="text-sm">{errors.password.message}</li> : ''}
+      </ul>
     </div>
   )
 };
