@@ -55,36 +55,51 @@ const EditProductForm = () => {
   const submitForm = async (data) => {
     try {
       const formData = new FormData();
-      Object.keys(data).forEach((key) => {
-        formData.append(key, data[key]);
-      });
-
-      if(state.category) {
+      if (!data.name && state.name) {
+        formData.append('name', state.name);
+      } else {
+        formData.append('name', data.name);
+      }
+  
+      if (!data.description && state.description) {
+        formData.append('description', state.description);
+      } else {
+        formData.append('description', data.description);
+      }
+  
+      if (!data.price && state.price) {
+        formData.append('price', state.price);
+      } else {
+        formData.append('price', data.price);
+      }
+  
+      if (!data.category && state.category) {
         formData.append('category', state.category._id);
       } else {
-        notifyFailed('Category must be chosen.');
-        return;
+        formData.append('category', data.category);
       }
-
-      if(state.tags.length > 0) {
+  
+      if (!data.tags && state.tags.length > 0) {
         state.tags.forEach((tag) => {
           formData.append('tags[]', tag._id);
         });
       } else {
-        formData.append('tags', state.tags);
+        data.tags.forEach((tag) => {
+          formData.append('tags[]', tag);
+        });
       }
-      
-      if(state.image) {
+  
+      if (!data.image && state.image) {
         formData.append('image', state.image);
       } else {
-        formData.append('image', null);
+        formData.append('image', data.image);
       }
-
+  
       const res = await fetch(`${apiUrl}/api/products/${id}`, {
         method: 'PUT',
         body: formData
       });
-      if(!res.ok) {
+      if (!res.ok) {
         const result = await res.json();
         throw new Error(result.message);
       } else {
