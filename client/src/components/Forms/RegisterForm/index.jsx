@@ -1,16 +1,17 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '../../Button';
 import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../../redux/modalSlice';
+import { registerFormSchema } from '../../../helpers/zodSchema';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
   const apiUrl = import.meta.env.VITE_API_URL;
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver: zodResolver(registerFormSchema) });
   const submitForm = (data) => {
-    if(data.password !== data.confirmPassword) return;
     fetch(`${apiUrl}/auth/register`, {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
@@ -77,6 +78,12 @@ const RegisterForm = () => {
           text='Register'
         />
       </form>
+      <ul className='list-disc px-6'>
+        {errors.fullname ? <li className="text-sm">{errors.fullname.message}</li> : ''}
+        {errors.email ? <li className="text-sm">{errors.email.message}</li> : ''}
+        {errors.password ? <li className="text-sm">{errors.password.message}</li> : ''}
+        {errors.confirmPassword ? <li className="text-sm">{errors.confirmPassword.message}</li> : ''}
+      </ul>
     </div>
   )
 };
