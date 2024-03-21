@@ -282,7 +282,7 @@ const Navbar = () => {
               borderColor='border-transparent'
               borderRadius='rounded-md'
               text='Register'
-              clickEvent={() => dispatch(toggleModal({ modalType: 'register', modalWidth: 'w-2/3 lg:w-1/3' }))}
+              clickEvent={() => dispatch(toggleModal({ modalType: 'register', modalWidth: 'w-11/12 md:w-2/3 lg:w-1/3' }))}
             />
           </li>
           : ''
@@ -298,7 +298,7 @@ const Navbar = () => {
             bgColor={currUser ? 'bg-red-500' : 'bg-transparent'}
             borderColor={currUser ? 'border-transparent' : 'border-green-600'}
             text={currUser ? 'Logout' : 'Login'}
-            clickEvent={currUser ? handleLogout : () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-2/3 lg:w-1/3' }))}
+            clickEvent={currUser ? handleLogout : () => dispatch(toggleModal({ modalType: 'login', modalWidth: 'w-11/12 md:w-2/3 lg:w-1/3' }))}
           />
         </li>
       </ul>
