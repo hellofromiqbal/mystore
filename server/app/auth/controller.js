@@ -23,9 +23,11 @@ const register = async (req, res) => {
       password: hashedPassword,
     });
 
+    const { password: _, ...userData } = newUser.toObject();
+
     return res.status(201).json({
       message: 'New user created!',
-      data: newUser
+      data: userData
     });
   } catch (error) {
     return res.status(500).json({

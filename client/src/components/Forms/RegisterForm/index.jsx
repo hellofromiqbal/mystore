@@ -6,6 +6,7 @@ import { IoCloseCircleOutline, IoCloseCircle } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../../redux/modalSlice';
 import { registerFormSchema } from '../../../helpers/zodSchema';
+import { notifyFailed, notifySuccess } from '../../../helpers/toaster';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,13 @@ const RegisterForm = () => {
       })
     })
       .then((res) => res.json())
-      .then((data) => console.log(data.message))
-      .catch((error) => console.log(error.message));
+      .then((data) => {
+        notifySuccess(data.message);
+        dispatch(toggleModal(''));
+      })
+      .catch((error) => {
+        notifyFailed(error.message);
+      });
     reset();
   };
   
