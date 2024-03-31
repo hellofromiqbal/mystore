@@ -6,20 +6,29 @@ const Tag = require('../tag/model');
 const store = async (req, res) => {
   try {
     let payload = req.body;
-    if(payload.tags && payload.tags.length > 0) {
-      payload = { ...payload, tags: payload.tags };
-    };
-    const imageFile = req.file;
-    console.log(imageFile);
-    const newProduct = await Product.create({
-      ...payload,
-      image_url: imageFile.path
-    }).then((product) => product.populate('category'));
-
-    return res.status(201).json({
-      message: 'New product created!',
-      data: newProduct
-    });
+    const isProductNameAlreadyTaken = await Product.findOne({ name: payload.name });
+    if(isProductNameAlreadyTaken) {
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      };
+      return res.status(403).json({
+        message: 'Product name already taken!'
+      });
+    } else {
+      if(payload.tags && payload.tags.length > 0) {
+        payload = { ...payload, tags: payload.tags };
+      };
+      const imageFile = req.file;
+      const newProduct = await Product.create({
+        ...payload,
+        image_url: imageFile ? imageFile.path : null
+      }).then((product) => product.populate('category'));
+  
+      return res.status(201).json({
+        message: 'New product created!',
+        data: newProduct
+      });
+    }
   } catch (error) {
     return res.status(500).json({
       message: error.message
